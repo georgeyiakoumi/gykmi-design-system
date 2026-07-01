@@ -4,7 +4,7 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"build": "echo 'ui build placeholder'",
+		"build": "tsup",
 		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run"
@@ -13,8 +13,7 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js"
-		},
-		"./css": "./dist/styles.css"
+		}
 	},
 	"files": [
 		"dist"
@@ -40,6 +39,7 @@
 		"react": "^19.2.7",
 		"react-dom": "^19.2.7",
 		"tailwindcss": "^4.3.2",
+		"tsup": "^8.5.1",
 		"vitest-axe": "^0.1.0"
 	}
 }
