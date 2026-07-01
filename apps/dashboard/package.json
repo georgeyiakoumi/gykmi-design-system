@@ -8,7 +8,8 @@
 		"start": "next start",
 		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
-		"test": "echo 'no unit tests — E2E via Playwright'"
+		"test": "echo 'no unit tests — E2E via Playwright'",
+		"e2e": "playwright test"
 	},
 	"dependencies": {
 		"@gykmi/tokens": "workspace:*",
@@ -18,9 +19,10 @@
 		"react-dom": "^19.2.7"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.61.1",
+		"@tailwindcss/postcss": "^4.3.2",
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
-		"tailwindcss": "^4.3.2",
-		"@tailwindcss/postcss": "^4.3.2"
+		"tailwindcss": "^4.3.2"
 	}
 }
