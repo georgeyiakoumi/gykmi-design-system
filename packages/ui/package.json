@@ -9,6 +9,13 @@
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run"
 	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./css": "./dist/styles.css"
+	},
 	"files": [
 		"dist"
 	]
