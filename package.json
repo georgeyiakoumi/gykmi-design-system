@@ -13,9 +13,6 @@
 		"format": "biome format --write .",
 		"check": "biome check ."
 	},
-	"pnpm": {
-		"onlyBuiltDependencies": ["esbuild", "@parcel/watcher"]
-	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.18.4",
 		"@biomejs/biome": "^2.5.1",
