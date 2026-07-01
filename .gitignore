@@ -18,9 +18,13 @@ npm-debug.log*
 # TypeScript
 *.tsbuildinfo
 
-# Storybook (from M2)
+# Storybook
 *storybook.log
 storybook-static
+
+# Playwright
+test-results/
+playwright-report/
 
 # Installed skills
 .agents/

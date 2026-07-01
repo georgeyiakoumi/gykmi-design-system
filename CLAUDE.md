@@ -99,6 +99,25 @@ Before raising a PR:
 | M5 | Dogfood (consuming app) | Done |
 | M6 | Governance, docs, polish | Done |
 
+## Technical notes (learned during the build)
+
+### Tailwind v4 + tokens
+- Use `@theme inline` (not `@theme`) for all mappings to existing CSS vars — avoids circular refs and Tailwind default colour conflicts
+- Add `@source` directive in CSS to point at component source directories — Tailwind v4 won't auto-scan monorepo packages
+- See L001 in Notion Lessons & Insights for the full write-up
+
+### Storybook
+- Storybook 10 (not 9) — `@storybook/blocks` doesn't exist in v10, use `export const meta = {}` in MDX instead
+- Tailwind Vite plugin must be added to Storybook's `viteFinal` config
+- Preview imports the ui `styles.css` via relative path (not package import) for build compatibility
+
+### pnpm 11
+- Build script approvals go in `pnpm-workspace.yaml` under `allowBuilds:` (not `package.json`)
+- `onlyBuiltDependencies` in `package.json` is ignored in pnpm 11
+
+### CI
+- Visual regression is a separate workflow (`visual-regression.yml`) from CI (`ci.yml`) — so it doesn't block PRs before baselines exist
+
 ## After /compact — re-read this file
 If the conversation has been compacted, re-read this entire file before continuing.
 Check the current Linear issue and confirm which branch you should be on.

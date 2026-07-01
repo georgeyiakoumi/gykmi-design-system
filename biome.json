@@ -28,6 +28,13 @@
 		}
 	},
 	"files": {
-		"includes": ["**", "!**/node_modules", "!**/dist", "!**/.turbo", "!**/storybook-static", "!**/.next"]
+		"includes": [
+			"**",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/.turbo",
+			"!**/storybook-static",
+			"!**/.next"
+		]
 	}
 }
