@@ -29,3 +29,9 @@ Decisions made during development, logged as they happen.
 **Decision:** Use tabs for indentation across the project (Biome's default).
 **Why:** Accessible (users can set their own tab width), and Biome's default avoids fighting the formatter.
 **What I almost did instead:** 2-space indentation (common in JS/TS). Tabs are a better accessibility default.
+
+### D005 — One branch per milestone, not per issue
+**Date:** 01/07/2026
+**Decision:** Switch from one-branch-per-Linear-issue to one-branch-per-milestone. Sub-issues get individual commits within the milestone branch. One PR per milestone.
+**Why:** Solo reviewer — per-issue PRs created merge overhead with no real safety benefit. Sub-issues within a milestone are sequential and interdependent. Commits still map 1:1 to issues for clean git history.
+**What I almost did instead:** Kept per-issue branches (the original plan). Switched after M1.1 was already merged separately.

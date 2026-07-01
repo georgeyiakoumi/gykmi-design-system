@@ -27,22 +27,22 @@ as npm packages, consumed by a real app to prove distribution.
 
 ## Git workflow — non-negotiable
 
-### One issue = one branch = one PR
+### One milestone = one branch = one PR
 
-Every Linear issue is worked on its own branch. No bundling multiple issues unless George explicitly says otherwise.
+Each milestone gets a single branch. Sub-issues within the milestone get individual commits on that branch. One PR per milestone.
 
 ### The cycle (follow this exactly)
 
 1. `git checkout main && git pull` — always start from fresh main
-2. Copy the branch name from the Linear issue
-3. `git checkout -b [branch-name]`
-4. Do the work for that one issue only
-5. Commit with message: `geo-[N]: [Short description]`
-6. `git push -u origin [branch-name]`
-7. `gh pr create` with description, Linear ticket link, verification steps
-8. Wait for George to merge — Linear auto-syncs status from the PR
-9. After merge: `git checkout main && git pull && git push origin --delete [branch-name]`
-10. Move to the next issue — back to step 1
+2. `git checkout -b george/m[N]-[milestone-slug]`
+3. Work through sub-issues sequentially, one commit per sub-issue
+4. Commit messages: `geo-[N]: [Short description]` (referencing the Linear issue)
+5. When the milestone is complete: `git push -u origin [branch-name]`
+6. `gh pr create` — body starts with `Closes GEO-XXX` for each sub-issue, includes description and verification steps
+7. Wait for George to merge
+8. After merge: `git checkout main && git pull && git push origin --delete [branch-name]`
+9. Create a GitHub Release with pre-release toggle ON
+10. Move to the next milestone — back to step 1
 
 ### Never work on main
 No commits, no edits, no exceptions.

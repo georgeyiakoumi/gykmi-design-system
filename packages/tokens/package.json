@@ -4,15 +4,15 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"build": "echo 'token build placeholder'",
+		"build": "node sd.config.js && node scripts/generate-index.js",
 		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run"
 	},
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
+			"types": "./dist/tokens.d.ts",
+			"import": "./dist/tokens.js"
 		},
 		"./css": "./dist/tokens.css"
 	},
