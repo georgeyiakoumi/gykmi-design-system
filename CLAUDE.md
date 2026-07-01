@@ -94,7 +94,7 @@ Before raising a PR:
 | M0 | Repo and rails | Done |
 | M1 | Token foundation | Done |
 | M2 | Vertical slice (Button) | Done |
-| M3 | Breadth (core components) | Not started |
+| M3 | Breadth (core components) | Done |
 | M4 | POV layer | Not started |
 | M5 | Dogfood (consuming app) | Not started |
 | M6 | Governance, docs, polish | Not started |
