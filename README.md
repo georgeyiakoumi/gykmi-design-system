@@ -73,7 +73,7 @@ DTCG JSON → Style Dictionary → CSS custom properties → Tailwind @theme →
 - **Styling:** Tailwind v4 with `@theme inline`, tokens as source of truth
 - **Components:** Radix primitives, typed props API, Tailwind classes internal
 - **Distribution:** compiled CSS (`@gykmi/ui/css`) + Tailwind theme (`@gykmi/ui/theme`)
-- **Testing:** 142 unit tests (Vitest + axe) + 8 E2E tests (Playwright)
+- **Testing:** 142 unit tests (Vitest + axe) + 8 E2E tests (Playwright). Visual regression deferred to Chromatic for production use.
 
 ## Format on save
 
