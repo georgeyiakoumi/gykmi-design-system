@@ -1,0 +1,45 @@
+/*
+ * @gykmi/ui theme — import this alongside tailwindcss in your CSS
+ * to get token-backed utilities (bg-surface, text-action, etc.)
+ *
+ * Usage:
+ *   @import "tailwindcss";
+ *   @import "@gykmi/tokens/css";
+ *   @import "@gykmi/ui/theme";
+ */
+@theme inline {
+	/* Surface colours */
+	--color-surface: var(--surface-default);
+	--color-surface-raised: var(--surface-raised);
+	--color-surface-overlay: var(--surface-overlay);
+
+	/* Text colours */
+	--color-text: var(--text-default);
+	--color-text-muted: var(--text-muted);
+	--color-text-inverse: var(--text-inverse);
+
+	/* Border colours */
+	--color-border: var(--border-default);
+	--color-border-strong: var(--border-strong);
+
+	/* Action colours */
+	--color-action: var(--action-default);
+	--color-action-hover: var(--action-hover);
+	--color-action-active: var(--action-active);
+	--color-action-text: var(--action-text);
+
+	/* Danger colours */
+	--color-danger: var(--danger-default);
+	--color-danger-hover: var(--danger-hover);
+	--color-danger-active: var(--danger-active);
+	--color-danger-text: var(--danger-text);
+
+	/* Success / Warning */
+	--color-success: var(--success-default);
+	--color-success-text: var(--success-text);
+	--color-warning: var(--warning-default);
+	--color-warning-text: var(--warning-text);
+
+	/* Focus */
+	--color-focus-ring: var(--focus-ring);
+}

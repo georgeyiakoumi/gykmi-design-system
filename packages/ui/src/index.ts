@@ -1,2 +1,2 @@
-// Component exports will be added from M2.
-export {};
+export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/button";
+export { Button } from "./components/button";

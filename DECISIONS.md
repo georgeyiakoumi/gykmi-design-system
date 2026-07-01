@@ -35,3 +35,17 @@ Decisions made during development, logged as they happen.
 **Decision:** Switch from one-branch-per-Linear-issue to one-branch-per-milestone. Sub-issues get individual commits within the milestone branch. One PR per milestone.
 **Why:** Solo reviewer — per-issue PRs created merge overhead with no real safety benefit. Sub-issues within a milestone are sequential and interdependent. Commits still map 1:1 to issues for clean git history.
 **What I almost did instead:** Kept per-issue branches (the original plan). Switched after M1.1 was already merged separately.
+
+## M2: Vertical slice
+
+### D006 — Storybook 10 (not 9)
+**Date:** 01/07/2026
+**Decision:** Use Storybook 10 (latest stable) instead of Storybook 9 specified in the handover.
+**Why:** Greenfield project — no reason to start on an older major. Storybook 10 has better performance and the same addon ecosystem.
+**What I almost did instead:** Storybook 9 to match the handover spec exactly.
+
+### D007 — Theme switching via data-theme attribute
+**Date:** 01/07/2026
+**Decision:** Use `data-theme="light"` / `data-theme="dark"` attribute for theme switching.
+**Why:** Works with CSS custom properties (no JS needed for switching), compatible with Tailwind v4's dark mode, and the semantic token CSS is already built around it.
+**What I almost did instead:** Class-based switching (`.dark`). `data-theme` is more semantic and avoids conflicts with other class names.

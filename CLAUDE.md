@@ -92,8 +92,8 @@ Before raising a PR:
 | # | Name | Status |
 |---|---|---|
 | M0 | Repo and rails | Done |
-| M1 | Token foundation | In progress |
-| M2 | Vertical slice (Button) | Not started |
+| M1 | Token foundation | Done |
+| M2 | Vertical slice (Button) | Done |
 | M3 | Breadth (core components) | Not started |
 | M4 | POV layer | Not started |
 | M5 | Dogfood (consuming app) | Not started |

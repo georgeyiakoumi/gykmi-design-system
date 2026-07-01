@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@import "@gykmi/tokens/css";
+
+@source "./";
+
+/*
+ * Map token CSS vars to Tailwind's @theme.
+ *
+ * @theme inline: tells Tailwind these utilities exist and map to
+ * the given values, WITHOUT emitting new CSS custom properties.
+ * This avoids circular references with our token vars.
+ */
+@theme inline {
+	/* Surface colours */
+	--color-surface: var(--surface-default);
+	--color-surface-raised: var(--surface-raised);
+	--color-surface-overlay: var(--surface-overlay);
+
+	/* Text colours */
+	--color-text: var(--text-default);
+	--color-text-muted: var(--text-muted);
+	--color-text-inverse: var(--text-inverse);
+
+	/* Border colours */
+	--color-border: var(--border-default);
+	--color-border-strong: var(--border-strong);
+
+	/* Action colours */
+	--color-action: var(--action-default);
+	--color-action-hover: var(--action-hover);
+	--color-action-active: var(--action-active);
+	--color-action-text: var(--action-text);
+
+	/* Danger colours */
+	--color-danger: var(--danger-default);
+	--color-danger-hover: var(--danger-hover);
+	--color-danger-active: var(--danger-active);
+	--color-danger-text: var(--danger-text);
+
+	/* Success / Warning */
+	--color-success: var(--success-default);
+	--color-success-text: var(--success-text);
+	--color-warning: var(--warning-default);
+	--color-warning-text: var(--warning-text);
+
+	/* Focus */
+	--color-focus-ring: var(--focus-ring);
+}

@@ -18,7 +18,16 @@
 			"semicolons": "always"
 		}
 	},
+	"css": {
+		"parser": {
+			"cssModules": true,
+			"tailwindDirectives": true
+		},
+		"linter": {
+			"enabled": true
+		}
+	},
 	"files": {
-		"includes": ["**", "!**/node_modules", "!**/dist", "!**/.turbo"]
+		"includes": ["**", "!**/node_modules", "!**/dist", "!**/.turbo", "!**/storybook-static"]
 	}
 }
