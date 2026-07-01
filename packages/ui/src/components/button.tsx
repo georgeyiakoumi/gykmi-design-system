@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				className={cn(
 					// Base styles
 					"inline-flex items-center justify-center font-medium",
-					"transition-colors duration-fast ease-default",
+					"transition-colors duration-150",
 					// Focus ring driven by token
 					"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
 					// Disabled state
