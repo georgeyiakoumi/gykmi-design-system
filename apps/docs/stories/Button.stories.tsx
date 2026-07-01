@@ -8,7 +8,7 @@ const meta = {
 	argTypes: {
 		variant: {
 			control: "select",
-			options: ["primary", "secondary", "danger", "ghost"],
+			options: ["default", "secondary", "danger", "ghost"],
 			description: "Visual style variant",
 		},
 		size: {
@@ -31,7 +31,7 @@ const meta = {
 	},
 	args: {
 		children: "Button",
-		variant: "primary",
+		variant: "default",
 		size: "md",
 	},
 } satisfies Meta<typeof Button>;
@@ -42,7 +42,7 @@ type Story = StoryObj<typeof meta>;
 // -- Individual stories --
 
 export const Primary: Story = {
-	args: { variant: "primary" },
+	args: { variant: "default" },
 };
 
 export const Secondary: Story = {
@@ -85,7 +85,7 @@ export const AsLink: Story = {
 export const AllVariants: Story = {
 	render: () => (
 		<div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-			<Button variant="primary">Primary</Button>
+			<Button variant="default">Primary</Button>
 			<Button variant="secondary">Secondary</Button>
 			<Button variant="danger">Danger</Button>
 			<Button variant="ghost">Ghost</Button>

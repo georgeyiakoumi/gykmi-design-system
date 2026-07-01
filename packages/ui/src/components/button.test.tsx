@@ -64,7 +64,7 @@ describe("Button", () => {
 	});
 
 	it("applies variant classes", () => {
-		const { rerender } = render(<Button variant="primary">Primary</Button>);
+		const { rerender } = render(<Button variant="default">Default</Button>);
 		const btn = screen.getByRole("button");
 		expect(btn.className).toContain("bg-action");
 
@@ -94,7 +94,7 @@ describe("Button a11y", () => {
 	it("has no axe violations (all variants)", async () => {
 		const { container } = render(
 			<div>
-				<Button variant="primary">Primary</Button>
+				<Button variant="default">Primary</Button>
 				<Button variant="secondary">Secondary</Button>
 				<Button variant="danger">Danger</Button>
 				<Button variant="ghost">Ghost</Button>

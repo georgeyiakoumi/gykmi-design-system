@@ -1,5 +1,13 @@
 # @gykmi/ui
 
+## 1.0.0
+
+### Major Changes
+
+- BREAKING: Button `variant="primary"` renamed to `variant="default"`. The default variant (when no `variant` prop is passed) is now `"default"` instead of `"primary"`. This aligns with the convention used by Badge and other components.
+
+  Migration: find and replace `variant="primary"` with `variant="default"` in your codebase. Buttons without an explicit `variant` prop are unaffected — they already use the default.
+
 ## 0.3.0
 
 ### Minor Changes
