@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@import "@gykmi/tokens/css";
+
+/*
+ * Map token CSS vars to Tailwind's @theme so utilities like
+ * bg-surface, text-action, etc. resolve to token values.
+ */
+@theme {
+	/* Surface colours */
+	--color-surface: var(--surface-default);
+	--color-surface-raised: var(--surface-raised);
+	--color-surface-overlay: var(--surface-overlay);
+
+	/* Text colours */
+	--color-text: var(--text-default);
+	--color-text-muted: var(--text-muted);
+	--color-text-inverse: var(--text-inverse);
+
+	/* Border colours */
+	--color-border: var(--border-default);
+	--color-border-strong: var(--border-strong);
+
+	/* Action colours */
+	--color-action: var(--action-default);
+	--color-action-hover: var(--action-hover);
+	--color-action-active: var(--action-active);
+	--color-action-text: var(--action-text);
+
+	/* Danger colours */
+	--color-danger: var(--danger-default);
+	--color-danger-hover: var(--danger-hover);
+	--color-danger-active: var(--danger-active);
+	--color-danger-text: var(--danger-text);
+
+	/* Success / Warning */
+	--color-success: var(--success-default);
+	--color-success-text: var(--success-text);
+	--color-warning: var(--warning-default);
+	--color-warning-text: var(--warning-text);
+
+	/* Focus */
+	--color-focus-ring: var(--focus-ring);
+
+	/* Spacing (from primitives) */
+	--spacing-0: var(--spacing-0);
+	--spacing-1: var(--spacing-1);
+	--spacing-2: var(--spacing-2);
+	--spacing-3: var(--spacing-3);
+	--spacing-4: var(--spacing-4);
+	--spacing-5: var(--spacing-5);
+	--spacing-6: var(--spacing-6);
+	--spacing-8: var(--spacing-8);
+	--spacing-10: var(--spacing-10);
+	--spacing-12: var(--spacing-12);
+	--spacing-16: var(--spacing-16);
+	--spacing-20: var(--spacing-20);
+	--spacing-24: var(--spacing-24);
+
+	/* Radii (from primitives) */
+	--radius-none: var(--radius-none);
+	--radius-sm: var(--radius-sm);
+	--radius-md: var(--radius-md);
+	--radius-lg: var(--radius-lg);
+	--radius-xl: var(--radius-xl);
+	--radius-full: var(--radius-full);
+
+	/* Shadows (from primitives) */
+	--shadow-sm: var(--shadow-sm);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
+	--shadow-xl: var(--shadow-xl);
+
+	/* Font sizes (from primitives) */
+	--font-size-xs: var(--font-size-xs);
+	--font-size-sm: var(--font-size-sm);
+	--font-size-base: var(--font-size-base);
+	--font-size-lg: var(--font-size-lg);
+	--font-size-xl: var(--font-size-xl);
+	--font-size-2xl: var(--font-size-2xl);
+	--font-size-3xl: var(--font-size-3xl);
+	--font-size-4xl: var(--font-size-4xl);
+
+	/* Motion (from primitives) */
+	--duration-instant: var(--duration-instant);
+	--duration-fast: var(--duration-fast);
+	--duration-normal: var(--duration-normal);
+	--duration-slow: var(--duration-slow);
+	--duration-slower: var(--duration-slower);
+
+	--ease-default: var(--easing-default);
+	--ease-in: var(--easing-in);
+	--ease-out: var(--easing-out);
+	--ease-in-out: var(--easing-in-out);
+}
