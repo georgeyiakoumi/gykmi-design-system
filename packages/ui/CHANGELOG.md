@@ -1,5 +1,11 @@
 # @gykmi/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- POV layer (fintech/AI): AI output states (StreamingText, ConfidenceIndicator, ModelError, AnalysisSection, Disclaimer), audit/disclosure patterns (AuditTrail, ComplianceBanner, DataProvenance, RegulatoryNotice), and a full-featured DataTable with sorting, pagination, column visibility, sticky headers, and empty/skeleton states.
+
 ## 0.2.0
 
 ### Minor Changes

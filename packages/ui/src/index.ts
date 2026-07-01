@@ -34,7 +34,13 @@ export {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "./components/alert-dialog";
+// POV: AI output states
+export type { AnalysisSectionProps } from "./components/analysis-section";
+export { AnalysisSection } from "./components/analysis-section";
 export { AspectRatio } from "./components/aspect-ratio";
+// POV: Audit & disclosure
+export type { AuditEntry, AuditTrailProps } from "./components/audit-trail";
+export { AuditTrail } from "./components/audit-trail";
 export type { AvatarFallbackProps, AvatarImageProps, AvatarProps } from "./components/avatar";
 export { Avatar, AvatarFallback, AvatarImage } from "./components/avatar";
 export type { BadgeProps, BadgeVariant } from "./components/badge";
@@ -63,6 +69,10 @@ export {
 export type { CheckboxProps } from "./components/checkbox";
 export { Checkbox } from "./components/checkbox";
 export { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/collapsible";
+export type { ComplianceBannerProps, ComplianceSeverity } from "./components/compliance-banner";
+export { ComplianceBanner } from "./components/compliance-banner";
+export type { ConfidenceIndicatorProps, ConfidenceLevel } from "./components/confidence-indicator";
+export { ConfidenceIndicator } from "./components/confidence-indicator";
 export type {
 	ContextMenuContentProps,
 	ContextMenuItemProps,
@@ -80,6 +90,11 @@ export {
 	ContextMenuSub,
 	ContextMenuTrigger,
 } from "./components/context-menu";
+export type { DataProvenanceProps, DataSource } from "./components/data-provenance";
+export { DataProvenance } from "./components/data-provenance";
+// POV: Dense data table
+export type { DataTableColumn, DataTableProps, SortDirection } from "./components/data-table";
+export { DataTable } from "./components/data-table";
 export type {
 	DialogContentProps,
 	DialogDescriptionProps,
@@ -98,6 +113,8 @@ export {
 	DialogTitle,
 	DialogTrigger,
 } from "./components/dialog";
+export type { DisclaimerProps, DisclaimerVariant } from "./components/disclaimer";
+export { Disclaimer } from "./components/disclaimer";
 export type {
 	DropdownMenuContentProps,
 	DropdownMenuItemProps,
@@ -142,6 +159,8 @@ export {
 	MenubarSub,
 	MenubarTrigger,
 } from "./components/menubar";
+export type { ModelErrorKind, ModelErrorProps } from "./components/model-error";
+export { ModelError } from "./components/model-error";
 export type { NavigationMenuProps } from "./components/navigation-menu";
 export {
 	NavigationMenu,
@@ -158,6 +177,8 @@ export type { ProgressProps } from "./components/progress";
 export { Progress } from "./components/progress";
 export type { RadioGroupItemProps, RadioGroupProps } from "./components/radio-group";
 export { RadioGroup, RadioGroupItem } from "./components/radio-group";
+export type { RegulatoryNoticeProps } from "./components/regulatory-notice";
+export { RegulatoryNotice } from "./components/regulatory-notice";
 export type { ScrollAreaProps, ScrollBarProps } from "./components/scroll-area";
 export { ScrollArea, ScrollBar } from "./components/scroll-area";
 export type { SelectContentProps, SelectItemProps, SelectTriggerProps } from "./components/select";
@@ -175,6 +196,8 @@ export type { SliderProps } from "./components/slider";
 export { Slider } from "./components/slider";
 export type { StackAlign, StackDirection, StackProps } from "./components/stack";
 export { Stack } from "./components/stack";
+export type { StreamingStatus, StreamingTextProps } from "./components/streaming-text";
+export { StreamingText } from "./components/streaming-text";
 export type { SwitchProps } from "./components/switch";
 export { Switch } from "./components/switch";
 export type { TabsContentProps, TabsListProps, TabsTriggerProps } from "./components/tabs";
