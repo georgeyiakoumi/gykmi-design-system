@@ -1,6 +1,6 @@
 {
 	"name": "@gykmi/ui",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
@@ -67,6 +67,7 @@
 		"tailwind-merge": "^3.6.0"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.61.1",
 		"@tailwindcss/cli": "^4.3.2",
 		"@tailwindcss/vite": "^4.3.2",
 		"@testing-library/jest-dom": "^6.9.1",

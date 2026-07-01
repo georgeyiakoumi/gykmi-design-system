@@ -1,0 +1,52 @@
+export const meta = {
+	title: "Docs/Tokens",
+};
+
+# Design Tokens
+
+## Architecture
+
+Tokens follow a two-layer architecture:
+
+### Primitive tokens
+
+Raw values — colour palettes, spacing scales, type sizes. These are the building blocks.
+
+```
+--color-blue-600: #2563eb
+--spacing-4: 16px
+--radius-md: 8px
+```
+
+### Semantic tokens
+
+Named intents that reference primitives. These are what components use.
+
+```
+--action-default: var(--color-blue-600)    /* light theme */
+--action-default: var(--color-blue-500)    /* dark theme */
+```
+
+Semantic tokens include: `surface`, `text`, `text-muted`, `border`, `action` (+ hover/active), `danger`, `success`, `warning`, `focus-ring`.
+
+## Importing tokens
+
+### CSS custom properties
+
+```tsx
+import "@gykmi/tokens/css";
+```
+
+This loads all primitive + semantic tokens as CSS custom properties on `:root`, with dark theme variants on `[data-theme="dark"]`.
+
+### TypeScript constants
+
+```tsx
+import { ColorBlue600, Spacing4 } from "@gykmi/tokens";
+```
+
+Typed constants for use in JS — useful for non-CSS contexts (canvas, SVG, etc.).
+
+## Placeholder values
+
+Current token values are **placeholders**. The real palette will come from Figma. The pipeline works end to end — only the values will change.

@@ -97,7 +97,7 @@ Before raising a PR:
 | M3 | Breadth (core components) | Done |
 | M4 | POV layer | Done |
 | M5 | Dogfood (consuming app) | Done |
-| M6 | Governance, docs, polish | Not started |
+| M6 | Governance, docs, polish | Done |
 
 ## After /compact — re-read this file
 If the conversation has been compacted, re-read this entire file before continuing.
