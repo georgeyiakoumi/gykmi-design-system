@@ -1,0 +1,163 @@
+{
+	"$description": "Primitive tokens — PLACEHOLDER values until George supplies real palette from Figma.",
+	"color": {
+		"$description": "Colour scales. PLACEHOLDER palette — will be replaced with Figma values.",
+		"neutral": {
+			"0": { "$value": "#ffffff", "$type": "color" },
+			"50": { "$value": "#fafafa", "$type": "color" },
+			"100": { "$value": "#f5f5f5", "$type": "color" },
+			"200": { "$value": "#e5e5e5", "$type": "color" },
+			"300": { "$value": "#d4d4d4", "$type": "color" },
+			"400": { "$value": "#a3a3a3", "$type": "color" },
+			"500": { "$value": "#737373", "$type": "color" },
+			"600": { "$value": "#525252", "$type": "color" },
+			"700": { "$value": "#404040", "$type": "color" },
+			"800": { "$value": "#262626", "$type": "color" },
+			"900": { "$value": "#171717", "$type": "color" },
+			"950": { "$value": "#0a0a0a", "$type": "color" },
+			"1000": { "$value": "#000000", "$type": "color" }
+		},
+		"blue": {
+			"50": { "$value": "#eff6ff", "$type": "color" },
+			"100": { "$value": "#dbeafe", "$type": "color" },
+			"200": { "$value": "#bfdbfe", "$type": "color" },
+			"300": { "$value": "#93c5fd", "$type": "color" },
+			"400": { "$value": "#60a5fa", "$type": "color" },
+			"500": { "$value": "#3b82f6", "$type": "color" },
+			"600": { "$value": "#2563eb", "$type": "color" },
+			"700": { "$value": "#1d4ed8", "$type": "color" },
+			"800": { "$value": "#1e40af", "$type": "color" },
+			"900": { "$value": "#1e3a8a", "$type": "color" },
+			"950": { "$value": "#172554", "$type": "color" }
+		},
+		"red": {
+			"50": { "$value": "#fef2f2", "$type": "color" },
+			"100": { "$value": "#fee2e2", "$type": "color" },
+			"200": { "$value": "#fecaca", "$type": "color" },
+			"300": { "$value": "#fca5a5", "$type": "color" },
+			"400": { "$value": "#f87171", "$type": "color" },
+			"500": { "$value": "#ef4444", "$type": "color" },
+			"600": { "$value": "#dc2626", "$type": "color" },
+			"700": { "$value": "#b91c1c", "$type": "color" },
+			"800": { "$value": "#991b1b", "$type": "color" },
+			"900": { "$value": "#7f1d1d", "$type": "color" },
+			"950": { "$value": "#450a0a", "$type": "color" }
+		},
+		"green": {
+			"50": { "$value": "#f0fdf4", "$type": "color" },
+			"100": { "$value": "#dcfce7", "$type": "color" },
+			"200": { "$value": "#bbf7d0", "$type": "color" },
+			"300": { "$value": "#86efac", "$type": "color" },
+			"400": { "$value": "#4ade80", "$type": "color" },
+			"500": { "$value": "#22c55e", "$type": "color" },
+			"600": { "$value": "#16a34a", "$type": "color" },
+			"700": { "$value": "#15803d", "$type": "color" },
+			"800": { "$value": "#166534", "$type": "color" },
+			"900": { "$value": "#14532d", "$type": "color" },
+			"950": { "$value": "#052e16", "$type": "color" }
+		},
+		"amber": {
+			"50": { "$value": "#fffbeb", "$type": "color" },
+			"100": { "$value": "#fef3c7", "$type": "color" },
+			"200": { "$value": "#fde68a", "$type": "color" },
+			"300": { "$value": "#fcd34d", "$type": "color" },
+			"400": { "$value": "#fbbf24", "$type": "color" },
+			"500": { "$value": "#f59e0b", "$type": "color" },
+			"600": { "$value": "#d97706", "$type": "color" },
+			"700": { "$value": "#b45309", "$type": "color" },
+			"800": { "$value": "#92400e", "$type": "color" },
+			"900": { "$value": "#78350f", "$type": "color" },
+			"950": { "$value": "#451a03", "$type": "color" }
+		}
+	},
+	"spacing": {
+		"$description": "Spacing scale. PLACEHOLDER — will be calibrated to final type scale.",
+		"0": { "$value": "0px", "$type": "dimension" },
+		"1": { "$value": "4px", "$type": "dimension" },
+		"2": { "$value": "8px", "$type": "dimension" },
+		"3": { "$value": "12px", "$type": "dimension" },
+		"4": { "$value": "16px", "$type": "dimension" },
+		"5": { "$value": "20px", "$type": "dimension" },
+		"6": { "$value": "24px", "$type": "dimension" },
+		"8": { "$value": "32px", "$type": "dimension" },
+		"10": { "$value": "40px", "$type": "dimension" },
+		"12": { "$value": "48px", "$type": "dimension" },
+		"16": { "$value": "64px", "$type": "dimension" },
+		"20": { "$value": "80px", "$type": "dimension" },
+		"24": { "$value": "96px", "$type": "dimension" }
+	},
+	"fontSize": {
+		"$description": "Type scale. PLACEHOLDER — will be replaced with final type system.",
+		"xs": { "$value": "0.75rem", "$type": "dimension" },
+		"sm": { "$value": "0.875rem", "$type": "dimension" },
+		"base": { "$value": "1rem", "$type": "dimension" },
+		"lg": { "$value": "1.125rem", "$type": "dimension" },
+		"xl": { "$value": "1.25rem", "$type": "dimension" },
+		"2xl": { "$value": "1.5rem", "$type": "dimension" },
+		"3xl": { "$value": "1.875rem", "$type": "dimension" },
+		"4xl": { "$value": "2.25rem", "$type": "dimension" }
+	},
+	"lineHeight": {
+		"$description": "Line heights. PLACEHOLDER.",
+		"tight": { "$value": "1.25", "$type": "number" },
+		"normal": { "$value": "1.5", "$type": "number" },
+		"relaxed": { "$value": "1.75", "$type": "number" }
+	},
+	"fontWeight": {
+		"$description": "Font weights. PLACEHOLDER.",
+		"normal": { "$value": "400", "$type": "number" },
+		"medium": { "$value": "500", "$type": "number" },
+		"semibold": { "$value": "600", "$type": "number" },
+		"bold": { "$value": "700", "$type": "number" }
+	},
+	"radius": {
+		"$description": "Border radii. PLACEHOLDER.",
+		"none": { "$value": "0px", "$type": "dimension" },
+		"sm": { "$value": "4px", "$type": "dimension" },
+		"md": { "$value": "8px", "$type": "dimension" },
+		"lg": { "$value": "12px", "$type": "dimension" },
+		"xl": { "$value": "16px", "$type": "dimension" },
+		"full": { "$value": "9999px", "$type": "dimension" }
+	},
+	"shadow": {
+		"$description": "Box shadows. PLACEHOLDER.",
+		"sm": { "$value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)", "$type": "shadow" },
+		"md": {
+			"$value": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",
+			"$type": "shadow"
+		},
+		"lg": {
+			"$value": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)",
+			"$type": "shadow"
+		},
+		"xl": {
+			"$value": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
+			"$type": "shadow"
+		}
+	},
+	"zIndex": {
+		"$description": "Z-index scale.",
+		"base": { "$value": "0", "$type": "number" },
+		"raised": { "$value": "10", "$type": "number" },
+		"dropdown": { "$value": "100", "$type": "number" },
+		"sticky": { "$value": "200", "$type": "number" },
+		"overlay": { "$value": "300", "$type": "number" },
+		"modal": { "$value": "400", "$type": "number" },
+		"toast": { "$value": "500", "$type": "number" }
+	},
+	"duration": {
+		"$description": "Motion durations.",
+		"instant": { "$value": "0ms", "$type": "duration" },
+		"fast": { "$value": "100ms", "$type": "duration" },
+		"normal": { "$value": "200ms", "$type": "duration" },
+		"slow": { "$value": "300ms", "$type": "duration" },
+		"slower": { "$value": "500ms", "$type": "duration" }
+	},
+	"easing": {
+		"$description": "Motion easings.",
+		"default": { "$value": "cubic-bezier(0.4, 0, 0.2, 1)", "$type": "cubicBezier" },
+		"in": { "$value": "cubic-bezier(0.4, 0, 1, 1)", "$type": "cubicBezier" },
+		"out": { "$value": "cubic-bezier(0, 0, 0.2, 1)", "$type": "cubicBezier" },
+		"inOut": { "$value": "cubic-bezier(0.4, 0, 0.2, 1)", "$type": "cubicBezier" }
+	}
+}
