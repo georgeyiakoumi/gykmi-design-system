@@ -1,20 +1,24 @@
 {
 	"name": "@gykmi/tokens",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"build": "echo 'token build placeholder'",
+		"build": "node sd.config.js && node scripts/generate-index.js",
 		"lint": "biome check .",
 		"typecheck": "tsc --noEmit",
-		"test": "vitest run"
+		"test": "vitest run",
+		"validate": "publint && attw --pack --entrypoints . --ignore-rules cjs-resolves-to-esm no-resolution"
 	},
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
+			"types": "./dist/tokens.d.ts",
+			"import": "./dist/tokens.js"
 		},
-		"./css": "./dist/tokens.css"
+		"./css": {
+			"style": "./dist/tokens.css",
+			"default": "./dist/tokens.css"
+		}
 	},
 	"files": [
 		"dist"
