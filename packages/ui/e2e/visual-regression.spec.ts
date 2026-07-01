@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const components = [
-	{ name: "Button", path: "components-button--default" },
+	{ name: "Button", path: "components-button--all-variants" },
 	{ name: "Badge", path: "components-badge--all-variants" },
 	{ name: "Card", path: "components-card--default" },
 	{ name: "Input", path: "components-input--with-label" },
@@ -17,8 +17,8 @@ const components = [
 for (const { name, path } of components) {
 	test(`${name} matches snapshot`, async ({ page }) => {
 		await page.goto(`/iframe.html?id=${path}&viewMode=story`);
-		await page.waitForSelector("[data-story-rendered]", { timeout: 10000 }).catch(() => {});
-		await page.waitForTimeout(500);
-		await expect(page.locator("#storybook-root")).toHaveScreenshot(`${name}.png`);
+		await page.waitForTimeout(2000);
+		const root = page.locator("#storybook-root");
+		await expect(root).toHaveScreenshot(`${name}.png`, { timeout: 10000 });
 	});
 }

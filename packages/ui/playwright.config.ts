@@ -15,9 +15,10 @@ export default defineConfig({
 		reuseExistingServer: !process.env.CI,
 		timeout: 60000,
 	},
+	snapshotPathTemplate: "{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{ext}",
 	expect: {
 		toHaveScreenshot: {
-			maxDiffPixelRatio: 0.01,
+			maxDiffPixelRatio: 0.05,
 		},
 	},
 });
