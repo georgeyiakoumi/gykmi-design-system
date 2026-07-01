@@ -4,7 +4,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../lib/cn";
 
-export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
+export type ButtonVariant = "default" | "secondary" | "danger" | "ghost";
 export type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps extends ComponentPropsWithRef<"button"> {
@@ -19,7 +19,7 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-	primary: ["bg-action text-action-text", "hover:bg-action-hover", "active:bg-action-active"].join(
+	default: ["bg-action text-action-text", "hover:bg-action-hover", "active:bg-action-active"].join(
 		" ",
 	),
 	secondary: [
@@ -43,7 +43,7 @@ const sizeStyles: Record<ButtonSize, string> = {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
-		{ variant = "primary", size = "md", asChild, loading, disabled, className, children, ...props },
+		{ variant = "default", size = "md", asChild, loading, disabled, className, children, ...props },
 		ref,
 	) => {
 		const Comp = asChild ? Slot : "button";

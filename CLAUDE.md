@@ -96,7 +96,7 @@ Before raising a PR:
 | M2 | Vertical slice (Button) | Done |
 | M3 | Breadth (core components) | Done |
 | M4 | POV layer | Done |
-| M5 | Dogfood (consuming app) | Not started |
+| M5 | Dogfood (consuming app) | Done |
 | M6 | Governance, docs, polish | Not started |
 
 ## After /compact — re-read this file
