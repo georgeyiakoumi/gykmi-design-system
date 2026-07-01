@@ -1,6 +1,42 @@
 // Layout primitives
 
 // Simple components
+export type {
+	AccordionContentProps,
+	AccordionItemProps,
+	AccordionTriggerProps,
+} from "./components/accordion";
+export {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "./components/accordion";
+// Overlays & menus
+export type {
+	AlertDialogContentProps,
+	AlertDialogDescriptionProps,
+	AlertDialogFooterProps,
+	AlertDialogHeaderProps,
+	AlertDialogOverlayProps,
+	AlertDialogTitleProps,
+} from "./components/alert-dialog";
+export {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogOverlay,
+	AlertDialogPortal,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "./components/alert-dialog";
+export { AspectRatio } from "./components/aspect-ratio";
+export type { AvatarFallbackProps, AvatarImageProps, AvatarProps } from "./components/avatar";
+export { Avatar, AvatarFallback, AvatarImage } from "./components/avatar";
 export type { BadgeProps, BadgeVariant } from "./components/badge";
 export { Badge } from "./components/badge";
 export type { BoxProps } from "./components/box";
@@ -26,7 +62,24 @@ export {
 // Form controls
 export type { CheckboxProps } from "./components/checkbox";
 export { Checkbox } from "./components/checkbox";
-// Overlays
+export { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/collapsible";
+export type {
+	ContextMenuContentProps,
+	ContextMenuItemProps,
+	ContextMenuLabelProps,
+	ContextMenuSeparatorProps,
+} from "./components/context-menu";
+export {
+	ContextMenu,
+	ContextMenuContent,
+	ContextMenuGroup,
+	ContextMenuItem,
+	ContextMenuLabel,
+	ContextMenuRadioGroup,
+	ContextMenuSeparator,
+	ContextMenuSub,
+	ContextMenuTrigger,
+} from "./components/context-menu";
 export type {
 	DialogContentProps,
 	DialogDescriptionProps,
@@ -66,14 +119,47 @@ export {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "./components/dropdown-menu";
+export type { HoverCardContentProps } from "./components/hover-card";
+export { HoverCard, HoverCardContent, HoverCardTrigger } from "./components/hover-card";
 export type { InputProps } from "./components/input";
 export { Input } from "./components/input";
 export type { LabelProps } from "./components/label";
 export { Label } from "./components/label";
+export type {
+	MenubarContentProps,
+	MenubarItemProps,
+	MenubarSeparatorProps,
+	MenubarTriggerProps,
+} from "./components/menubar";
+export {
+	Menubar,
+	MenubarContent,
+	MenubarGroup,
+	MenubarItem,
+	MenubarMenu,
+	MenubarRadioGroup,
+	MenubarSeparator,
+	MenubarSub,
+	MenubarTrigger,
+} from "./components/menubar";
+export type { NavigationMenuProps } from "./components/navigation-menu";
+export {
+	NavigationMenu,
+	NavigationMenuContent,
+	NavigationMenuItem,
+	NavigationMenuLink,
+	NavigationMenuList,
+	NavigationMenuTrigger,
+	NavigationMenuViewport,
+} from "./components/navigation-menu";
 export type { PopoverContentProps } from "./components/popover";
 export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "./components/popover";
+export type { ProgressProps } from "./components/progress";
+export { Progress } from "./components/progress";
 export type { RadioGroupItemProps, RadioGroupProps } from "./components/radio-group";
 export { RadioGroup, RadioGroupItem } from "./components/radio-group";
+export type { ScrollAreaProps, ScrollBarProps } from "./components/scroll-area";
+export { ScrollArea, ScrollBar } from "./components/scroll-area";
 export type { SelectContentProps, SelectItemProps, SelectTriggerProps } from "./components/select";
 export {
 	Select,
@@ -83,6 +169,10 @@ export {
 	SelectTrigger,
 	SelectValue,
 } from "./components/select";
+export type { SeparatorProps } from "./components/separator";
+export { Separator } from "./components/separator";
+export type { SliderProps } from "./components/slider";
+export { Slider } from "./components/slider";
 export type { StackAlign, StackDirection, StackProps } from "./components/stack";
 export { Stack } from "./components/stack";
 export type { SwitchProps } from "./components/switch";
@@ -107,5 +197,19 @@ export {
 	ToastTitle,
 	ToastViewport,
 } from "./components/toast";
+export type { ToggleProps, ToggleSize, ToggleVariant } from "./components/toggle";
+export { Toggle } from "./components/toggle";
+export type { ToggleGroupItemProps, ToggleGroupProps } from "./components/toggle-group";
+export { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
+export type { ToolbarProps } from "./components/toolbar";
+export {
+	Toolbar,
+	ToolbarButton,
+	ToolbarLink,
+	ToolbarSeparator,
+	ToolbarToggleGroup,
+	ToolbarToggleItem,
+} from "./components/toolbar";
 export type { TooltipContentProps } from "./components/tooltip";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/tooltip";
+export { VisuallyHidden } from "./components/visually-hidden";
