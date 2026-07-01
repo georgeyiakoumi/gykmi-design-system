@@ -49,3 +49,17 @@ Decisions made during development, logged as they happen.
 **Decision:** Use `data-theme="light"` / `data-theme="dark"` attribute for theme switching.
 **Why:** Works with CSS custom properties (no JS needed for switching), compatible with Tailwind v4's dark mode, and the semantic token CSS is already built around it.
 **What I almost did instead:** Class-based switching (`.dark`). `data-theme` is more semantic and avoids conflicts with other class names.
+
+## M4: POV layer
+
+### D008 — Fintech/AI POV direction
+**Date:** 01/07/2026
+**Decision:** Fintech/AI POV, report/analysis-focused. AI output states modelled on financial report generation (streaming sections, confidence scores, disclaimers), not chat interfaces.
+**Why:** Stronger portfolio signal. Report/analysis patterns are more complex and more relevant to enterprise fintech than chat bubbles. Shows understanding of regulated product surfaces.
+**What I almost did instead:** Neutral POV (second theme + deeper docs) or chat-focused AI patterns.
+
+### D009 — Full DataTable component (not composition pattern)
+**Date:** 01/07/2026
+**Decision:** Build a full-featured DataTable with sorting, column visibility, pagination, sticky headers, empty/skeleton states — not just table primitives.
+**Why:** Dense data tables are the signature surface of fintech products. A full component is more impressive and more useful than composable primitives for the portfolio case study.
+**What I almost did instead:** Lighter table primitives (Table, TableRow, TableCell) that compose with existing components.
