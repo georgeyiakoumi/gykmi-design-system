@@ -1,0 +1,83 @@
+export const meta = {
+	title: "Docs/Getting Started",
+};
+
+# Getting Started
+
+## Installation
+
+```bash
+# Install the packages
+pnpm add @gykmi/ui @gykmi/tokens
+
+# Peer dependencies
+pnpm add react react-dom
+```
+
+## Setup
+
+### With Tailwind (recommended)
+
+If your project uses Tailwind v4, import the token CSS and theme in your global CSS:
+
+```css
+/* globals.css */
+@import "tailwindcss";
+@import "@gykmi/tokens/css";
+@import "@gykmi/ui/theme";
+
+@source "node_modules/@gykmi/ui/dist/";
+```
+
+This gives you token-backed utilities like `bg-surface`, `text-action`, etc.
+
+### Without Tailwind
+
+Import the compiled CSS — all component styles are baked in:
+
+```tsx
+import "@gykmi/ui/css";
+```
+
+## Usage
+
+```tsx
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@gykmi/ui";
+
+function MyPage() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Welcome</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Button>Get started</Button>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## Theme switching
+
+The design system supports light and dark themes via the `data-theme` attribute:
+
+```html
+<html data-theme="light">  <!-- or "dark" -->
+```
+
+Toggle at runtime:
+
+```ts
+document.documentElement.setAttribute("data-theme", "dark");
+```
+
+All semantic tokens (surface, text, border, action, danger, etc.) automatically adapt.
+
+## TypeScript
+
+All components are fully typed. Import types alongside components:
+
+```tsx
+import type { ButtonProps, ButtonVariant } from "@gykmi/ui";
+```

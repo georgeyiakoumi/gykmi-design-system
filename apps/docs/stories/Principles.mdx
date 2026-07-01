@@ -1,0 +1,46 @@
+export const meta = {
+	title: "Docs/Principles",
+};
+
+# Design Principles
+
+## Tokens are the source of truth
+
+Every visual value — colours, spacing, typography, radii, shadows, motion — comes from a design token. Components never hard-code values. Change a token, and every component updates.
+
+The token pipeline: **DTCG JSON → Style Dictionary → CSS custom properties → Tailwind @theme → components**.
+
+## Semantic over primitive
+
+Components reference semantic tokens (`--surface-default`, `--action-hover`), never primitive tokens (`--color-blue-600`) directly. This means themes work: swap the semantic mapping, and every component follows.
+
+Light and dark themes are built in. Add more by defining new semantic token sets.
+
+## Typed API, classes internal
+
+Every component exposes a typed props API. Tailwind classes are an implementation detail — they never appear in the public surface. Consumers style via props (`variant`, `size`) and the `className` escape hatch, not by knowing which Tailwind classes to override.
+
+## Accessibility owned, not delegated
+
+Components handle their own a11y: ARIA attributes, keyboard navigation, focus management, reduced-motion support. Built on Radix primitives, which provide the behavioural foundation. We add the styling and the remaining ARIA semantics on top.
+
+Every component is tested with `vitest-axe` for zero violations.
+
+## Dual distribution
+
+The system ships two ways:
+
+1. **Compiled CSS** (`@gykmi/ui/css`) — all styles baked in. Works without Tailwind.
+2. **Tailwind theme** (`@gykmi/ui/theme`) — `@theme inline` mappings for Tailwind consumers. Utilities like `bg-surface` resolve to token values.
+
+Both paths are tested and validated with `publint` and `@arethetypeswrong/cli`.
+
+## Fintech/AI POV
+
+Beyond the generic primitives, the system includes patterns specific to financial and AI-powered products:
+
+- **AI output states** — streaming text, confidence indicators, model errors, analysis sections with disclaimers
+- **Audit & disclosure** — audit trails, compliance banners, data provenance, regulatory notices
+- **Dense data tables** — sorting, pagination, column visibility, sticky headers, skeleton loading
+
+These aren't cosmetic add-ons. They reflect real patterns from regulated, AI-augmented financial products.

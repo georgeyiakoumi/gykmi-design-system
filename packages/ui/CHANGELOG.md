@@ -1,5 +1,11 @@
 # @gykmi/ui
 
+## 1.0.1
+
+### Patch Changes
+
+- Governance and documentation: getting-started guide, design principles, token architecture docs, contribution guide, deprecation policy, visual regression CI pipeline.
+
 ## 1.0.0
 
 ### Major Changes
