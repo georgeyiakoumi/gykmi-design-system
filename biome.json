@@ -28,6 +28,6 @@
 		}
 	},
 	"files": {
-		"includes": ["**", "!**/node_modules", "!**/dist", "!**/.turbo", "!**/storybook-static"]
+		"includes": ["**", "!**/node_modules", "!**/dist", "!**/.turbo", "!**/storybook-static", "!**/.next"]
 	}
 }
