@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/react-vite";
-import "@gykmi/tokens/css";
+import "../../../packages/ui/src/styles.css";
 
 const preview: Preview = {
 	parameters: {
