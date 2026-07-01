@@ -11,9 +11,15 @@ describe("ToggleGroup", () => {
 	it("renders group with items", () => {
 		render(
 			<ToggleGroup type="single" aria-label="Text alignment">
-				<ToggleGroupItem value="left" aria-label="Left">L</ToggleGroupItem>
-				<ToggleGroupItem value="center" aria-label="Centre">C</ToggleGroupItem>
-				<ToggleGroupItem value="right" aria-label="Right">R</ToggleGroupItem>
+				<ToggleGroupItem value="left" aria-label="Left">
+					L
+				</ToggleGroupItem>
+				<ToggleGroupItem value="center" aria-label="Centre">
+					C
+				</ToggleGroupItem>
+				<ToggleGroupItem value="right" aria-label="Right">
+					R
+				</ToggleGroupItem>
 			</ToggleGroup>,
 		);
 		expect(screen.getByText("L")).toBeInTheDocument();
@@ -24,8 +30,12 @@ describe("ToggleGroup", () => {
 	it("selects an item on click", () => {
 		render(
 			<ToggleGroup type="single" aria-label="Text alignment">
-				<ToggleGroupItem value="left" aria-label="Left">L</ToggleGroupItem>
-				<ToggleGroupItem value="center" aria-label="Centre">C</ToggleGroupItem>
+				<ToggleGroupItem value="left" aria-label="Left">
+					L
+				</ToggleGroupItem>
+				<ToggleGroupItem value="center" aria-label="Centre">
+					C
+				</ToggleGroupItem>
 			</ToggleGroup>,
 		);
 		const left = screen.getByText("L");
@@ -39,8 +49,12 @@ describe("ToggleGroup a11y", () => {
 	it("has no axe violations", async () => {
 		const { container } = render(
 			<ToggleGroup type="single" aria-label="Text alignment">
-				<ToggleGroupItem value="left" aria-label="Left">L</ToggleGroupItem>
-				<ToggleGroupItem value="center" aria-label="Centre">C</ToggleGroupItem>
+				<ToggleGroupItem value="left" aria-label="Left">
+					L
+				</ToggleGroupItem>
+				<ToggleGroupItem value="center" aria-label="Centre">
+					C
+				</ToggleGroupItem>
 			</ToggleGroup>,
 		);
 		const results = await axe(container);
