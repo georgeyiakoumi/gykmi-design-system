@@ -7,7 +7,7 @@
  *   @import "@gykmi/tokens/css";
  *   @import "@gykmi/ui/theme";
  */
-@theme {
+@theme inline {
 	/* Surface colours */
 	--color-surface: var(--surface-default);
 	--color-surface-raised: var(--surface-raised);
@@ -42,12 +42,4 @@
 
 	/* Focus */
 	--color-focus-ring: var(--focus-ring);
-
-	/* Radii */
-	--radius-none: var(--radius-none);
-	--radius-sm: var(--radius-sm);
-	--radius-md: var(--radius-md);
-	--radius-lg: var(--radius-lg);
-	--radius-xl: var(--radius-xl);
-	--radius-full: var(--radius-full);
 }
