@@ -32,21 +32,32 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # Check if a changeset exists in this PR
+      - name: Check for changeset files
+        id: changesets
+        run: |
+          CHANGESET_FILES=$(git diff --name-only origin/main...HEAD -- '.changeset/' | grep '\.md$' | grep -v README || true)
+          if [ -n "$CHANGESET_FILES" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       # Require a changeset if packages changed
       - name: Require changeset
         if: steps.packages.outputs.changed == 'true'
         run: |
-          if ! ls .changeset/*.md 1>/dev/null 2>&1 || [ "$(ls .changeset/*.md 2>/dev/null | grep -v README)" = "" ]; then
+          if [ "${{ steps.changesets.outputs.present }}" != "true" ]; then
             echo "::error::This PR changes packages/ but has no changeset. Run 'pnpm changeset' to add one."
             exit 1
           fi
           echo "Changeset found."
 
-      # Gate majors on MIGRATION.md
+      # Gate majors on MIGRATION.md — runs whenever a changeset exists
       - name: Check migration note for major bumps
-        if: steps.packages.outputs.changed == 'true'
+        if: steps.changesets.outputs.present == 'true'
         run: |
-          MAJOR=$(grep -l "major" .changeset/*.md 2>/dev/null | grep -v README || true)
+          MAJOR=$(git diff --name-only origin/main...HEAD -- '.changeset/' | xargs grep -l "major" 2>/dev/null | grep -v README || true)
           if [ -n "$MAJOR" ]; then
             MIGRATION_CHANGED=$(git diff --name-only origin/main...HEAD -- 'MIGRATION.md' || true)
             if [ -z "$MIGRATION_CHANGED" ]; then
