@@ -1,6 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { axe } from "vitest-axe";
 import { Slider } from "./slider";
 
 afterEach(() => {

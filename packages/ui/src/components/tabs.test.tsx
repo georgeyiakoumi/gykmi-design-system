@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";

@@ -45,10 +45,17 @@ export type { AvatarFallbackProps, AvatarImageProps, AvatarProps } from "./compo
 export { Avatar, AvatarFallback, AvatarImage } from "./components/avatar";
 export type { BadgeProps, BadgeVariant } from "./components/badge";
 export { Badge } from "./components/badge";
+// Charts (visx)
+export type { BarChartProps } from "./components/bar-chart";
+export { BarChart } from "./components/bar-chart";
 export type { BoxProps } from "./components/box";
 export { Box } from "./components/box";
+export type { BulletChartProps } from "./components/bullet-chart";
+export { BulletChart } from "./components/bullet-chart";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/button";
 export { Button } from "./components/button";
+export type { CandlestickChartProps, CandlestickPoint } from "./components/candlestick-chart";
+export { CandlestickChart } from "./components/candlestick-chart";
 export type {
 	CardContentProps,
 	CardDescriptionProps,
@@ -71,6 +78,8 @@ export { Checkbox } from "./components/checkbox";
 export { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/collapsible";
 export type { ComplianceBannerProps, ComplianceSeverity } from "./components/compliance-banner";
 export { ComplianceBanner } from "./components/compliance-banner";
+export type { ConfidenceChartProps } from "./components/confidence-chart";
+export { ConfidenceChart } from "./components/confidence-chart";
 export type { ConfidenceIndicatorProps, ConfidenceLevel } from "./components/confidence-indicator";
 export { ConfidenceIndicator } from "./components/confidence-indicator";
 export type {
@@ -115,6 +124,8 @@ export {
 } from "./components/dialog";
 export type { DisclaimerProps, DisclaimerVariant } from "./components/disclaimer";
 export { Disclaimer } from "./components/disclaimer";
+export type { DonutChartProps } from "./components/donut-chart";
+export { DonutChart } from "./components/donut-chart";
 export type {
 	DropdownMenuContentProps,
 	DropdownMenuItemProps,
@@ -136,12 +147,18 @@ export {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "./components/dropdown-menu";
+export type { GaugeChartProps } from "./components/gauge-chart";
+export { GaugeChart } from "./components/gauge-chart";
+export type { HeatmapBin, HeatmapChartProps, HeatmapRow } from "./components/heatmap-chart";
+export { HeatmapChart } from "./components/heatmap-chart";
 export type { HoverCardContentProps } from "./components/hover-card";
 export { HoverCard, HoverCardContent, HoverCardTrigger } from "./components/hover-card";
 export type { InputProps } from "./components/input";
 export { Input } from "./components/input";
 export type { LabelProps } from "./components/label";
 export { Label } from "./components/label";
+export type { LineChartProps } from "./components/line-chart";
+export { LineChart } from "./components/line-chart";
 export type {
 	MenubarContentProps,
 	MenubarItemProps,
@@ -175,10 +192,14 @@ export type { PopoverContentProps } from "./components/popover";
 export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "./components/popover";
 export type { ProgressProps } from "./components/progress";
 export { Progress } from "./components/progress";
+export type { RadarChartProps, RadarPoint } from "./components/radar-chart";
+export { RadarChart } from "./components/radar-chart";
 export type { RadioGroupItemProps, RadioGroupProps } from "./components/radio-group";
 export { RadioGroup, RadioGroupItem } from "./components/radio-group";
 export type { RegulatoryNoticeProps } from "./components/regulatory-notice";
 export { RegulatoryNotice } from "./components/regulatory-notice";
+export type { ScatterChartProps, ScatterPoint } from "./components/scatter-chart";
+export { ScatterChart } from "./components/scatter-chart";
 export type { ScrollAreaProps, ScrollBarProps } from "./components/scroll-area";
 export { ScrollArea, ScrollBar } from "./components/scroll-area";
 export type { SelectContentProps, SelectItemProps, SelectTriggerProps } from "./components/select";
@@ -194,8 +215,12 @@ export type { SeparatorProps } from "./components/separator";
 export { Separator } from "./components/separator";
 export type { SliderProps } from "./components/slider";
 export { Slider } from "./components/slider";
+export type { SparklineProps } from "./components/sparkline";
+export { Sparkline } from "./components/sparkline";
 export type { StackAlign, StackDirection, StackProps } from "./components/stack";
 export { Stack } from "./components/stack";
+export type { StackedBarChartProps } from "./components/stacked-bar-chart";
+export { StackedBarChart } from "./components/stacked-bar-chart";
 export type { StreamingStatus, StreamingTextProps } from "./components/streaming-text";
 export { StreamingText } from "./components/streaming-text";
 export type { SwitchProps } from "./components/switch";
@@ -235,4 +260,18 @@ export {
 } from "./components/toolbar";
 export type { TooltipContentProps } from "./components/tooltip";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/tooltip";
+export type { TreemapChartProps } from "./components/treemap-chart";
+export { TreemapChart } from "./components/treemap-chart";
 export { VisuallyHidden } from "./components/visually-hidden";
+export type { WaterfallChartProps, WaterfallItem } from "./components/waterfall-chart";
+export { WaterfallChart } from "./components/waterfall-chart";
+
+// Chart tokens (for consumers building custom charts)
+export {
+	type ChartDataPoint,
+	type ConfidencePoint,
+	chartColors,
+	chartFont,
+	chartSpacing,
+	type TimeSeriesPoint,
+} from "./lib/chart-tokens";
