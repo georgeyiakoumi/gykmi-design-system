@@ -1,5 +1,11 @@
 # @gykmi/ui
 
+## 1.1.0
+
+### Minor Changes
+
+- [#19](https://github.com/georgeyiakoumi/gykmi-design-system/pull/19) [`75e5b0f`](https://github.com/georgeyiakoumi/gykmi-design-system/commit/75e5b0f159a4196e67365c53ec97648baee79ce2) Thanks [@georgeyiakoumi](https://github.com/georgeyiakoumi)! - Add DataViz layer: 14 visx chart components (LineChart, BarChart, Sparkline, DonutChart, StackedBarChart, ScatterChart, CandlestickChart, WaterfallChart, BulletChart, GaugeChart, HeatmapChart, TreemapChart, RadarChart, ConfidenceChart) with tooltips, keyboard a11y, and accessible data table fallbacks.
+
 ## 1.0.1
 
 ### Patch Changes
