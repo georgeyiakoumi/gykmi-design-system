@@ -1,5 +1,5 @@
 {
-	"$description": "Semantic tokens — dark theme. Every value references a primitive, never a raw value. PLACEHOLDER mappings until George supplies final palette.",
+	"$description": "Semantic tokens — dark theme. Every value references a primitive, never a raw value.",
 	"surface": {
 		"default": { "$value": "{color.neutral.900}", "$type": "color" },
 		"raised": { "$value": "{color.neutral.800}", "$type": "color" },

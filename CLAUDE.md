@@ -23,7 +23,7 @@ as npm packages, consumed by a real app to prove distribution.
 - Every component (from M2) needs: full state matrix, a11y, a Storybook story, tests.
 - Done criteria are mechanical. Meet them literally.
 - British spelling in prose and docs.
-- Token values are PLACEHOLDERS until George supplies real palette from Figma.
+- Token values are the source of truth, synced to Figma variables.
 
 ## Git workflow — non-negotiable
 
@@ -66,7 +66,7 @@ Before raising a PR:
 - Tag format: `v0.1.0`, `v0.2.0`, etc.
 - Release description pulls from the generated CHANGELOG
 - Pre-release versions use: `v0.1.0-alpha.0`, `v0.1.0-beta.1`, etc. when appropriate
-- npm publishing is dry-run only until George decides to publish for real
+- npm publishing is dry-run only unless explicitly told to publish
 
 ## Tracking
 
@@ -98,6 +98,7 @@ Before raising a PR:
 | M4 | POV layer | Done |
 | M5 | Dogfood (consuming app) | Done |
 | M6 | Governance, docs, polish | Done |
+| M7 | Figma loop | Done |
 
 ## Technical notes (learned during the build)
 
@@ -116,7 +117,14 @@ Before raising a PR:
 - `onlyBuiltDependencies` in `package.json` is ignored in pnpm 11
 
 ### CI
-- Visual regression is a separate workflow (`visual-regression.yml`) from CI (`ci.yml`) — so it doesn't block PRs before baselines exist
+- Visual regression removed — cross-platform font rendering makes Playwright screenshots unreliable. Deferred to Chromatic for production use.
+
+### Figma integration
+- Figma MCP (remote server) for write access to canvas
+- Code leads, Figma mirrors. Never fix code by editing Figma — fix the code and re-sync.
+- Token sync is repeatable via `use_figma` MCP tool
+- Code Connect requires Org/Enterprise plan — using component descriptions as workaround
+- Figma file key: `tqcsSSGM38hdEU4Yaqsmdn`
 
 ## After /compact — re-read this file
 If the conversation has been compacted, re-read this entire file before continuing.
@@ -124,7 +132,7 @@ Check the current Linear issue and confirm which branch you should be on.
 
 ## Working agreement
 - Decisions before code. Ask before assuming.
-- Never fabricate values, palettes, or config not provided. Label placeholders.
+- Never fabricate values, palettes, or config not provided.
 - Log decisions in DECISIONS.md as they're made.
 - One ticket per commit. One issue per branch per PR.
 - Don't trust automated codegen blindly — verify output before committing.
