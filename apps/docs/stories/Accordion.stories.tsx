@@ -5,6 +5,7 @@ const meta = {
 	title: "Components/Accordion",
 	component: Accordion,
 	tags: ["autodocs"],
+	args: { type: "single" },
 } satisfies Meta<typeof Accordion>;
 
 export default meta;

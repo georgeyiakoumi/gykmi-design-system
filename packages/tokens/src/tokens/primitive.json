@@ -1,7 +1,7 @@
 {
-	"$description": "Primitive tokens — PLACEHOLDER values until George supplies real palette from Figma.",
+	"$description": "Primitive design tokens. Source of truth — synced to Figma variables.",
 	"color": {
-		"$description": "Colour scales. PLACEHOLDER palette — will be replaced with Figma values.",
+		"$description": "Colour scales.",
 		"neutral": {
 			"0": { "$value": "#ffffff", "$type": "color" },
 			"50": { "$value": "#fafafa", "$type": "color" },
@@ -71,10 +71,13 @@
 		}
 	},
 	"spacing": {
-		"$description": "Spacing scale. PLACEHOLDER — will be calibrated to final type scale.",
+		"$description": "Spacing scale (4px base).",
 		"0": { "$value": "0px", "$type": "dimension" },
+		"0.5": { "$value": "2px", "$type": "dimension" },
 		"1": { "$value": "4px", "$type": "dimension" },
+		"1.5": { "$value": "6px", "$type": "dimension" },
 		"2": { "$value": "8px", "$type": "dimension" },
+		"2.5": { "$value": "10px", "$type": "dimension" },
 		"3": { "$value": "12px", "$type": "dimension" },
 		"4": { "$value": "16px", "$type": "dimension" },
 		"5": { "$value": "20px", "$type": "dimension" },
@@ -87,7 +90,7 @@
 		"24": { "$value": "96px", "$type": "dimension" }
 	},
 	"fontSize": {
-		"$description": "Type scale. PLACEHOLDER — will be replaced with final type system.",
+		"$description": "Type scale.",
 		"xs": { "$value": "0.75rem", "$type": "dimension" },
 		"sm": { "$value": "0.875rem", "$type": "dimension" },
 		"base": { "$value": "1rem", "$type": "dimension" },
@@ -98,20 +101,35 @@
 		"4xl": { "$value": "2.25rem", "$type": "dimension" }
 	},
 	"lineHeight": {
-		"$description": "Line heights. PLACEHOLDER.",
+		"$description": "Line heights.",
 		"tight": { "$value": "1.25", "$type": "number" },
 		"normal": { "$value": "1.5", "$type": "number" },
 		"relaxed": { "$value": "1.75", "$type": "number" }
 	},
 	"fontWeight": {
-		"$description": "Font weights. PLACEHOLDER.",
+		"$description": "Font weights.",
 		"normal": { "$value": "400", "$type": "number" },
 		"medium": { "$value": "500", "$type": "number" },
 		"semibold": { "$value": "600", "$type": "number" },
 		"bold": { "$value": "700", "$type": "number" }
 	},
+	"fontFamily": {
+		"$description": "Font families.",
+		"sans": { "$value": "Inter", "$type": "fontFamily" },
+		"mono": { "$value": "JetBrains Mono", "$type": "fontFamily" },
+		"serif": { "$value": "Georgia", "$type": "fontFamily" }
+	},
+	"letterSpacing": {
+		"$description": "Letter spacing scale.",
+		"tighter": { "$value": "-0.05em", "$type": "dimension" },
+		"tight": { "$value": "-0.025em", "$type": "dimension" },
+		"normal": { "$value": "0em", "$type": "dimension" },
+		"wide": { "$value": "0.025em", "$type": "dimension" },
+		"wider": { "$value": "0.05em", "$type": "dimension" },
+		"widest": { "$value": "0.1em", "$type": "dimension" }
+	},
 	"radius": {
-		"$description": "Border radii. PLACEHOLDER.",
+		"$description": "Border radii.",
 		"none": { "$value": "0px", "$type": "dimension" },
 		"sm": { "$value": "4px", "$type": "dimension" },
 		"md": { "$value": "8px", "$type": "dimension" },
@@ -120,7 +138,7 @@
 		"full": { "$value": "9999px", "$type": "dimension" }
 	},
 	"shadow": {
-		"$description": "Box shadows. PLACEHOLDER.",
+		"$description": "Box shadows.",
 		"sm": { "$value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)", "$type": "shadow" },
 		"md": {
 			"$value": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",

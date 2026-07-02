@@ -67,13 +67,16 @@ cd apps/dashboard && npx playwright test
 
 ```
 DTCG JSON → Style Dictionary → CSS custom properties → Tailwind @theme → Components
+                                       ↓
+                              Figma variables (synced)
 ```
 
-- **Tokens:** DTCG-format JSON, built by Style Dictionary into CSS vars + TS types
+- **Tokens:** DTCG-format JSON, built by Style Dictionary into CSS vars + TS types. Code is the source of truth.
 - **Styling:** Tailwind v4 with `@theme inline`, tokens as source of truth
 - **Components:** Radix primitives, typed props API, Tailwind classes internal
 - **Distribution:** compiled CSS (`@gykmi/ui/css`) + Tailwind theme (`@gykmi/ui/theme`)
-- **Testing:** 142 unit tests (Vitest + axe) + 8 E2E tests (Playwright). Visual regression deferred to Chromatic for production use.
+- **Figma:** tokens synced as variables (Primitives + Semantic with light/dark modes), 25 components mirrored as a published library, 15 text styles with variable bindings
+- **Testing:** 142 unit tests (Vitest + axe) + 8 E2E tests (Playwright)
 
 ## Format on save
 

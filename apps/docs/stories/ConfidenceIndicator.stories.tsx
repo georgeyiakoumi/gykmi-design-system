@@ -9,6 +9,7 @@ const meta = {
 		level: { control: "select", options: ["high", "medium", "low", "uncertain"] },
 		score: { control: { type: "range", min: 0, max: 100 } },
 	},
+	args: { level: "high" },
 } satisfies Meta<typeof ConfidenceIndicator>;
 
 export default meta;

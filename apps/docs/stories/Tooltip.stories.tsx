@@ -1,7 +1,7 @@
 import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-const meta = {
+const meta: Meta<typeof Tooltip> = {
 	title: "Components/Tooltip",
 	component: Tooltip,
 	tags: ["autodocs"],
@@ -12,7 +12,7 @@ const meta = {
 			</TooltipProvider>
 		),
 	],
-} satisfies Meta<typeof Tooltip>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
