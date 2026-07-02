@@ -16,8 +16,8 @@ Closes GEO-
 - [ ] Tests updated and green (Vitest + axe)
 - [ ] Changeset added with the correct bump level
 - [ ] `MIGRATION.md` updated (majors only)
-- [ ] Figma re-synced and Code Connect current (visual or structural changes)
-- [ ] CI green: lint, typecheck, test, build
+- [ ] Figma re-synced and component descriptions current (visual or structural changes)
+- [ ] CI green: lint, typecheck, test, build, publint, attw
 
 ## Verification
 

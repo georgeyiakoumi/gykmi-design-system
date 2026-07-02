@@ -35,8 +35,8 @@ Every component meets the same standard, no exceptions:
 If the change is visual or structural:
 
 - Re-run the token sync if tokens changed.
-- Re-push the component to Figma via Code to Canvas.
-- Keep the Code Connect mapping current.
+- Re-push the component to Figma via the Figma MCP sync.
+- Update component descriptions with import path and usage example.
 
 When Figma and code disagree, code wins.
 
@@ -66,5 +66,5 @@ If breaking, add a `MIGRATION.md` entry: what changed, why, before and after, an
 - [ ] Tests updated and green (Vitest + axe)
 - [ ] Changeset added with the correct bump level
 - [ ] `MIGRATION.md` updated (majors only)
-- [ ] Figma re-synced and Code Connect current (visual or structural changes)
+- [ ] Figma re-synced and component descriptions current (visual or structural changes)
 - [ ] CI green: lint, typecheck, test, build, publint, attw
