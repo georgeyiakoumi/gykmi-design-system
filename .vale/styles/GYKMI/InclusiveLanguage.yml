@@ -1,0 +1,17 @@
+extends: substitution
+message: "Use inclusive language: '%s' instead of '%s'."
+level: warning
+ignorecase: true
+swap:
+  chairman: chair
+  chairmen: chairs
+  mankind: people
+  manpower: workforce
+  he or she: they
+  his or her: their
+  him or her: them
+  master: primary
+  slave: secondary
+  blacklist: blocklist
+  whitelist: allowlist
+  grandfathered: legacy

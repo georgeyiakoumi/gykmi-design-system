@@ -1,0 +1,7 @@
+extends: metric
+message: "Reading level is grade %s. Aim for grade 12 or below for user-facing content."
+level: warning
+formula: |
+  (0.39 * words / sentences) + (11.8 * syllables / words) - 15.59
+condition: ">"
+threshold: 16

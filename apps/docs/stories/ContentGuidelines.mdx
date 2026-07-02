@@ -1,0 +1,141 @@
+# Voice and content guidelines
+
+How we write in the GYKMI design system. These guidelines apply to all user-facing copy: component microcopy, documentation, error messages, notifications, and any surface where a user reads text.
+
+## Voice
+
+**Clear, precise, and respectful of the reader's expertise.** We write for financial professionals who make decisions under time pressure. Every word earns its place.
+
+| Trait | What it means | Example |
+|---|---|---|
+| **Direct** | Lead with the information, not the context | "3 transactions pending review" not "There are currently 3 transactions that require your review" |
+| **Precise** | Use specific numbers and terms, not vague language | "Updated 2 minutes ago" not "Recently updated" |
+| **Calm** | Don't alarm unnecessarily; state facts | "Data feed delayed by 4 hours" not "WARNING: Data may be inaccurate!" |
+| **Professional** | Respect the reader's expertise; don't over-explain | "FCA ref: FRN-123456" not "Financial Conduct Authority reference number: FRN-123456" |
+
+## Tone by context
+
+The voice stays the same. The tone adjusts:
+
+- **Neutral/informational:** factual, minimal. "Analysis complete. 92% confidence."
+- **Success:** brief confirmation. "Transaction submitted." Not "Great job! Your transaction has been successfully submitted!"
+- **Warning:** state the issue and the action. "Market data feed is 4 hours stale. Results may not reflect current conditions."
+- **Error:** state what happened, what the user can do. "Request timed out. Retry or contact support." Not "Oops! Something went wrong."
+- **Regulatory:** formal, exact. Use the framework's own language. "This firm is authorised and regulated by the Financial Conduct Authority."
+
+## UX writing principles
+
+### 1. Front-load the important information
+
+Users scan. Put the key fact first.
+
+| Do | Don't |
+|---|---|
+| "3 positions exceeding risk threshold" | "We've detected that some of your positions may be exceeding the configured risk threshold" |
+| "$4.2M projected revenue" | "Based on our analysis, the projected revenue figure is $4.2M" |
+
+### 2. Use sentence case, not title case
+
+Sentence case is easier to scan and feels less formal.
+
+| Do | Don't |
+|---|---|
+| "Revenue forecast" | "Revenue Forecast" |
+| "Active positions" | "Active Positions" |
+
+Exception: proper nouns and framework names (FCA, MiFID II, Bloomberg).
+
+### 3. Keep it short
+
+If a label can be one word, use one word. If a message can be one sentence, use one sentence.
+
+| Do | Don't |
+|---|---|
+| "Retry" | "Click here to try again" |
+| "No data available" | "There is currently no data available to display" |
+| "Updated 2m ago" | "This data was last refreshed approximately 2 minutes ago" |
+
+### 4. Avoid promissory and claims language
+
+Regulated products cannot make promises or guarantees. This is non-negotiable.
+
+**Never use:**
+- "guaranteed", "risk-free", "no risk", "safe investment"
+- "will increase", "will grow", "assured returns"
+- "best", "leading", "number one" (unless verifiable)
+
+**Instead use:**
+- "estimated", "projected", "based on historical data"
+- "may", "could", "is expected to"
+- "past performance is not a reliable indicator of future results"
+
+### 5. Use consistent terminology
+
+| Preferred | Avoid |
+|---|---|
+| "sign in" | "log in", "login" |
+| "select" | "choose", "pick" |
+| "remove" | "delete" (unless permanent and destructive) |
+| "submit" | "send" (for forms) |
+| "position" | "holding", "investment" (be consistent) |
+| "transaction" | "trade", "deal" (unless domain-specific) |
+| "counterparty" | "other party", "them" |
+| "AUM" | "assets under management" (use the abbreviation after first use) |
+| "P&L" | "profit and loss" (use the abbreviation after first use) |
+
+### 6. Write inclusive copy
+
+- Use "they/them" for unknown individuals
+- Avoid gendered language ("chairman" → "chair")
+- Don't use colour alone to convey meaning (pair with text/icons)
+- Write for a global audience — avoid idioms and cultural references
+
+## Component microcopy standards
+
+### Error messages
+
+Format: **What happened** + **what to do**.
+
+```
+Request timed out. Retry or contact support.
+Rate limit exceeded. Try again in 30 seconds.
+Model unavailable. Analysis cannot be completed at this time.
+```
+
+### Empty states
+
+Format: **What's missing** + (optionally) **how to fix it**.
+
+```
+No transactions match the current filters.
+No data available for the selected period.
+```
+
+### Disclaimers
+
+Always include when showing AI-generated content:
+
+```
+AI-generated analysis. Results should be verified by qualified personnel.
+Projections are based on historical data. Actual results may differ materially.
+```
+
+### Regulatory notices
+
+Use the framework's own language. Don't paraphrase.
+
+```
+This firm is authorised and regulated by the Financial Conduct Authority.
+Ref: FRN-123456
+```
+
+## Enforcement
+
+Content is linted by [Vale](https://vale.sh) in CI. The following rules are enforced:
+
+- **No promissory language** — "guaranteed", "risk-free", etc. are flagged
+- **Preferred terms** — substitutions are suggested (e.g. "log in" → "sign in")
+- **Inclusive language** — gendered terms are flagged
+- **Readability** — Flesch-Kincaid grade level checked on user-facing content
+
+See the Vale configuration in `.vale/` for the full rule set.

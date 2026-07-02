@@ -1,0 +1,17 @@
+extends: existence
+message: "Avoid promissory or claims language in regulated content: '%s'. Use 'estimated', 'projected', or 'may' instead."
+level: error
+ignorecase: true
+tokens:
+  - guaranteed
+  - risk-free
+  - risk free
+  - no risk
+  - safe investment
+  - assured returns
+  - will increase
+  - will grow
+  - assured
+  - certain to
+  - promise
+  - zero risk

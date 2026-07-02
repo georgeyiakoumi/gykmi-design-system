@@ -1,0 +1,11 @@
+extends: substitution
+message: "Use '%s' instead of '%s'."
+level: warning
+ignorecase: true
+swap:
+  log in: sign in
+  login: sign in
+  logged in: signed in
+  choose: select
+  pick: select
+  please: ""
