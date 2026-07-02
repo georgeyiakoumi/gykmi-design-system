@@ -63,3 +63,17 @@ Decisions made during development, logged as they happen.
 **Decision:** Build a full-featured DataTable with sorting, column visibility, pagination, sticky headers, empty/skeleton states — not just table primitives.
 **Why:** Dense data tables are the signature surface of fintech products. A full component is more impressive and more useful than composable primitives for the portfolio case study.
 **What I almost did instead:** Lighter table primitives (Table, TableRow, TableCell) that compose with existing components.
+
+## M10: Voice and content layer
+
+### D010 — Vale for prose linting (not custom scripts)
+**Date:** 02/07/2026
+**Decision:** Use Vale with custom style rules for content enforcement in CI.
+**Why:** Vale is the industry standard for prose linting, syntax-aware (handles Markdown/MDX), and integrates with GitHub Actions. Custom scripts would be fragile and harder to maintain.
+**What I almost did instead:** ESLint plugins for MDX content, or manual review only.
+
+### D011 — Fintech-specific rules over generic style guides
+**Date:** 02/07/2026
+**Decision:** Write custom Vale rules for promissory language, preferred terms, and inclusive language specific to the fintech/regulated context, rather than adopting a generic style guide (Google, Microsoft).
+**Why:** Generic guides flag too much and miss the domain-specific risks (claims language, regulatory phrasing). Custom rules enforce what actually matters for a regulated product.
+**What I almost did instead:** Adopting the Microsoft Style Guide Vale package wholesale.

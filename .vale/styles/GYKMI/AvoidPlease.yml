@@ -1,0 +1,6 @@
+extends: existence
+message: "Avoid 'please' — be direct. State the action without preamble."
+level: warning
+ignorecase: true
+tokens:
+  - please

@@ -1,3 +1,7 @@
+export const meta = {
+	title: "Docs/Content Guidelines",
+};
+
 # Voice and content guidelines
 
 How we write in the GYKMI design system. These guidelines apply to all user-facing copy: component microcopy, documentation, error messages, notifications, and any surface where a user reads text.
@@ -29,7 +33,7 @@ The voice stays the same. The tone adjusts:
 
 Users scan. Put the key fact first.
 
-| Do | Don't |
+| Do | Avoid |
 |---|---|
 | "3 positions exceeding risk threshold" | "We've detected that some of your positions may be exceeding the configured risk threshold" |
 | "$4.2M projected revenue" | "Based on our analysis, the projected revenue figure is $4.2M" |
@@ -38,7 +42,7 @@ Users scan. Put the key fact first.
 
 Sentence case is easier to scan and feels less formal.
 
-| Do | Don't |
+| Do | Avoid |
 |---|---|
 | "Revenue forecast" | "Revenue Forecast" |
 | "Active positions" | "Active Positions" |
@@ -49,7 +53,7 @@ Exception: proper nouns and framework names (FCA, MiFID II, Bloomberg).
 
 If a label can be one word, use one word. If a message can be one sentence, use one sentence.
 
-| Do | Don't |
+| Do | Avoid |
 |---|---|
 | "Retry" | "Click here to try again" |
 | "No data available" | "There is currently no data available to display" |
@@ -80,8 +84,8 @@ Regulated products cannot make promises or guarantees. This is non-negotiable.
 | "position" | "holding", "investment" (be consistent) |
 | "transaction" | "trade", "deal" (unless domain-specific) |
 | "counterparty" | "other party", "them" |
-| "AUM" | "assets under management" (use the abbreviation after first use) |
-| "P&L" | "profit and loss" (use the abbreviation after first use) |
+| "AUM" | "assets under management" (abbreviation after first use) |
+| "P&L" | "profit and loss" (abbreviation after first use) |
 
 ### 6. Write inclusive copy
 
@@ -133,9 +137,9 @@ Ref: FRN-123456
 
 Content is linted by [Vale](https://vale.sh) in CI. The following rules are enforced:
 
-- **No promissory language** — "guaranteed", "risk-free", etc. are flagged
-- **Preferred terms** — substitutions are suggested (e.g. "log in" → "sign in")
-- **Inclusive language** — gendered terms are flagged
+- **No promissory language** — claims language is flagged as errors
+- **Preferred terms** — substitutions are suggested for consistency
+- **Inclusive language** — non-inclusive terms are flagged
 - **Readability** — Flesch-Kincaid grade level checked on user-facing content
 
 See the Vale configuration in `.vale/` for the full rule set.

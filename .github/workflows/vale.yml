@@ -4,8 +4,8 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "**.md"
-      - "**.mdx"
+      - "**/*.md"
+      - "**/*.mdx"
       - ".vale/**"
       - ".vale.ini"
 

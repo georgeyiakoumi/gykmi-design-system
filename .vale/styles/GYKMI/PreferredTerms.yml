@@ -8,4 +8,7 @@ swap:
   logged in: signed in
   choose: select
   pick: select
-  please: ""
+  delete: remove
+  send: submit
+  holding: position
+  trade: transaction
