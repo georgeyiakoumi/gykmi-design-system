@@ -50,13 +50,6 @@ cd apps/dashboard && npx playwright test
 | `@gykmi/docs` | Storybook documentation | — |
 | `@gykmi/dashboard` | Financial dashboard (consuming app) | — |
 
-## Apps
-
-| App | Description |
-|---|---|
-| `@gykmi/docs` | Storybook documentation (37 stories + 3 docs pages) |
-| `@gykmi/dashboard` | Financial dashboard (consuming app) |
-
 ## Components (43)
 
 **Layout:** Box, Stack, Separator
@@ -79,6 +72,8 @@ DTCG JSON → Style Dictionary → CSS custom properties → Tailwind @theme →
 - **Distribution:** compiled CSS (`@gykmi/ui/css`) + Tailwind theme (`@gykmi/ui/theme`)
 - **Figma:** tokens synced as variables (Primitives + Semantic with light/dark modes), 25 components mirrored as a published library, 15 text styles with variable bindings
 - **Testing:** 142 unit tests (Vitest + axe) + 8 E2E tests (Playwright)
+- **CI:** lint, typecheck, build, test, changeset enforcement, migration gate
+- **Release:** automated via Changesets — Version Packages PR on merge, publish on approval
 
 ## Format on save
 
