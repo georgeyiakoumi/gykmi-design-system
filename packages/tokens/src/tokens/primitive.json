@@ -110,6 +110,21 @@
 		"semibold": { "$value": "600", "$type": "number" },
 		"bold": { "$value": "700", "$type": "number" }
 	},
+	"fontFamily": {
+		"$description": "Font families.",
+		"sans": { "$value": "Inter", "$type": "fontFamily" },
+		"mono": { "$value": "JetBrains Mono", "$type": "fontFamily" },
+		"serif": { "$value": "Georgia", "$type": "fontFamily" }
+	},
+	"letterSpacing": {
+		"$description": "Letter spacing scale.",
+		"tighter": { "$value": "-0.05em", "$type": "dimension" },
+		"tight": { "$value": "-0.025em", "$type": "dimension" },
+		"normal": { "$value": "0em", "$type": "dimension" },
+		"wide": { "$value": "0.025em", "$type": "dimension" },
+		"wider": { "$value": "0.05em", "$type": "dimension" },
+		"widest": { "$value": "0.1em", "$type": "dimension" }
+	},
 	"radius": {
 		"$description": "Border radii. PLACEHOLDER.",
 		"none": { "$value": "0px", "$type": "dimension" },
