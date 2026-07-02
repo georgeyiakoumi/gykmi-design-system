@@ -9,6 +9,7 @@ const meta = {
 		severity: { control: "select", options: ["info", "warning", "critical"] },
 		dismissible: { control: "boolean" },
 	},
+	args: { title: "Notice", severity: "info" },
 } satisfies Meta<typeof ComplianceBanner>;
 
 export default meta;

@@ -5,6 +5,7 @@ const meta = {
 	title: "POV/AnalysisSection",
 	component: AnalysisSection,
 	tags: ["autodocs"],
+	args: { title: "Analysis" },
 } satisfies Meta<typeof AnalysisSection>;
 
 export default meta;

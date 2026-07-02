@@ -19,6 +19,8 @@ export interface DataTableColumn<T> {
 	width?: string;
 	/** Alignment */
 	align?: "left" | "center" | "right";
+	/** Sort value extractor for columns that render JSX */
+	sortValue?: (row: T) => string | number;
 }
 
 export type SortDirection = "asc" | "desc" | null;
@@ -86,8 +88,8 @@ function DataTableInner<T>(
 		return [...data].sort((a, b) => {
 			const col = columns.find((c) => c.key === activeSortKey);
 			if (!col) return 0;
-			const aVal = String(col.cell(a) ?? "");
-			const bVal = String(col.cell(b) ?? "");
+			const aVal = col.sortValue ? String(col.sortValue(a)) : String(col.cell(a) ?? "");
+			const bVal = col.sortValue ? String(col.sortValue(b)) : String(col.cell(b) ?? "");
 			const cmp = aVal.localeCompare(bVal, undefined, { numeric: true });
 			return activeSortDir === "desc" ? -cmp : cmp;
 		});
