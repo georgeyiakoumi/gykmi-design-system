@@ -5,6 +5,7 @@ import {
 	AnalysisSection,
 	AuditTrail,
 	Badge,
+	BarChart,
 	Button,
 	Card,
 	CardContent,
@@ -12,12 +13,15 @@ import {
 	CardHeader,
 	CardTitle,
 	ComplianceBanner,
+	ConfidenceChart,
 	ConfidenceIndicator,
 	DataProvenance,
 	DataTable,
 	Disclaimer,
+	LineChart,
 	RegulatoryNotice,
 	Separator,
+	Sparkline,
 	Stack,
 	Tabs,
 	TabsContent,
@@ -25,6 +29,40 @@ import {
 	TabsTrigger,
 } from "@gykmi/ui";
 import { useState } from "react";
+
+// Chart data
+const revenueData = [
+	{ date: "Jan", value: 3200000 },
+	{ date: "Feb", value: 3100000 },
+	{ date: "Mar", value: 3500000 },
+	{ date: "Apr", value: 3800000 },
+	{ date: "May", value: 3600000 },
+	{ date: "Jun", value: 4000000 },
+];
+
+const quarterlyData = [
+	{ label: "Q1 2025", value: 9800000 },
+	{ label: "Q2 2025", value: 10200000 },
+	{ label: "Q3 2025", value: 11500000 },
+	{ label: "Q4 2025", value: 10800000 },
+	{ label: "Q1 2026", value: 11200000 },
+	{ label: "Q2 2026", value: 12100000 },
+];
+
+const forecastData = [
+	{ date: "Jan", value: 3200000, low: 3000000, high: 3400000 },
+	{ date: "Feb", value: 3100000, low: 2800000, high: 3300000 },
+	{ date: "Mar", value: 3500000, low: 3200000, high: 3800000 },
+	{ date: "Apr", value: 3800000, low: 3500000, high: 4100000 },
+	{ date: "May", value: 3600000, low: 3200000, high: 4000000 },
+	{ date: "Jun", value: 4000000, low: 3600000, high: 4400000 },
+	{ date: "Jul", value: 4200000, low: 3600000, high: 4800000 },
+	{ date: "Aug", value: 4400000, low: 3700000, high: 5100000 },
+];
+
+const sparkAum = [138, 139, 140, 139, 141, 140, 142, 142.8];
+const sparkPositions = [820, 830, 835, 840, 838, 842, 845, 847];
+const sparkPnl = [1.2, 1.5, 1.8, 2.0, 1.9, 2.1, 2.3, 2.4];
 
 interface Transaction {
 	id: string;
@@ -202,22 +240,99 @@ export default function DashboardPage() {
 								<Card>
 									<CardHeader>
 										<CardDescription>Total AUM</CardDescription>
-										<CardTitle className="text-2xl">$142.8M</CardTitle>
+										<div className="flex items-end justify-between">
+											<CardTitle className="text-2xl">$142.8M</CardTitle>
+											<Sparkline data={sparkAum} label="AUM trend" height={28} width={80} />
+										</div>
 									</CardHeader>
 								</Card>
 								<Card>
 									<CardHeader>
 										<CardDescription>Active Positions</CardDescription>
-										<CardTitle className="text-2xl">847</CardTitle>
+										<div className="flex items-end justify-between">
+											<CardTitle className="text-2xl">847</CardTitle>
+											<Sparkline
+												data={sparkPositions}
+												label="Positions trend"
+												height={28}
+												width={80}
+											/>
+										</div>
 									</CardHeader>
 								</Card>
 								<Card>
 									<CardHeader>
 										<CardDescription>P&L (MTD)</CardDescription>
-										<CardTitle className="text-2xl text-success">+$2.4M</CardTitle>
+										<div className="flex items-end justify-between">
+											<CardTitle className="text-2xl text-success">+$2.4M</CardTitle>
+											<Sparkline
+												data={sparkPnl}
+												label="P&L trend"
+												height={28}
+												width={80}
+												color="var(--success-default)"
+											/>
+										</div>
 									</CardHeader>
 								</Card>
 							</div>
+
+							{/* Charts */}
+							<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+								<Card>
+									<CardHeader>
+										<CardTitle>Monthly Revenue</CardTitle>
+										<CardDescription>Trailing 6 months</CardDescription>
+									</CardHeader>
+									<CardContent>
+										<LineChart
+											data={revenueData}
+											title="Monthly Revenue"
+											showArea
+											height={240}
+											showTable
+										/>
+									</CardContent>
+								</Card>
+								<Card>
+									<CardHeader>
+										<CardTitle>Quarterly Comparison</CardTitle>
+										<CardDescription>Revenue by quarter</CardDescription>
+									</CardHeader>
+									<CardContent>
+										<BarChart
+											data={quarterlyData}
+											title="Quarterly Revenue"
+											height={240}
+											showTable
+										/>
+									</CardContent>
+								</Card>
+							</div>
+
+							{/* Confidence forecast */}
+							<Card>
+								<CardHeader>
+									<CardTitle>Revenue Forecast with Confidence</CardTitle>
+									<CardDescription>
+										Actual vs estimated with confidence band — AI-generated projection
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<ConfidenceChart
+										data={forecastData}
+										title="Revenue Forecast"
+										estimatedAfter={6}
+										bandLabel="95% confidence interval"
+										height={280}
+										showTable
+									/>
+									<Disclaimer variant="info" className="mt-3">
+										Projections are AI-generated based on historical patterns and current market
+										data. Actual results may differ materially.
+									</Disclaimer>
+								</CardContent>
+							</Card>
 
 							{/* AI Analysis */}
 							<AnalysisSection
