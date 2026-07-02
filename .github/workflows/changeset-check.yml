@@ -1,0 +1,59 @@
+name: Changeset Check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  changeset-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Check if packages/* changed
+      - name: Check for package changes
+        id: packages
+        run: |
+          CHANGED=$(git diff --name-only origin/main...HEAD -- 'packages/' || true)
+          if [ -n "$CHANGED" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Require a changeset if packages changed
+      - name: Require changeset
+        if: steps.packages.outputs.changed == 'true'
+        run: |
+          if ! ls .changeset/*.md 1>/dev/null 2>&1 || [ "$(ls .changeset/*.md 2>/dev/null | grep -v README)" = "" ]; then
+            echo "::error::This PR changes packages/ but has no changeset. Run 'pnpm changeset' to add one."
+            exit 1
+          fi
+          echo "Changeset found."
+
+      # Gate majors on MIGRATION.md
+      - name: Check migration note for major bumps
+        if: steps.packages.outputs.changed == 'true'
+        run: |
+          MAJOR=$(grep -l "major" .changeset/*.md 2>/dev/null | grep -v README || true)
+          if [ -n "$MAJOR" ]; then
+            MIGRATION_CHANGED=$(git diff --name-only origin/main...HEAD -- 'MIGRATION.md' || true)
+            if [ -z "$MIGRATION_CHANGED" ]; then
+              echo "::error::This PR includes a major changeset but MIGRATION.md was not updated. Add a migration note."
+              exit 1
+            fi
+            echo "Major changeset found and MIGRATION.md updated."
+          else
+            echo "No major changeset — migration note not required."
+          fi

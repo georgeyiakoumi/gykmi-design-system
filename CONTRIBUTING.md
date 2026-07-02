@@ -64,6 +64,10 @@ Every component follows the same pattern. Use Button as the reference implementa
 
 5. **Verify** — `pnpm turbo run lint typecheck build test` must pass
 
+## Change process
+
+For the full seven-step lifecycle of a component change (propose, classify, build, sync design, changeset, migration note, review), see [CHANGE_PROCESS.md](CHANGE_PROCESS.md). The pre-merge checklist lives there too.
+
 ## Making changes
 
 ### Versioning
