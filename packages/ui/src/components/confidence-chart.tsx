@@ -7,8 +7,9 @@ import { Group } from "@visx/group";
 import { ParentSize } from "@visx/responsive";
 import { scaleLinear, scalePoint } from "@visx/scale";
 import { AreaClosed, LinePath } from "@visx/shape";
-import { type ComponentPropsWithRef, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { type ConfidencePoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
+import { ChartTooltip } from "../lib/chart-tooltip";
 import { cn } from "../lib/cn";
 
 export interface ConfidenceChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
@@ -28,6 +29,8 @@ export interface ConfidenceChartProps extends Omit<ComponentPropsWithRef<"div">,
 	showTable?: boolean;
 	/** Show dashed line for estimated/projected values */
 	estimatedAfter?: number;
+	/** Format value for tooltip display */
+	formatValue?: (value: number) => string;
 }
 
 function ConfidenceChartInner({
@@ -36,12 +39,16 @@ function ConfidenceChartInner({
 	height,
 	showGrid = true,
 	estimatedAfter,
+	onHover,
+	onLeave,
 }: {
 	data: ConfidencePoint[];
 	width: number;
 	height: number;
 	showGrid?: boolean;
 	estimatedAfter?: number;
+	onHover?: (d: ConfidencePoint, left: number, top: number) => void;
+	onLeave?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -151,6 +158,11 @@ function ConfidenceChartInner({
 						fill={i >= splitIndex ? chartColors.background : chartColors.primary}
 						stroke={chartColors.primary}
 						strokeWidth={i >= splitIndex ? 1.5 : 0}
+						style={{ cursor: "pointer" }}
+						onMouseEnter={() =>
+							onHover?.(d, (xScale(d.date) ?? 0) + margin.left, yScale(d.value) + margin.top)
+						}
+						onMouseLeave={() => onLeave?.()}
 					/>
 				))}
 
@@ -194,10 +206,17 @@ export const ConfidenceChart = forwardRef<HTMLDivElement, ConfidenceChartProps>(
 			showGrid = true,
 			showTable = false,
 			estimatedAfter,
+			formatValue,
 			...props
 		},
 		ref,
 	) => {
+		const [tooltip, setTooltip] = useState<{
+			data: ConfidencePoint;
+			left: number;
+			top: number;
+		} | null>(null);
+
 		if (loading) {
 			return (
 				<div
@@ -229,8 +248,10 @@ export const ConfidenceChart = forwardRef<HTMLDivElement, ConfidenceChartProps>(
 			);
 		}
 
+		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
+
 		return (
-			<div ref={ref} className={cn("w-full", className)} {...props}>
+			<div ref={ref} className={cn("relative w-full", className)} {...props}>
 				<div
 					role="img"
 					aria-label={`${title}: confidence chart with ${data.length} data points showing value with ${bandLabel}`}
@@ -244,10 +265,21 @@ export const ConfidenceChart = forwardRef<HTMLDivElement, ConfidenceChartProps>(
 								height={height}
 								showGrid={showGrid}
 								estimatedAfter={estimatedAfter}
+								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
+								onLeave={() => setTooltip(null)}
 							/>
 						)}
 					</ParentSize>
 				</div>
+				{tooltip && (
+					<ChartTooltip top={tooltip.top} left={tooltip.left}>
+						<div className="font-medium">{tooltip.data.date}</div>
+						<div>{fmt(tooltip.data.value)}</div>
+						<div className="text-xs opacity-70">
+							Range: {fmt(tooltip.data.low)} – {fmt(tooltip.data.high)}
+						</div>
+					</ChartTooltip>
+				)}
 
 				{/* Legend */}
 				<div className="mt-2 flex items-center gap-4 text-xs text-text-muted">

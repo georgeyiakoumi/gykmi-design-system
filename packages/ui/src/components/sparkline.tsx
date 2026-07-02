@@ -4,8 +4,9 @@ import { curveMonotoneX } from "@visx/curve";
 import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
 import { LinePath } from "@visx/shape";
-import { type ComponentPropsWithRef, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartSpacing } from "../lib/chart-tokens";
+import { ChartTooltip } from "../lib/chart-tooltip";
 import { cn } from "../lib/cn";
 
 export interface SparklineProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
@@ -21,6 +22,8 @@ export interface SparklineProps extends Omit<ComponentPropsWithRef<"div">, "chil
 	width?: number;
 	/** Whether the chart is loading */
 	loading?: boolean;
+	/** Format value for tooltip display */
+	formatValue?: (value: number) => string;
 }
 
 function SparklineInner({
@@ -28,11 +31,15 @@ function SparklineInner({
 	width,
 	height,
 	color = chartColors.primary,
+	onHover,
+	onLeave,
 }: {
 	data: number[];
 	width: number;
 	height: number;
 	color?: string;
+	onHover?: (index: number, value: number, left: number, top: number) => void;
+	onLeave?: () => void;
 }) {
 	const margin = chartSpacing.sparklineMargin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -63,15 +70,44 @@ function SparklineInner({
 				strokeWidth={1.5}
 				curve={curveMonotoneX}
 			/>
+			{points.map((pt) => (
+				<circle
+					key={`hover-${pt.x}`}
+					cx={xScale(pt.x)}
+					cy={yScale(pt.y)}
+					r={8}
+					fill="transparent"
+					style={{ cursor: "pointer" }}
+					onMouseEnter={() => onHover?.(pt.x, pt.y, xScale(pt.x), yScale(pt.y))}
+					onMouseLeave={() => onLeave?.()}
+				/>
+			))}
 		</svg>
 	);
 }
 
 export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
 	(
-		{ className, data, label, color, height = 32, width: fixedWidth, loading = false, ...props },
+		{
+			className,
+			data,
+			label,
+			color,
+			height = 32,
+			width: fixedWidth,
+			loading = false,
+			formatValue,
+			...props
+		},
 		ref,
 	) => {
+		const [tooltip, setTooltip] = useState<{
+			index: number;
+			value: number;
+			left: number;
+			top: number;
+		} | null>(null);
+		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 		if (loading) {
 			return (
 				<div
@@ -100,23 +136,47 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
 			);
 		}
 
+		const handleHover = (index: number, value: number, left: number, top: number) =>
+			setTooltip({ index, value, left, top });
+		const handleLeave = () => setTooltip(null);
+
 		return (
 			<div
 				ref={ref}
-				className={cn("inline-block", className)}
+				className={cn("relative inline-block", className)}
 				style={{ height, width: fixedWidth ?? "100%" }}
 				role="img"
 				aria-label={`${label}: sparkline showing trend from ${data[0]} to ${data[data.length - 1]}`}
 				{...props}
 			>
 				{fixedWidth ? (
-					<SparklineInner data={data} width={fixedWidth} height={height} color={color} />
+					<SparklineInner
+						data={data}
+						width={fixedWidth}
+						height={height}
+						color={color}
+						onHover={handleHover}
+						onLeave={handleLeave}
+					/>
 				) : (
 					<ParentSize>
 						{({ width: w }) => (
-							<SparklineInner data={data} width={w} height={height} color={color} />
+							<SparklineInner
+								data={data}
+								width={w}
+								height={height}
+								color={color}
+								onHover={handleHover}
+								onLeave={handleLeave}
+							/>
 						)}
 					</ParentSize>
+				)}
+				{tooltip && (
+					<ChartTooltip top={tooltip.top} left={tooltip.left}>
+						<div className="font-medium">#{tooltip.index}</div>
+						<div>{fmt(tooltip.value)}</div>
+					</ChartTooltip>
 				)}
 			</div>
 		);

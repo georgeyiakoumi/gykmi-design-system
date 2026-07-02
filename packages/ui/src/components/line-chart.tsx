@@ -7,8 +7,9 @@ import { Group } from "@visx/group";
 import { ParentSize } from "@visx/responsive";
 import { scaleLinear, scalePoint } from "@visx/scale";
 import { AreaClosed, LinePath } from "@visx/shape";
-import { type ComponentPropsWithRef, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartFont, chartSpacing, type TimeSeriesPoint } from "../lib/chart-tokens";
+import { ChartTooltip } from "../lib/chart-tooltip";
 import { cn } from "../lib/cn";
 
 export interface LineChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
@@ -26,6 +27,8 @@ export interface LineChartProps extends Omit<ComponentPropsWithRef<"div">, "chil
 	showGrid?: boolean;
 	/** Show accessible data table fallback */
 	showTable?: boolean;
+	/** Format value for tooltip display */
+	formatValue?: (value: number) => string;
 }
 
 function LineChartInner({
@@ -34,12 +37,16 @@ function LineChartInner({
 	height,
 	showArea = false,
 	showGrid = true,
+	onHover,
+	onLeave,
 }: {
 	data: TimeSeriesPoint[];
 	width: number;
 	height: number;
 	showArea?: boolean;
 	showGrid?: boolean;
+	onHover?: (d: TimeSeriesPoint, left: number, top: number) => void;
+	onLeave?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -98,8 +105,16 @@ function LineChartInner({
 						key={d.date}
 						cx={xScale(d.date) ?? 0}
 						cy={yScale(d.value)}
-						r={3}
+						r={5}
 						fill={chartColors.primary}
+						fillOpacity={0.8}
+						stroke={chartColors.background}
+						strokeWidth={2}
+						style={{ cursor: "pointer" }}
+						onMouseEnter={() =>
+							onHover?.(d, (xScale(d.date) ?? 0) + margin.left, yScale(d.value) + margin.top)
+						}
+						onMouseLeave={() => onLeave?.()}
 					/>
 				))}
 				<AxisBottom
@@ -141,10 +156,17 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 			height = 300,
 			showGrid = true,
 			showTable = false,
+			formatValue,
 			...props
 		},
 		ref,
 	) => {
+		const [tooltip, setTooltip] = useState<{
+			data: TimeSeriesPoint;
+			left: number;
+			top: number;
+		} | null>(null);
+
 		if (loading) {
 			return (
 				<div
@@ -176,8 +198,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 			);
 		}
 
+		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
+
 		return (
-			<div ref={ref} className={cn("w-full", className)} {...props}>
+			<div ref={ref} className={cn("relative w-full", className)} {...props}>
 				<div
 					role="img"
 					aria-label={`${title}: line chart with ${data.length} data points`}
@@ -191,10 +215,18 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 								height={height}
 								showArea={showArea}
 								showGrid={showGrid}
+								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
+								onLeave={() => setTooltip(null)}
 							/>
 						)}
 					</ParentSize>
 				</div>
+				{tooltip && (
+					<ChartTooltip top={tooltip.top} left={tooltip.left}>
+						<div className="font-medium">{tooltip.data.date}</div>
+						<div>{fmt(tooltip.data.value)}</div>
+					</ChartTooltip>
+				)}
 				{showTable && (
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>

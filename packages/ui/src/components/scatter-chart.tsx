@@ -1,36 +1,37 @@
 "use client";
 
 import { AxisBottom, AxisLeft } from "@visx/axis";
-import { GridRows } from "@visx/grid";
+import { GridColumns, GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
 import { ParentSize } from "@visx/responsive";
-import { scaleBand, scaleLinear } from "@visx/scale";
-import { Bar } from "@visx/shape";
+import { scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
-import { type ChartDataPoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
+import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
 import { cn } from "../lib/cn";
 
-export interface BarChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
-	/** Chart data points */
-	data: ChartDataPoint[];
-	/** Chart title for accessibility */
+export interface ScatterPoint {
+	x: number;
+	y: number;
+	label?: string;
+	size?: number;
+}
+
+export interface ScatterChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
+	data: ScatterPoint[];
 	title: string;
-	/** Whether the chart is loading */
+	xLabel?: string;
+	yLabel?: string;
 	loading?: boolean;
-	/** Custom height */
 	height?: number;
-	/** Show grid lines */
 	showGrid?: boolean;
-	/** Bar colour */
-	color?: string;
-	/** Show accessible data table fallback */
 	showTable?: boolean;
+	color?: string;
 	/** Format value for tooltip display */
 	formatValue?: (value: number) => string;
 }
 
-function BarChartInner({
+function ScatterInner({
 	data,
 	width,
 	height,
@@ -39,66 +40,65 @@ function BarChartInner({
 	onHover,
 	onLeave,
 }: {
-	data: ChartDataPoint[];
+	data: ScatterPoint[];
 	width: number;
 	height: number;
 	showGrid?: boolean;
 	color?: string;
-	onHover?: (d: ChartDataPoint, left: number, top: number) => void;
+	onHover?: (d: ScatterPoint, left: number, top: number) => void;
 	onLeave?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
 	const innerHeight = Math.max(0, height - margin.top - margin.bottom);
-
 	if (innerWidth <= 0 || innerHeight <= 0) return null;
 
-	const xScale = scaleBand({
-		domain: data.map((d) => d.label),
+	const xScale = scaleLinear({
+		domain: [Math.min(...data.map((d) => d.x)) * 0.9, Math.max(...data.map((d) => d.x)) * 1.1],
 		range: [0, innerWidth],
-		padding: 0.3,
+		nice: true,
 	});
-
 	const yScale = scaleLinear({
-		domain: [0, Math.max(...data.map((d) => d.value)) * 1.1],
+		domain: [Math.min(...data.map((d) => d.y)) * 0.9, Math.max(...data.map((d) => d.y)) * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});
 
 	return (
 		<svg width={width} height={height} role="img">
-			<title>Bar chart</title>
+			<title>Scatter chart</title>
 			<Group left={margin.left} top={margin.top}>
 				{showGrid && (
-					<GridRows
-						scale={yScale}
-						width={innerWidth}
-						stroke={chartColors.grid}
-						strokeOpacity={0.5}
-					/>
-				)}
-				{data.map((d) => {
-					const barWidth = xScale.bandwidth();
-					const barHeight = innerHeight - (yScale(d.value) ?? 0);
-					const barX = xScale(d.label) ?? 0;
-					const barY = innerHeight - barHeight;
-					return (
-						<Bar
-							key={d.label}
-							x={barX}
-							y={barY}
-							width={barWidth}
-							height={barHeight}
-							fill={color}
-							rx={4}
-							style={{ cursor: "pointer" }}
-							onMouseEnter={() =>
-								onHover?.(d, barX + barWidth / 2 + margin.left, barY + margin.top)
-							}
-							onMouseLeave={() => onLeave?.()}
+					<>
+						<GridRows
+							scale={yScale}
+							width={innerWidth}
+							stroke={chartColors.grid}
+							strokeOpacity={0.5}
 						/>
-					);
-				})}
+						<GridColumns
+							scale={xScale}
+							height={innerHeight}
+							stroke={chartColors.grid}
+							strokeOpacity={0.5}
+						/>
+					</>
+				)}
+				{data.map((d, i) => (
+					<circle
+						key={d.label ?? i}
+						cx={xScale(d.x)}
+						cy={yScale(d.y)}
+						r={d.size ?? 5}
+						fill={color}
+						fillOpacity={0.7}
+						stroke={color}
+						strokeWidth={1}
+						style={{ cursor: "pointer" }}
+						onMouseEnter={() => onHover?.(d, xScale(d.x) + margin.left, yScale(d.y) + margin.top)}
+						onMouseLeave={() => onLeave?.()}
+					/>
+				))}
 				<AxisBottom
 					top={innerHeight}
 					scale={xScale}
@@ -127,7 +127,7 @@ function BarChartInner({
 	);
 }
 
-export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
+export const ScatterChart = forwardRef<HTMLDivElement, ScatterChartProps>(
 	(
 		{
 			className,
@@ -135,21 +135,21 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 			title,
 			loading = false,
 			height = 300,
-			showGrid = true,
-			color,
+			showGrid,
 			showTable = false,
+			color,
 			formatValue,
 			...props
 		},
 		ref,
 	) => {
 		const [tooltip, setTooltip] = useState<{
-			data: ChartDataPoint;
+			data: ScatterPoint;
 			left: number;
 			top: number;
 		} | null>(null);
 
-		if (loading) {
+		if (loading)
 			return (
 				<div
 					ref={ref}
@@ -160,9 +160,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 					{...props}
 				/>
 			);
-		}
-
-		if (data.length === 0) {
+		if (data.length === 0)
 			return (
 				<div
 					ref={ref}
@@ -178,20 +176,18 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 					No data available
 				</div>
 			);
-		}
-
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
 			<div ref={ref} className={cn("relative w-full", className)} {...props}>
 				<div
 					role="img"
-					aria-label={`${title}: bar chart with ${data.length} data points`}
+					aria-label={`${title}: scatter chart with ${data.length} points`}
 					style={{ height }}
 				>
 					<ParentSize>
 						{({ width: w }) => (
-							<BarChartInner
+							<ScatterInner
 								data={data}
 								width={w}
 								height={height}
@@ -205,23 +201,27 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 				</div>
 				{tooltip && (
 					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.data.label}</div>
-						<div>{fmt(tooltip.data.value)}</div>
+						{tooltip.data.label && <div className="font-medium">{tooltip.data.label}</div>}
+						<div>
+							x: {fmt(tooltip.data.x)}, y: {fmt(tooltip.data.y)}
+						</div>
 					</ChartTooltip>
 				)}
 				{showTable && (
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
+								<th>X</th>
+								<th>Y</th>
 								<th>Label</th>
-								<th>Value</th>
 							</tr>
 						</thead>
 						<tbody>
-							{data.map((d) => (
-								<tr key={d.label}>
-									<td>{d.label}</td>
-									<td>{d.value}</td>
+							{data.map((d, i) => (
+								<tr key={d.label ?? i}>
+									<td>{d.x}</td>
+									<td>{d.y}</td>
+									<td>{d.label ?? ""}</td>
 								</tr>
 							))}
 						</tbody>
@@ -232,4 +232,4 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 	},
 );
 
-BarChart.displayName = "BarChart";
+ScatterChart.displayName = "ScatterChart";

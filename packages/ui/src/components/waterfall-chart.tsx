@@ -5,69 +5,80 @@ import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
 import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear } from "@visx/scale";
-import { Bar } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
-import { type ChartDataPoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
+import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
 import { cn } from "../lib/cn";
 
-export interface BarChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
-	/** Chart data points */
-	data: ChartDataPoint[];
-	/** Chart title for accessibility */
+export interface WaterfallItem {
+	label: string;
+	value: number;
+	isTotal?: boolean;
+}
+
+export interface WaterfallChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
+	data: WaterfallItem[];
 	title: string;
-	/** Whether the chart is loading */
 	loading?: boolean;
-	/** Custom height */
 	height?: number;
-	/** Show grid lines */
 	showGrid?: boolean;
-	/** Bar colour */
-	color?: string;
-	/** Show accessible data table fallback */
 	showTable?: boolean;
+	positiveColor?: string;
+	negativeColor?: string;
+	totalColor?: string;
 	/** Format value for tooltip display */
 	formatValue?: (value: number) => string;
 }
 
-function BarChartInner({
+function WaterfallInner({
 	data,
 	width,
 	height,
 	showGrid = true,
-	color = chartColors.primary,
+	positiveColor = chartColors.success,
+	negativeColor = chartColors.danger,
+	totalColor = chartColors.primary,
 	onHover,
 	onLeave,
 }: {
-	data: ChartDataPoint[];
+	data: WaterfallItem[];
 	width: number;
 	height: number;
 	showGrid?: boolean;
-	color?: string;
-	onHover?: (d: ChartDataPoint, left: number, top: number) => void;
+	positiveColor?: string;
+	negativeColor?: string;
+	totalColor?: string;
+	onHover?: (d: WaterfallItem, left: number, top: number) => void;
 	onLeave?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
 	const innerHeight = Math.max(0, height - margin.top - margin.bottom);
-
 	if (innerWidth <= 0 || innerHeight <= 0) return null;
 
+	let running = 0;
+	const cumulative = data.map((d) => {
+		if (d.isTotal) return { ...d, start: 0, end: running };
+		const start = running;
+		running += d.value;
+		return { ...d, start, end: running };
+	});
+
+	const allValues = cumulative.flatMap((d) => [d.start, d.end]);
 	const xScale = scaleBand({
 		domain: data.map((d) => d.label),
 		range: [0, innerWidth],
 		padding: 0.3,
 	});
-
 	const yScale = scaleLinear({
-		domain: [0, Math.max(...data.map((d) => d.value)) * 1.1],
+		domain: [Math.min(0, ...allValues) * 1.1, Math.max(...allValues) * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});
 
 	return (
 		<svg width={width} height={height} role="img">
-			<title>Bar chart</title>
+			<title>Waterfall chart</title>
 			<Group left={margin.left} top={margin.top}>
 				{showGrid && (
 					<GridRows
@@ -77,23 +88,24 @@ function BarChartInner({
 						strokeOpacity={0.5}
 					/>
 				)}
-				{data.map((d) => {
-					const barWidth = xScale.bandwidth();
-					const barHeight = innerHeight - (yScale(d.value) ?? 0);
+				{cumulative.map((d) => {
+					const top = yScale(Math.max(d.start, d.end));
+					const bottom = yScale(Math.min(d.start, d.end));
+					const barHeight = Math.max(1, bottom - top);
+					const color = d.isTotal ? totalColor : d.value >= 0 ? positiveColor : negativeColor;
 					const barX = xScale(d.label) ?? 0;
-					const barY = innerHeight - barHeight;
 					return (
-						<Bar
+						<rect
 							key={d.label}
 							x={barX}
-							y={barY}
-							width={barWidth}
+							y={top}
+							width={xScale.bandwidth()}
 							height={barHeight}
 							fill={color}
-							rx={4}
+							rx={2}
 							style={{ cursor: "pointer" }}
 							onMouseEnter={() =>
-								onHover?.(d, barX + barWidth / 2 + margin.left, barY + margin.top)
+								onHover?.(d, barX + xScale.bandwidth() / 2 + margin.left, top + margin.top)
 							}
 							onMouseLeave={() => onLeave?.()}
 						/>
@@ -127,7 +139,7 @@ function BarChartInner({
 	);
 }
 
-export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
+export const WaterfallChart = forwardRef<HTMLDivElement, WaterfallChartProps>(
 	(
 		{
 			className,
@@ -135,21 +147,23 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 			title,
 			loading = false,
 			height = 300,
-			showGrid = true,
-			color,
+			showGrid,
 			showTable = false,
+			positiveColor,
+			negativeColor,
+			totalColor,
 			formatValue,
 			...props
 		},
 		ref,
 	) => {
 		const [tooltip, setTooltip] = useState<{
-			data: ChartDataPoint;
+			data: WaterfallItem;
 			left: number;
 			top: number;
 		} | null>(null);
 
-		if (loading) {
+		if (loading)
 			return (
 				<div
 					ref={ref}
@@ -160,9 +174,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 					{...props}
 				/>
 			);
-		}
-
-		if (data.length === 0) {
+		if (data.length === 0)
 			return (
 				<div
 					ref={ref}
@@ -178,25 +190,25 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 					No data available
 				</div>
 			);
-		}
-
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
 			<div ref={ref} className={cn("relative w-full", className)} {...props}>
 				<div
 					role="img"
-					aria-label={`${title}: bar chart with ${data.length} data points`}
+					aria-label={`${title}: waterfall chart with ${data.length} items`}
 					style={{ height }}
 				>
 					<ParentSize>
 						{({ width: w }) => (
-							<BarChartInner
+							<WaterfallInner
 								data={data}
 								width={w}
 								height={height}
 								showGrid={showGrid}
-								color={color}
+								positiveColor={positiveColor}
+								negativeColor={negativeColor}
+								totalColor={totalColor}
 								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
 								onLeave={() => setTooltip(null)}
 							/>
@@ -206,7 +218,10 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 				{tooltip && (
 					<ChartTooltip top={tooltip.top} left={tooltip.left}>
 						<div className="font-medium">{tooltip.data.label}</div>
-						<div>{fmt(tooltip.data.value)}</div>
+						<div>
+							{tooltip.data.isTotal ? "Total" : tooltip.data.value >= 0 ? "+" : ""}
+							{fmt(tooltip.data.value)}
+						</div>
 					</ChartTooltip>
 				)}
 				{showTable && (
@@ -215,6 +230,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 							<tr>
 								<th>Label</th>
 								<th>Value</th>
+								<th>Type</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -222,6 +238,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 								<tr key={d.label}>
 									<td>{d.label}</td>
 									<td>{d.value}</td>
+									<td>{d.isTotal ? "Total" : d.value >= 0 ? "Increase" : "Decrease"}</td>
 								</tr>
 							))}
 						</tbody>
@@ -232,4 +249,4 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 	},
 );
 
-BarChart.displayName = "BarChart";
+WaterfallChart.displayName = "WaterfallChart";

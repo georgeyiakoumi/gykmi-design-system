@@ -4,70 +4,76 @@ import { AxisBottom, AxisLeft } from "@visx/axis";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
 import { ParentSize } from "@visx/responsive";
-import { scaleBand, scaleLinear } from "@visx/scale";
-import { Bar } from "@visx/shape";
+import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
+import { BarStack } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
-import { type ChartDataPoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
+import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
 import { cn } from "../lib/cn";
 
-export interface BarChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
-	/** Chart data points */
-	data: ChartDataPoint[];
-	/** Chart title for accessibility */
+const defaultPalette = [
+	chartColors.primary,
+	chartColors.secondary,
+	chartColors.tertiary,
+	chartColors.quaternary,
+];
+
+export interface StackedBarChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
+	data: Record<string, string | number>[];
+	keys: string[];
+	indexKey: string;
 	title: string;
-	/** Whether the chart is loading */
 	loading?: boolean;
-	/** Custom height */
 	height?: number;
-	/** Show grid lines */
 	showGrid?: boolean;
-	/** Bar colour */
-	color?: string;
-	/** Show accessible data table fallback */
 	showTable?: boolean;
+	colors?: string[];
 	/** Format value for tooltip display */
 	formatValue?: (value: number) => string;
 }
 
-function BarChartInner({
+function StackedBarInner({
 	data,
+	keys,
+	indexKey,
 	width,
 	height,
 	showGrid = true,
-	color = chartColors.primary,
+	colors = defaultPalette,
 	onHover,
 	onLeave,
 }: {
-	data: ChartDataPoint[];
+	data: Record<string, string | number>[];
+	keys: string[];
+	indexKey: string;
 	width: number;
 	height: number;
 	showGrid?: boolean;
-	color?: string;
-	onHover?: (d: ChartDataPoint, left: number, top: number) => void;
+	colors?: string[];
+	onHover?: (key: string, value: number, left: number, top: number) => void;
 	onLeave?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
 	const innerHeight = Math.max(0, height - margin.top - margin.bottom);
-
 	if (innerWidth <= 0 || innerHeight <= 0) return null;
 
 	const xScale = scaleBand({
-		domain: data.map((d) => d.label),
+		domain: data.map((d) => String(d[indexKey])),
 		range: [0, innerWidth],
 		padding: 0.3,
 	});
-
+	const totals = data.map((d) => keys.reduce((sum, k) => sum + (Number(d[k]) || 0), 0));
 	const yScale = scaleLinear({
-		domain: [0, Math.max(...data.map((d) => d.value)) * 1.1],
+		domain: [0, Math.max(...totals) * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});
+	const colorScale = scaleOrdinal({ domain: keys, range: colors });
 
 	return (
 		<svg width={width} height={height} role="img">
-			<title>Bar chart</title>
+			<title>Stacked bar chart</title>
 			<Group left={margin.left} top={margin.top}>
 				{showGrid && (
 					<GridRows
@@ -77,28 +83,41 @@ function BarChartInner({
 						strokeOpacity={0.5}
 					/>
 				)}
-				{data.map((d) => {
-					const barWidth = xScale.bandwidth();
-					const barHeight = innerHeight - (yScale(d.value) ?? 0);
-					const barX = xScale(d.label) ?? 0;
-					const barY = innerHeight - barHeight;
-					return (
-						<Bar
-							key={d.label}
-							x={barX}
-							y={barY}
-							width={barWidth}
-							height={barHeight}
-							fill={color}
-							rx={4}
-							style={{ cursor: "pointer" }}
-							onMouseEnter={() =>
-								onHover?.(d, barX + barWidth / 2 + margin.left, barY + margin.top)
-							}
-							onMouseLeave={() => onLeave?.()}
-						/>
-					);
-				})}
+				<BarStack
+					data={data}
+					keys={keys}
+					// biome-ignore lint/suspicious/noExplicitAny: visx passes original datum to x accessor
+					x={(d: any) => String(d[indexKey])}
+					xScale={xScale}
+					yScale={yScale}
+					color={colorScale}
+				>
+					{(barStacks) =>
+						barStacks.map((barStack) =>
+							barStack.bars.map((bar) => (
+								<rect
+									key={`${barStack.index}-${bar.index}`}
+									x={bar.x}
+									y={bar.y}
+									width={bar.width}
+									height={bar.height}
+									fill={bar.color}
+									rx={2}
+									style={{ cursor: "pointer" }}
+									onMouseEnter={() =>
+										onHover?.(
+											barStack.key,
+											Number(bar.bar.data[barStack.key]) || 0,
+											bar.x + bar.width / 2 + margin.left,
+											bar.y + margin.top,
+										)
+									}
+									onMouseLeave={() => onLeave?.()}
+								/>
+							)),
+						)
+					}
+				</BarStack>
 				<AxisBottom
 					top={innerHeight}
 					scale={xScale}
@@ -127,28 +146,31 @@ function BarChartInner({
 	);
 }
 
-export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
+export const StackedBarChart = forwardRef<HTMLDivElement, StackedBarChartProps>(
 	(
 		{
 			className,
 			data,
+			keys,
+			indexKey,
 			title,
 			loading = false,
 			height = 300,
-			showGrid = true,
-			color,
+			showGrid,
 			showTable = false,
+			colors,
 			formatValue,
 			...props
 		},
 		ref,
 	) => {
 		const [tooltip, setTooltip] = useState<{
-			data: ChartDataPoint;
+			key: string;
+			value: number;
 			left: number;
 			top: number;
 		} | null>(null);
-
+		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 		if (loading) {
 			return (
 				<div
@@ -161,7 +183,6 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 				/>
 			);
 		}
-
 		if (data.length === 0) {
 			return (
 				<div
@@ -179,25 +200,20 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 				</div>
 			);
 		}
-
-		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
-
 		return (
 			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: bar chart with ${data.length} data points`}
-					style={{ height }}
-				>
+				<div role="img" aria-label={`${title}: stacked bar chart`} style={{ height }}>
 					<ParentSize>
 						{({ width: w }) => (
-							<BarChartInner
+							<StackedBarInner
 								data={data}
+								keys={keys}
+								indexKey={indexKey}
 								width={w}
 								height={height}
 								showGrid={showGrid}
-								color={color}
-								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
+								colors={colors}
+								onHover={(key, value, left, top) => setTooltip({ key, value, left, top })}
 								onLeave={() => setTooltip(null)}
 							/>
 						)}
@@ -205,23 +221,27 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 				</div>
 				{tooltip && (
 					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.data.label}</div>
-						<div>{fmt(tooltip.data.value)}</div>
+						<div className="font-medium">{tooltip.key}</div>
+						<div>{fmt(tooltip.value)}</div>
 					</ChartTooltip>
 				)}
 				{showTable && (
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
-								<th>Label</th>
-								<th>Value</th>
+								<th>{indexKey}</th>
+								{keys.map((k) => (
+									<th key={k}>{k}</th>
+								))}
 							</tr>
 						</thead>
 						<tbody>
-							{data.map((d) => (
-								<tr key={d.label}>
-									<td>{d.label}</td>
-									<td>{d.value}</td>
+							{data.map((d, i) => (
+								<tr key={String(d[indexKey]) || i}>
+									<td>{String(d[indexKey])}</td>
+									{keys.map((k) => (
+										<td key={k}>{String(d[k])}</td>
+									))}
 								</tr>
 							))}
 						</tbody>
@@ -232,4 +252,4 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 	},
 );
 
-BarChart.displayName = "BarChart";
+StackedBarChart.displayName = "StackedBarChart";
