@@ -5,7 +5,6 @@ import {
 	AnalysisSection,
 	AuditTrail,
 	Badge,
-	BarChart,
 	Button,
 	Card,
 	CardContent,
@@ -18,159 +17,176 @@ import {
 	DataProvenance,
 	DataTable,
 	Disclaimer,
-	LineChart,
 	RegulatoryNotice,
 	Separator,
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarHeader,
+	SidebarInset,
+	SidebarMenu,
+	SidebarMenuBadge,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarProvider,
+	SidebarSeparator,
+	SidebarTrigger,
 	Sparkline,
 	Stack,
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
 } from "@gykmi/ui";
 import { useState } from "react";
 
-// Chart data
-const revenueData = [
-	{ date: "Jan", value: 3200000 },
-	{ date: "Feb", value: 3100000 },
-	{ date: "Mar", value: 3500000 },
-	{ date: "Apr", value: 3800000 },
-	{ date: "May", value: 3600000 },
-	{ date: "Jun", value: 4000000 },
+// ─── DATA NARRATIVE ─────────────────────────────────────────────────────────
+// Nadia is a risk & compliance analyst. She opens this first thing each morning.
+// Her question: "What needs my attention today, and how far can I trust the
+// machine's read on it?"
+//
+// The story: counterparty exposure to Meridian Capital has drifted up over 3
+// days. The AI flags it at medium confidence. One position has a model-uncertain
+// valuation that needs human sign-off. The trend chart shows the drift is real,
+// not a blip. The flagged table drills into the specifics.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Exposure trend: 7-day counterparty concentration with confidence band
+const exposureTrend = [
+	{ date: "25 Jun", value: 14.2, low: 13.8, high: 14.6 },
+	{ date: "26 Jun", value: 14.5, low: 14.0, high: 15.0 },
+	{ date: "27 Jun", value: 15.1, low: 14.4, high: 15.8 },
+	{ date: "28 Jun", value: 15.8, low: 14.9, high: 16.7 },
+	{ date: "29 Jun", value: 16.3, low: 15.2, high: 17.4 },
+	{ date: "30 Jun", value: 16.9, low: 15.6, high: 18.2 },
+	{ date: "1 Jul", value: 17.4, low: 15.8, high: 19.0 },
 ];
 
-const quarterlyData = [
-	{ label: "Q1 2025", value: 9800000 },
-	{ label: "Q2 2025", value: 10200000 },
-	{ label: "Q3 2025", value: 11500000 },
-	{ label: "Q4 2025", value: 10800000 },
-	{ label: "Q1 2026", value: 11200000 },
-	{ label: "Q2 2026", value: 12100000 },
-];
+// KPI sparklines (7-day trailing)
+const sparkExposure = [14.2, 14.5, 15.1, 15.8, 16.3, 16.9, 17.4];
+const sparkVaR = [2.1, 2.0, 2.3, 2.4, 2.6, 2.5, 2.8];
+const sparkModelCoverage = [98, 98, 97, 97, 96, 96, 95];
 
-const forecastData = [
-	{ date: "Jan", value: 3200000, low: 3000000, high: 3400000 },
-	{ date: "Feb", value: 3100000, low: 2800000, high: 3300000 },
-	{ date: "Mar", value: 3500000, low: 3200000, high: 3800000 },
-	{ date: "Apr", value: 3800000, low: 3500000, high: 4100000 },
-	{ date: "May", value: 3600000, low: 3200000, high: 4000000 },
-	{ date: "Jun", value: 4000000, low: 3600000, high: 4400000 },
-	{ date: "Jul", value: 4200000, low: 3600000, high: 4800000 },
-	{ date: "Aug", value: 4400000, low: 3700000, high: 5100000 },
-];
-
-const sparkAum = [138, 139, 140, 139, 141, 140, 142, 142.8];
-const sparkPositions = [820, 830, 835, 840, 838, 842, 845, 847];
-const sparkPnl = [1.2, 1.5, 1.8, 2.0, 1.9, 2.1, 2.3, 2.4];
-
-interface Transaction {
+// Flagged items — each row carries confidence and provenance
+interface FlaggedItem {
 	id: string;
-	date: string;
-	counterparty: string;
-	instrument: string;
-	amount: number;
-	status: "settled" | "pending" | "failed";
+	description: string;
+	metric: string;
+	value: string;
+	threshold: string;
+	confidence: "high" | "medium" | "low" | "uncertain";
+	source: string;
+	status: "needs-review" | "acknowledged" | "escalated";
 }
 
-const transactions: Transaction[] = [
+const flaggedItems: FlaggedItem[] = [
 	{
-		id: "TXN-001",
-		date: "2026-07-01",
-		counterparty: "Citadel Securities",
-		instrument: "US Treasury 10Y",
-		amount: 2500000,
-		status: "settled",
+		id: "FLAG-001",
+		description: "Meridian Capital exposure exceeds single-counterparty limit",
+		metric: "Counterparty concentration",
+		value: "17.4%",
+		threshold: "15.0%",
+		confidence: "medium",
+		source: "Internal Ledger v3.2.1",
+		status: "needs-review",
 	},
 	{
-		id: "TXN-002",
-		date: "2026-07-01",
-		counterparty: "Goldman Sachs",
-		instrument: "EUR/USD FX Forward",
-		amount: 1200000,
-		status: "pending",
+		id: "FLAG-002",
+		description: "Structured credit position — model-uncertain valuation",
+		metric: "Mark-to-model confidence",
+		value: "Estimated $4.2M",
+		threshold: "Requires human sign-off",
+		confidence: "uncertain",
+		source: "Pricing Engine v2.8",
+		status: "needs-review",
 	},
 	{
-		id: "TXN-003",
-		date: "2026-06-30",
-		counterparty: "JP Morgan",
-		instrument: "AAPL Equity",
-		amount: 450000,
-		status: "settled",
-	},
-	{
-		id: "TXN-004",
-		date: "2026-06-30",
-		counterparty: "Morgan Stanley",
-		instrument: "Credit Default Swap",
-		amount: 3800000,
-		status: "settled",
-	},
-	{
-		id: "TXN-005",
-		date: "2026-06-29",
-		counterparty: "Barclays",
-		instrument: "GBP/USD Spot",
-		amount: 890000,
-		status: "failed",
-	},
-	{
-		id: "TXN-006",
-		date: "2026-06-29",
-		counterparty: "BNP Paribas",
-		instrument: "Euro Bund Future",
-		amount: 1750000,
-		status: "settled",
+		id: "FLAG-003",
+		description: "VaR breach: 1-day portfolio VaR above internal limit",
+		metric: "Value at Risk (99%)",
+		value: "$2.8M",
+		threshold: "$2.5M",
+		confidence: "high",
+		source: "Bloomberg Terminal 2024.3",
+		status: "acknowledged",
 	},
 ];
 
-const statusVariant: Record<Transaction["status"], "success" | "warning" | "danger"> = {
-	settled: "success",
-	pending: "warning",
-	failed: "danger",
-};
-
-const columns: DataTableColumn<Transaction>[] = [
-	{ key: "id", header: "ID", cell: (row) => row.id, sortable: true },
-	{ key: "date", header: "Date", cell: (row) => row.date, sortable: true },
-	{ key: "counterparty", header: "Counterparty", cell: (row) => row.counterparty, sortable: true },
-	{ key: "instrument", header: "Instrument", cell: (row) => row.instrument },
-	{
-		key: "amount",
-		header: "Amount",
-		cell: (row) => `$${row.amount.toLocaleString()}`,
-		sortable: true,
-		align: "right" as const,
-	},
+const flaggedColumns: DataTableColumn<FlaggedItem>[] = [
 	{
 		key: "status",
 		header: "Status",
-		cell: (row) => <Badge variant={statusVariant[row.status]}>{row.status}</Badge>,
-		align: "center" as const,
+		cell: (row) => {
+			const variant =
+				row.status === "needs-review"
+					? "danger"
+					: row.status === "escalated"
+						? "warning"
+						: "default";
+			const label =
+				row.status === "needs-review"
+					? "Needs review"
+					: row.status === "escalated"
+						? "Escalated"
+						: "Acknowledged";
+			return <Badge variant={variant}>{label}</Badge>;
+		},
+		sortValue: (row) => row.status,
+	},
+	{ key: "description", header: "Description", cell: (row) => row.description },
+	{
+		key: "value",
+		header: "Value / Threshold",
+		cell: (row) => (
+			<span>
+				<span className="font-medium">{row.value}</span>
+				<span className="text-text-muted"> / {row.threshold}</span>
+			</span>
+		),
+	},
+	{
+		key: "confidence",
+		header: "Confidence",
+		cell: (row) => <ConfidenceIndicator level={row.confidence} />,
+		sortValue: (row) => row.confidence,
+	},
+	{
+		key: "source",
+		header: "Source",
+		cell: (row) => <span className="text-xs text-text-muted">{row.source}</span>,
 	},
 ];
 
 const auditEntries = [
 	{
 		id: "1",
-		timestamp: "2026-07-01T14:30:00Z",
+		timestamp: "2026-07-02T07:45:00Z",
 		actor: "System",
-		action: "Generated Q3 forecast",
-		detail: "Model: claude-opus-4-6, confidence: 92%",
+		action: "Morning risk scan completed",
+		detail:
+			"3 items flagged. Model confidence: mixed. Sources: Bloomberg, Internal Ledger, Pricing Engine.",
 	},
 	{
 		id: "2",
-		timestamp: "2026-07-01T14:25:00Z",
-		actor: "George Y.",
-		action: "Requested analysis",
-		detail: "Scope: Q3 2026 revenue, all segments",
+		timestamp: "2026-07-02T07:44:00Z",
+		actor: "System",
+		action: "Counterparty exposure alert triggered",
+		detail:
+			"Meridian Capital concentration at 17.4%, above 15% threshold. 3-day upward drift detected.",
 	},
 	{
 		id: "3",
-		timestamp: "2026-07-01T14:20:00Z",
+		timestamp: "2026-07-02T07:43:00Z",
 		actor: "System",
 		action: "Data refresh completed",
-		detail: "Sources: Bloomberg, internal ledger v3.2.1",
+		detail:
+			"Bloomberg: fresh. Internal Ledger v3.2.1: fresh. Market Data Feed: stale (last update 30 Jun 23:59).",
+	},
+	{
+		id: "4",
+		timestamp: "2026-07-01T17:30:00Z",
+		actor: "Nadia K.",
+		action: "Acknowledged VaR breach",
+		detail: "1-day VaR at $2.8M vs $2.5M limit. Within tolerance, monitoring.",
 	},
 ];
 
@@ -178,231 +194,297 @@ const dataSources = [
 	{
 		name: "Bloomberg Terminal",
 		version: "2024.3",
-		lastUpdated: "2026-07-01T12:00:00Z",
+		lastUpdated: "2026-07-02T07:30:00Z",
 		verified: true,
 	},
 	{
 		name: "Internal Ledger",
 		version: "3.2.1",
-		lastUpdated: "2026-07-01T14:00:00Z",
+		lastUpdated: "2026-07-02T07:40:00Z",
 		verified: true,
 	},
+	{ name: "Pricing Engine", version: "2.8", lastUpdated: "2026-07-02T07:42:00Z", verified: true },
 	{ name: "Market Data Feed", lastUpdated: "2026-06-30T23:59:00Z", verified: false },
 ];
 
 function ThemeToggle() {
 	const [dark, setDark] = useState(false);
-
-	function toggle() {
-		const next = !dark;
-		setDark(next);
-		document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
-	}
-
 	return (
-		<Button variant="secondary" size="sm" onClick={toggle}>
+		<Button
+			variant="secondary"
+			size="sm"
+			onClick={() => {
+				setDark((prev) => {
+					const next = !prev;
+					document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
+					return next;
+				});
+			}}
+		>
 			{dark ? "☀ Light" : "☾ Dark"}
 		</Button>
 	);
 }
 
 export default function DashboardPage() {
+	const needsReview = flaggedItems.filter((i) => i.status === "needs-review").length;
+	const highPriority = flaggedItems.filter(
+		(i) => i.confidence === "uncertain" || i.confidence === "low",
+	).length;
+
 	return (
-		<main className="mx-auto max-w-7xl px-6 py-8">
-			<Stack gap="6">
-				{/* Header */}
-				<div className="flex items-center justify-between">
-					<div>
-						<h1 className="text-2xl font-bold text-text">Financial Dashboard</h1>
-						<p className="text-sm text-text-muted">Portfolio overview and AI-generated analysis</p>
+		<SidebarProvider>
+			{/* ─── SIDEBAR ────────────────────────────────────────── */}
+			<Sidebar collapsible="icon">
+				<SidebarHeader className="p-4">
+					<div className="flex items-center gap-2">
+						<span className="text-lg font-bold text-action">◆</span>
+						<span className="text-sm font-semibold group-data-[collapsible=icon]:hidden">
+							GYKMI Risk
+						</span>
 					</div>
-					<ThemeToggle />
-				</div>
+				</SidebarHeader>
+				<SidebarSeparator />
+				<SidebarContent>
+					<SidebarGroup>
+						<SidebarGroupLabel>Overview</SidebarGroupLabel>
+						<SidebarGroupContent>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton isActive tooltip="Morning review">
+										<span>📋</span>
+										<span>Morning review</span>
+									</SidebarMenuButton>
+									<SidebarMenuBadge>{needsReview}</SidebarMenuBadge>
+								</SidebarMenuItem>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Portfolios">
+										<span>📊</span>
+										<span>Portfolios</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Counterparties">
+										<span>🏦</span>
+										<span>Counterparties</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+					<SidebarGroup>
+						<SidebarGroupLabel>Compliance</SidebarGroupLabel>
+						<SidebarGroupContent>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Audit trail">
+										<span>📜</span>
+										<span>Audit trail</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Reports">
+										<span>📄</span>
+										<span>Reports</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Regulatory">
+										<span>⚖️</span>
+										<span>Regulatory</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+				</SidebarContent>
+				<SidebarSeparator />
+				<SidebarFooter className="p-4">
+					<div className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
+						<div className="flex h-7 w-7 items-center justify-center rounded-full bg-action text-xs font-medium text-action-text">
+							NK
+						</div>
+						<div className="text-xs group-data-[collapsible=icon]:hidden">
+							<p className="font-medium text-text">Nadia K.</p>
+							<p className="text-text-muted">Risk analyst</p>
+						</div>
+					</div>
+				</SidebarFooter>
+			</Sidebar>
 
-				{/* Compliance banner */}
-				<ComplianceBanner severity="warning" title="Stale data detected" dismissible>
-					The market data feed has not been updated since 30 June 2026. Analysis results may not
-					reflect the latest market conditions.
-				</ComplianceBanner>
-
-				{/* Tabs */}
-				<Tabs defaultValue="overview">
-					<TabsList>
-						<TabsTrigger value="overview">Overview</TabsTrigger>
-						<TabsTrigger value="transactions">Transactions</TabsTrigger>
-						<TabsTrigger value="audit">Audit Trail</TabsTrigger>
-					</TabsList>
-
-					<TabsContent value="overview">
-						<Stack gap="6" className="mt-4">
-							{/* Summary cards */}
-							<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-								<Card>
-									<CardHeader>
-										<CardDescription>Total AUM</CardDescription>
-										<div className="flex items-end justify-between">
-											<CardTitle className="text-2xl">$142.8M</CardTitle>
-											<Sparkline data={sparkAum} label="AUM trend" height={28} width={80} />
-										</div>
-									</CardHeader>
-								</Card>
-								<Card>
-									<CardHeader>
-										<CardDescription>Active Positions</CardDescription>
-										<div className="flex items-end justify-between">
-											<CardTitle className="text-2xl">847</CardTitle>
-											<Sparkline
-												data={sparkPositions}
-												label="Positions trend"
-												height={28}
-												width={80}
-											/>
-										</div>
-									</CardHeader>
-								</Card>
-								<Card>
-									<CardHeader>
-										<CardDescription>P&L (MTD)</CardDescription>
-										<div className="flex items-end justify-between">
-											<CardTitle className="text-2xl text-success">+$2.4M</CardTitle>
-											<Sparkline
-												data={sparkPnl}
-												label="P&L trend"
-												height={28}
-												width={80}
-												color="var(--success-default)"
-											/>
-										</div>
-									</CardHeader>
-								</Card>
-							</div>
-
-							{/* Charts */}
-							<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-								<Card>
-									<CardHeader>
-										<CardTitle>Monthly Revenue</CardTitle>
-										<CardDescription>Trailing 6 months</CardDescription>
-									</CardHeader>
-									<CardContent>
-										<LineChart
-											data={revenueData}
-											title="Monthly Revenue"
-											showArea
-											height={240}
-											showTable
-										/>
-									</CardContent>
-								</Card>
-								<Card>
-									<CardHeader>
-										<CardTitle>Quarterly Comparison</CardTitle>
-										<CardDescription>Revenue by quarter</CardDescription>
-									</CardHeader>
-									<CardContent>
-										<BarChart
-											data={quarterlyData}
-											title="Quarterly Revenue"
-											height={240}
-											showTable
-										/>
-									</CardContent>
-								</Card>
-							</div>
-
-							{/* Confidence forecast */}
-							<Card>
-								<CardHeader>
-									<CardTitle>Revenue Forecast with Confidence</CardTitle>
-									<CardDescription>
-										Actual vs estimated with confidence band — AI-generated projection
-									</CardDescription>
-								</CardHeader>
-								<CardContent>
-									<ConfidenceChart
-										data={forecastData}
-										title="Revenue Forecast"
-										estimatedAfter={6}
-										bandLabel="95% confidence interval"
-										height={280}
-										showTable
-									/>
-									<Disclaimer variant="info" className="mt-3">
-										Projections are AI-generated based on historical patterns and current market
-										data. Actual results may differ materially.
-									</Disclaimer>
-								</CardContent>
-							</Card>
-
-							{/* AI Analysis */}
-							<AnalysisSection
-								title="Q3 2026 Revenue Forecast"
-								confidence="high"
-								confidenceScore={92}
-								status="complete"
-								generatedAt="2026-07-01T14:30:00Z"
-							>
-								<p>
-									Based on the trailing twelve months of transaction data, projected revenue for Q3
-									2026 is estimated at $4.2M, representing a 12% increase from the prior quarter.
-									This projection accounts for seasonal patterns observed in the 2024–2025 data and
-									current market conditions.
-								</p>
-								<div className="mt-3 flex items-center gap-4">
-									<ConfidenceIndicator
-										level="high"
-										score={92}
-										label="Revenue forecast confidence"
-									/>
-									<span className="text-xs text-text-muted">Based on 847 active positions</span>
+			{/* ─── MAIN CONTENT ────────────────────────────────────── */}
+			<SidebarInset>
+				<div className="mx-auto max-w-6xl px-6 py-8">
+					<Stack gap="6">
+						{/* ─── HEADER ─────────────────────────────────────────── */}
+						<div className="flex items-start justify-between">
+							<div className="flex items-center gap-3">
+								<SidebarTrigger className="md:hidden" />
+								<div>
+									<p className="text-sm text-text-muted">Morning risk review — 2 July 2026</p>
+									<h1 className="text-2xl font-bold text-text">
+										{needsReview} items need review
+										{highPriority > 0 && (
+											<span className="ml-2 text-lg font-normal text-danger">
+												{highPriority} model-uncertain
+											</span>
+										)}
+									</h1>
 								</div>
-							</AnalysisSection>
-
-							{/* Data provenance */}
-							<DataProvenance sources={dataSources} />
-
-							{/* Disclaimer */}
-							<Disclaimer variant="regulatory" title="FCA disclosure">
-								This analysis is produced under the supervision of authorised personnel in
-								accordance with FCA SYSC 6.1. AI-generated outputs have been reviewed for accuracy
-								but do not constitute financial advice. Past performance is not a reliable indicator
-								of future results.
-							</Disclaimer>
-						</Stack>
-					</TabsContent>
-
-					<TabsContent value="transactions">
-						<Stack gap="4" className="mt-4">
-							<div className="flex items-center justify-between">
-								<h2 className="text-lg font-semibold text-text">Recent Transactions</h2>
-								<Button variant="secondary" size="sm">
-									Export CSV
-								</Button>
 							</div>
+							<ThemeToggle />
+						</div>
+
+						{/* ─── COMPLIANCE ALERT ────────────────────────────────── */}
+						<ComplianceBanner severity="warning" title="Stale data source" dismissible>
+							Market Data Feed has not updated since 30 June. Exposure figures may not reflect
+							overnight moves.
+						</ComplianceBanner>
+
+						{/* ─── AI SUMMARY ──────────────────────────────────────── */}
+						<AnalysisSection
+							title="Risk summary"
+							confidence="medium"
+							confidenceScore={68}
+							status="complete"
+							generatedAt="2026-07-02T07:45:00Z"
+						>
+							<p>
+								Counterparty concentration to Meridian Capital has risen to 17.4%, breaching the 15%
+								single-counterparty limit. The drift is sustained over three trading days, not a
+								single-day spike. One structured credit position (est. $4.2M) carries a
+								model-uncertain valuation and requires human sign-off before the morning report is
+								released.
+							</p>
+							<p className="mt-2 text-sm text-text-muted">
+								VaR is elevated at $2.8M (limit: $2.5M) but was acknowledged by Nadia K. yesterday.
+								Model coverage has dropped to 95% due to the uncertain position.
+							</p>
+							<Disclaimer variant="info" className="mt-3">
+								AI-generated summary. Reviewed for factual accuracy against source data but does not
+								constitute a risk decision.
+							</Disclaimer>
+						</AnalysisSection>
+
+						{/* ─── QUALIFYING KPIs ─────────────────────────────────── */}
+						<div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+							<Card>
+								<CardHeader className="pb-2">
+									<CardDescription className="text-xs">Meridian exposure</CardDescription>
+									<div className="flex items-end justify-between">
+										<CardTitle className="text-xl text-danger">17.4%</CardTitle>
+										<Sparkline
+											data={sparkExposure}
+											label="Exposure trend"
+											height={24}
+											width={64}
+											color="var(--danger-default)"
+										/>
+									</div>
+									<p className="text-xs text-text-muted">Limit: 15.0%</p>
+								</CardHeader>
+							</Card>
+							<Card>
+								<CardHeader className="pb-2">
+									<CardDescription className="text-xs">Portfolio VaR (99%)</CardDescription>
+									<div className="flex items-end justify-between">
+										<CardTitle className="text-xl text-warning">$2.8M</CardTitle>
+										<Sparkline
+											data={sparkVaR}
+											label="VaR trend"
+											height={24}
+											width={64}
+											color="var(--warning-default)"
+										/>
+									</div>
+									<p className="text-xs text-text-muted">Limit: $2.5M</p>
+								</CardHeader>
+							</Card>
+							<Card>
+								<CardHeader className="pb-2">
+									<CardDescription className="text-xs">Model coverage</CardDescription>
+									<div className="flex items-end justify-between">
+										<CardTitle className="text-xl">95%</CardTitle>
+										<Sparkline
+											data={sparkModelCoverage}
+											label="Coverage trend"
+											height={24}
+											width={64}
+										/>
+									</div>
+									<p className="text-xs text-text-muted">1 position unscored</p>
+								</CardHeader>
+							</Card>
+							<Card>
+								<CardHeader className="pb-2">
+									<CardDescription className="text-xs">Flagged items</CardDescription>
+									<CardTitle className="text-xl">{flaggedItems.length}</CardTitle>
+									<p className="text-xs text-text-muted">{needsReview} awaiting review</p>
+								</CardHeader>
+							</Card>
+						</div>
+
+						{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
+						<Card>
+							<CardHeader>
+								<div className="flex items-center justify-between">
+									<div>
+										<CardTitle className="text-base">
+											Meridian Capital exposure — 7 day trend
+										</CardTitle>
+										<CardDescription>
+											Single-counterparty concentration with 95% confidence band
+										</CardDescription>
+									</div>
+									<ConfidenceIndicator level="medium" score={68} />
+								</div>
+							</CardHeader>
+							<CardContent>
+								<ConfidenceChart
+									data={exposureTrend}
+									title="Meridian Capital counterparty exposure"
+									bandLabel="95% confidence interval"
+									height={240}
+									showTable
+									formatValue={(v) => `${v.toFixed(1)}%`}
+								/>
+							</CardContent>
+						</Card>
+
+						{/* ─── FLAGGED ITEMS ───────────────────────────────────── */}
+						<div>
+							<h2 className="mb-3 text-lg font-semibold text-text">Flagged items</h2>
 							<DataTable
-								columns={columns}
-								data={transactions}
+								columns={flaggedColumns}
+								data={flaggedItems}
 								getRowKey={(row) => row.id}
-								pageSize={5}
-								caption="Recent transactions"
+								caption="Items requiring review"
 							/>
-						</Stack>
-					</TabsContent>
+						</div>
 
-					<TabsContent value="audit">
-						<Stack gap="4" className="mt-4">
-							<h2 className="text-lg font-semibold text-text">Audit Trail</h2>
-							<AuditTrail entries={auditEntries} />
-						</Stack>
-					</TabsContent>
-				</Tabs>
+						<Separator />
 
-				{/* Regulatory notice */}
-				<RegulatoryNotice framework="FCA" reference="FRN-123456">
-					This firm is authorised and regulated by the Financial Conduct Authority. The value of
-					investments can go down as well as up.
-				</RegulatoryNotice>
-			</Stack>
-		</main>
+						{/* ─── SUPPORTING: provenance + audit ──────────────────── */}
+						<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+							<div>
+								<h3 className="mb-2 text-sm font-medium text-text-muted">Data sources</h3>
+								<DataProvenance sources={dataSources} />
+							</div>
+							<div>
+								<h3 className="mb-2 text-sm font-medium text-text-muted">Audit trail</h3>
+								<AuditTrail entries={auditEntries} />
+							</div>
+						</div>
+
+						{/* ─── REGULATORY ──────────────────────────────────────── */}
+						<RegulatoryNotice framework="FCA" reference="FRN-123456">
+							This firm is authorised and regulated by the Financial Conduct Authority. AI-generated
+							outputs are reviewed by authorised personnel before release. The value of investments
+							can go down as well as up.
+						</RegulatoryNotice>
+					</Stack>
+				</div>
+			</SidebarInset>
+		</SidebarProvider>
 	);
 }

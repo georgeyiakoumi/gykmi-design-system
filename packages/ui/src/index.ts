@@ -213,6 +213,46 @@ export {
 } from "./components/select";
 export type { SeparatorProps } from "./components/separator";
 export { Separator } from "./components/separator";
+export type { SheetContentProps, SheetHeaderProps, SheetOverlayProps } from "./components/sheet";
+export {
+	Sheet,
+	SheetClose,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetOverlay,
+	SheetPortal,
+	SheetTitle,
+	SheetTrigger,
+} from "./components/sheet";
+export {
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupAction,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarHeader,
+	SidebarInput,
+	SidebarInset,
+	SidebarMenu,
+	SidebarMenuAction,
+	SidebarMenuBadge,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarMenuSkeleton,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
+	SidebarProvider,
+	SidebarRail,
+	SidebarSeparator,
+	SidebarTrigger,
+	useSidebar,
+} from "./components/sidebar";
+export type { SkeletonProps } from "./components/skeleton";
+export { Skeleton } from "./components/skeleton";
 export type { SliderProps } from "./components/slider";
 export { Slider } from "./components/slider";
 export type { SparklineProps } from "./components/sparkline";
