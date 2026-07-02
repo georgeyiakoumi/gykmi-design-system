@@ -45,8 +45,10 @@ cd apps/dashboard && npx playwright test
 
 | Package | Description | Version |
 |---|---|---|
-| `@gykmi/tokens` | Design tokens (CSS vars + TS types) | v0.1.0 |
+| `@gykmi/tokens` | Design tokens (CSS vars + TS types) | v1.0.0 |
 | `@gykmi/ui` | Component library (43 components) | v1.0.1 |
+| `@gykmi/docs` | Storybook documentation | — |
+| `@gykmi/dashboard` | Financial dashboard (consuming app) | — |
 
 ## Apps
 
@@ -93,7 +95,7 @@ This project uses [Biome](https://biomejs.dev) for linting and formatting.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CHANGE_PROCESS.md](CHANGE_PROCESS.md) for the full component change lifecycle and pre-merge checklist.
 
 ## Structure
 
