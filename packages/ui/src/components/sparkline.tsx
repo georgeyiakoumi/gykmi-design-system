@@ -7,6 +7,7 @@ import { LinePath } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface SparklineProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
@@ -52,8 +53,9 @@ function SparklineInner({
 		range: [margin.left, width - margin.right],
 	});
 
+	const [minVal, maxVal] = minMax(data);
 	const yScale = scaleLinear({
-		domain: [Math.min(...data), Math.max(...data)],
+		domain: [minVal, maxVal],
 		range: [height - margin.bottom, margin.top],
 	});
 

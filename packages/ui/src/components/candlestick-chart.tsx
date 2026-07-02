@@ -8,6 +8,7 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface CandlestickPoint {
@@ -61,8 +62,9 @@ function CandlestickInner({
 		padding: 0.3,
 	});
 	const allPrices = data.flatMap((d) => [d.high, d.low]);
+	const [minPrice, maxPrice] = minMax(allPrices);
 	const yScale = scaleLinear({
-		domain: [Math.min(...allPrices) * 0.98, Math.max(...allPrices) * 1.02],
+		domain: [minPrice * 0.98, maxPrice * 1.02],
 		range: [innerHeight, 0],
 		nice: true,
 	});

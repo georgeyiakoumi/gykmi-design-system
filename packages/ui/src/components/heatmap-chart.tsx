@@ -6,6 +6,7 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface HeatmapBin {
@@ -36,7 +37,7 @@ function HeatmapInner({
 	columnLabels,
 	width,
 	height,
-	colorFrom = "#eef2ff",
+	colorFrom = "var(--surface-raised, #eef2ff)",
 	colorTo = chartColors.primary,
 	onHover,
 	onLeave,
@@ -55,9 +56,9 @@ function HeatmapInner({
 	const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 	if (innerWidth <= 0 || innerHeight <= 0 || data.length === 0) return null;
 
-	const binCount = Math.max(...data.map((d) => d.bins.length));
+	const [, binCount] = minMax(data.map((d) => d.bins.length));
 	const allCounts = data.flatMap((d) => d.bins.map((b) => b.count));
-	const maxCount = Math.max(...allCounts, 1);
+	const [, maxCount] = minMax([...allCounts, 1]);
 
 	const xScale = scaleBand({
 		domain: Array.from({ length: binCount }, (_, i) => i),
@@ -82,7 +83,6 @@ function HeatmapInner({
 					<Group key={row.label} top={yScale(row.label) ?? 0}>
 						{row.bins.map((bin) => {
 							const cellX = xScale(bin.bin) ?? 0;
-							const cellY = yScale(row.label) ?? 0;
 							const colLabel = columnLabels?.[bin.bin] ?? String(bin.bin);
 							return (
 								<rect
@@ -100,7 +100,7 @@ function HeatmapInner({
 											colLabel,
 											bin.count,
 											cellX + xScale.bandwidth() / 2 + margin.left,
-											cellY + margin.top,
+											(yScale(row.label) ?? 0) + margin.top,
 										)
 									}
 									onMouseLeave={() => onLeave?.()}

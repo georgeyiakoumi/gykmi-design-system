@@ -9,6 +9,7 @@ import { Bar } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { type ChartDataPoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface BarChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
@@ -59,8 +60,9 @@ function BarChartInner({
 		padding: 0.3,
 	});
 
+	const [, maxVal] = minMax(data.map((d) => d.value));
 	const yScale = scaleLinear({
-		domain: [0, Math.max(...data.map((d) => d.value)) * 1.1],
+		domain: [0, maxVal * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});

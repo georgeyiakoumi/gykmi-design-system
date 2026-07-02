@@ -78,6 +78,8 @@ function TreemapInner({
 							.map((node, i) => {
 								const nw = node.x1 - node.x0;
 								const nh = node.y1 - node.y0;
+								// visx hierarchy types node.data as the root type (with optional fields + children),
+								// but depth-1 nodes are always leaf data with required label/value.
 								const d = node.data as unknown as ChartDataPoint;
 								return (
 									<g key={d?.label ?? i}>
@@ -99,7 +101,7 @@ function TreemapInner({
 												x={node.x0 + 6}
 												y={node.y0 + 16}
 												fontSize={chartFont.size.tick}
-												fill="white"
+												fill={chartColors.background}
 												pointerEvents="none"
 											>
 												{d?.label}

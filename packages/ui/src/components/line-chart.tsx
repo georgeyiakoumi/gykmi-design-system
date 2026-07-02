@@ -10,6 +10,7 @@ import { AreaClosed, LinePath } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartFont, chartSpacing, type TimeSeriesPoint } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface LineChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
@@ -60,11 +61,9 @@ function LineChartInner({
 		padding: 0.5,
 	});
 
+	const [minVal, maxVal] = minMax(data.map((d) => d.value));
 	const yScale = scaleLinear({
-		domain: [
-			Math.min(...data.map((d) => d.value)) * 0.9,
-			Math.max(...data.map((d) => d.value)) * 1.1,
-		],
+		domain: [minVal * 0.9, maxVal * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});

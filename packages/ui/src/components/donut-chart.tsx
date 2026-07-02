@@ -90,7 +90,7 @@ function DonutChartInner({
 											x={centroidX}
 											y={centroidY}
 											dy=".33em"
-											fill="white"
+											fill={chartColors.background}
 											fontSize={chartFont.size.tick}
 											textAnchor="middle"
 											pointerEvents="none"

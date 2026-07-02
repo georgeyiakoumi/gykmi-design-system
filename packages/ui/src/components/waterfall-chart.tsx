@@ -8,6 +8,7 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface WaterfallItem {
@@ -65,13 +66,14 @@ function WaterfallInner({
 	});
 
 	const allValues = cumulative.flatMap((d) => [d.start, d.end]);
+	const [minCum, maxCum] = minMax([0, ...allValues]);
 	const xScale = scaleBand({
 		domain: data.map((d) => d.label),
 		range: [0, innerWidth],
 		padding: 0.3,
 	});
 	const yScale = scaleLinear({
-		domain: [Math.min(0, ...allValues) * 1.1, Math.max(...allValues) * 1.1],
+		domain: [minCum * 1.1, maxCum * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});

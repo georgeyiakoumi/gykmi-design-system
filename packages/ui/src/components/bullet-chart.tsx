@@ -69,7 +69,8 @@ function BulletInner({
 				)}
 				{[...ranges].reverse().map((r, i) => (
 					<rect
-						key={r}
+						// biome-ignore lint/suspicious/noArrayIndexKey: static ordered range bars
+						key={`range-${i}`}
 						x={0}
 						y={barY - 4}
 						width={xScale(r)}

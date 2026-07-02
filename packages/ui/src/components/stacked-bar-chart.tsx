@@ -9,6 +9,7 @@ import { BarStack } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 const defaultPalette = [
@@ -64,8 +65,9 @@ function StackedBarInner({
 		padding: 0.3,
 	});
 	const totals = data.map((d) => keys.reduce((sum, k) => sum + (Number(d[k]) || 0), 0));
+	const [, maxTotal] = minMax(totals);
 	const yScale = scaleLinear({
-		domain: [0, Math.max(...totals) * 1.1],
+		domain: [0, maxTotal * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});

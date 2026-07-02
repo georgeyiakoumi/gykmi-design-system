@@ -10,6 +10,7 @@ import { AreaClosed, LinePath } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { type ConfidencePoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface ConfidenceChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
@@ -57,8 +58,9 @@ function ConfidenceChartInner({
 	if (innerWidth <= 0 || innerHeight <= 0) return null;
 
 	const allValues = data.flatMap((d) => [d.low, d.high, d.value]);
-	const minY = Math.min(...allValues) * 0.95;
-	const maxY = Math.max(...allValues) * 1.05;
+	const [rawMinY, rawMaxY] = minMax(allValues);
+	const minY = rawMinY * 0.95;
+	const maxY = rawMaxY * 1.05;
 
 	const xScale = scalePoint({
 		domain: data.map((d) => d.date),

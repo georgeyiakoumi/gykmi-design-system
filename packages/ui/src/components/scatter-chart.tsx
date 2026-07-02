@@ -8,6 +8,7 @@ import { scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
 import { ChartTooltip } from "../lib/chart-tooltip";
+import { minMax } from "../lib/chart-utils";
 import { cn } from "../lib/cn";
 
 export interface ScatterPoint {
@@ -53,13 +54,15 @@ function ScatterInner({
 	const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 	if (innerWidth <= 0 || innerHeight <= 0) return null;
 
+	const [minX, maxX] = minMax(data.map((d) => d.x));
+	const [minY, maxY] = minMax(data.map((d) => d.y));
 	const xScale = scaleLinear({
-		domain: [Math.min(...data.map((d) => d.x)) * 0.9, Math.max(...data.map((d) => d.x)) * 1.1],
+		domain: [minX * 0.9, maxX * 1.1],
 		range: [0, innerWidth],
 		nice: true,
 	});
 	const yScale = scaleLinear({
-		domain: [Math.min(...data.map((d) => d.y)) * 0.9, Math.max(...data.map((d) => d.y)) * 1.1],
+		domain: [minY * 0.9, maxY * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});
