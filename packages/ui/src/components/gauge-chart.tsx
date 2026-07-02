@@ -1,12 +1,10 @@
 "use client";
 
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { Arc } from "@visx/shape";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors, chartFont } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
-import { cn } from "../lib/cn";
 
 export interface GaugeChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	value: number;
@@ -31,6 +29,8 @@ function GaugeInner({
 	trackColor = chartColors.grid,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	value: number;
 	max?: number;
@@ -41,6 +41,8 @@ function GaugeInner({
 	trackColor?: string;
 	onHover?: (value: number, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (value: number, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const radius = Math.min(width, height * 2) / 2 - 10;
 	const centerX = width / 2;
@@ -68,9 +70,12 @@ function GaugeInner({
 					endAngle={valueAngle}
 					fill={color}
 					cornerRadius={4}
+					tabIndex={0}
 					style={{ cursor: "pointer" }}
 					onMouseEnter={() => onHover?.(value, centerX, centerY - radius)}
 					onMouseLeave={() => onLeave?.()}
+					onFocus={() => onFocus?.(value, centerX, centerY - radius)}
+					onBlur={() => onBlur?.()}
 				/>
 				<text
 					textAnchor="middle"
@@ -113,52 +118,43 @@ export const GaugeChart = forwardRef<HTMLDivElement, GaugeChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			value: number;
-			left: number;
-			top: number;
-		} | null>(null);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
-		if (loading)
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div role="img" aria-label={`${title}: ${value} of ${max ?? 100}`} style={{ height }}>
-					<ParentSize>
-						{({ width: w }) => (
-							<GaugeInner
-								value={value}
-								max={max}
-								width={w}
-								height={height}
-								label={label}
-								color={color}
-								trackColor={trackColor}
-								onHover={(v, left, top) => setTooltip({ value: v, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{fmt(tooltip.value)}</div>
+			<ChartContainer<number>
+				title={title}
+				ariaDescription={`${value} of ${max ?? 100}`}
+				loading={loading}
+				height={height}
+				isEmpty={false}
+				renderTooltip={(v) => (
+					<>
+						<div className="font-medium">{fmt(v)}</div>
 						<div>
-							{tooltip.value} / {max ?? 100}
+							{v} / {max ?? 100}
 						</div>
-					</ChartTooltip>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<GaugeInner
+						value={value}
+						max={max}
+						width={width}
+						height={h}
+						label={label}
+						color={color}
+						trackColor={trackColor}
+						onHover={onHover}
+						onLeave={onLeave}
+						onFocus={onFocus}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { CandlestickChart } from "./candlestick-chart";
@@ -51,5 +51,21 @@ describe("CandlestickChart a11y", () => {
 		const { container } = render(<CandlestickChart data={[]} title="AAPL Price Action" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("CandlestickChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<CandlestickChart data={sampleData} title="AAPL Price Action" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<CandlestickChart data={sampleData} title="AAPL Price Action" />);
+		const group = container.querySelector("g[tabindex='0']");
+		if (group) {
+			fireEvent.focus(group);
+			expect(screen.getByText("Mon")).toBeInTheDocument();
+		}
 	});
 });

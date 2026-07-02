@@ -4,14 +4,12 @@ import { AxisBottom, AxisLeft } from "@visx/axis";
 import { curveMonotoneX } from "@visx/curve";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleLinear, scalePoint } from "@visx/scale";
 import { AreaClosed, LinePath } from "@visx/shape";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { type ConfidencePoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
 import { minMax } from "../lib/chart-utils";
-import { cn } from "../lib/cn";
 
 export interface ConfidenceChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	/** Data points with value + confidence range (low/high) */
@@ -42,6 +40,8 @@ function ConfidenceChartInner({
 	estimatedAfter,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: ConfidencePoint[];
 	width: number;
@@ -50,6 +50,8 @@ function ConfidenceChartInner({
 	estimatedAfter?: number;
 	onHover?: (d: ConfidencePoint, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (d: ConfidencePoint, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -160,11 +162,16 @@ function ConfidenceChartInner({
 						fill={i >= splitIndex ? chartColors.background : chartColors.primary}
 						stroke={chartColors.primary}
 						strokeWidth={i >= splitIndex ? 1.5 : 0}
+						tabIndex={0}
 						style={{ cursor: "pointer" }}
 						onMouseEnter={() =>
 							onHover?.(d, (xScale(d.date) ?? 0) + margin.left, yScale(d.value) + margin.top)
 						}
 						onMouseLeave={() => onLeave?.()}
+						onFocus={() =>
+							onFocus?.(d, (xScale(d.date) ?? 0) + margin.left, yScale(d.value) + margin.top)
+						}
+						onBlur={() => onBlur?.()}
 					/>
 				))}
 
@@ -213,129 +220,99 @@ export const ConfidenceChart = forwardRef<HTMLDivElement, ConfidenceChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			data: ConfidencePoint;
-			left: number;
-			top: number;
-		} | null>(null);
-
-		if (loading) {
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		}
-
-		if (data.length === 0) {
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — no data`}
-					{...props}
-				>
-					No data available
-				</div>
-			);
-		}
-
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: confidence chart with ${data.length} data points showing value with ${bandLabel}`}
-					style={{ height }}
+			<>
+				<ChartContainer<ConfidencePoint>
+					title={title}
+					ariaDescription={`confidence chart with ${data.length} data points showing value with ${bandLabel}`}
+					loading={loading}
+					height={height}
+					isEmpty={data.length === 0}
+					showTable={showTable}
+					tableContent={
+						<table className="sr-only" aria-label={`${title} data`}>
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>Value</th>
+									<th>Low</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>
+								{data.map((d) => (
+									<tr key={d.date}>
+										<td>{d.date}</td>
+										<td>{d.value}</td>
+										<td>{d.low}</td>
+										<td>{d.high}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					}
+					renderTooltip={(d) => (
+						<>
+							<div className="font-medium">{d.date}</div>
+							<div>{fmt(d.value)}</div>
+							<div className="text-xs opacity-70">
+								Range: {fmt(d.low)} – {fmt(d.high)}
+							</div>
+						</>
+					)}
+					className={className}
+					ref={ref}
+					{...props}
 				>
-					<ParentSize>
-						{({ width: w }) => (
-							<ConfidenceChartInner
-								data={data}
-								width={w}
-								height={height}
-								showGrid={showGrid}
-								estimatedAfter={estimatedAfter}
-								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.data.date}</div>
-						<div>{fmt(tooltip.data.value)}</div>
-						<div className="text-xs opacity-70">
-							Range: {fmt(tooltip.data.low)} – {fmt(tooltip.data.high)}
-						</div>
-					</ChartTooltip>
-				)}
-
-				{/* Legend */}
-				<div className="mt-2 flex items-center gap-4 text-xs text-text-muted">
-					<span className="flex items-center gap-1">
-						<span
-							className="inline-block h-0.5 w-4"
-							style={{ backgroundColor: chartColors.primary }}
+					{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+						<ConfidenceChartInner
+							data={data}
+							width={width}
+							height={h}
+							showGrid={showGrid}
+							estimatedAfter={estimatedAfter}
+							onHover={onHover}
+							onLeave={onLeave}
+							onFocus={onFocus}
+							onBlur={onBlur}
 						/>
-						Actual
-					</span>
-					{estimatedAfter !== undefined && (
+					)}
+				</ChartContainer>
+
+				{/* Legend — rendered outside ChartContainer */}
+				{!loading && data.length > 0 && (
+					<div className="mt-2 flex items-center gap-4 text-xs text-text-muted">
 						<span className="flex items-center gap-1">
 							<span
-								className="inline-block h-0.5 w-4 border-t border-dashed"
-								style={{ borderColor: chartColors.primary }}
+								className="inline-block h-0.5 w-4"
+								style={{ backgroundColor: chartColors.primary }}
 							/>
-							Estimated
+							Actual
 						</span>
-					)}
-					<span className="flex items-center gap-1">
-						<span
-							className="inline-block h-3 w-4 rounded-sm"
-							style={{
-								backgroundColor: chartColors.confidence.band,
-								opacity: chartColors.confidence.bandOpacity,
-							}}
-						/>
-						{bandLabel}
-					</span>
-				</div>
-
-				{showTable && (
-					<table className="sr-only" aria-label={`${title} data`}>
-						<thead>
-							<tr>
-								<th>Date</th>
-								<th>Value</th>
-								<th>Low</th>
-								<th>High</th>
-							</tr>
-						</thead>
-						<tbody>
-							{data.map((d) => (
-								<tr key={d.date}>
-									<td>{d.date}</td>
-									<td>{d.value}</td>
-									<td>{d.low}</td>
-									<td>{d.high}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
+						{estimatedAfter !== undefined && (
+							<span className="flex items-center gap-1">
+								<span
+									className="inline-block h-0.5 w-4 border-t border-dashed"
+									style={{ borderColor: chartColors.primary }}
+								/>
+								Estimated
+							</span>
+						)}
+						<span className="flex items-center gap-1">
+							<span
+								className="inline-block h-3 w-4 rounded-sm"
+								style={{
+									backgroundColor: chartColors.confidence.band,
+									opacity: chartColors.confidence.bandOpacity,
+								}}
+							/>
+							{bandLabel}
+						</span>
+					</div>
 				)}
-			</div>
+			</>
 		);
 	},
 );

@@ -1,12 +1,10 @@
 "use client";
 
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors, chartFont } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
-import { cn } from "../lib/cn";
 
 export interface RadarPoint {
 	axis: string;
@@ -35,6 +33,8 @@ function RadarInner({
 	color = chartColors.primary,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: RadarPoint[];
 	width: number;
@@ -44,6 +44,8 @@ function RadarInner({
 	color?: string;
 	onHover?: (d: RadarPoint, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (d: RadarPoint, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const radius = Math.min(width, height) / 2 - 30;
 	const centerX = width / 2;
@@ -112,9 +114,12 @@ function RadarInner({
 						cy={p.y}
 						r={10}
 						fill="transparent"
+						tabIndex={0}
 						style={{ cursor: "pointer" }}
 						onMouseEnter={() => onHover?.(data[i], p.x + centerX, p.y + centerY)}
 						onMouseLeave={() => onLeave?.()}
+						onFocus={() => onFocus?.(data[i], p.x + centerX, p.y + centerY)}
+						onBlur={() => onBlur?.()}
 					/>
 				))}
 				{/* Labels */}
@@ -156,68 +161,18 @@ export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			data: RadarPoint;
-			left: number;
-			top: number;
-		} | null>(null);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
-		if (loading)
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		if (data.length < 3)
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — insufficient data`}
-					{...props}
-				>
-					Need at least 3 axes
-				</div>
-			);
+
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: radar chart with ${data.length} axes`}
-					style={{ height }}
-				>
-					<ParentSize>
-						{({ width: w }) => (
-							<RadarInner
-								data={data}
-								width={w}
-								height={height}
-								max={max}
-								levels={levels}
-								color={color}
-								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.data.axis}</div>
-						<div>{fmt(tooltip.data.value)}</div>
-					</ChartTooltip>
-				)}
-				{showTable && (
+			<ChartContainer<RadarPoint>
+				title={title}
+				ariaDescription={`radar chart with ${data.length} axes`}
+				loading={loading}
+				height={height}
+				isEmpty={data.length < 3}
+				emptyMessage="Need at least 3 axes"
+				showTable={showTable}
+				tableContent={
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
@@ -234,8 +189,32 @@ export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
 							))}
 						</tbody>
 					</table>
+				}
+				renderTooltip={(d) => (
+					<>
+						<div className="font-medium">{d.axis}</div>
+						<div>{fmt(d.value)}</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<RadarInner
+						data={data}
+						width={width}
+						height={h}
+						max={max}
+						levels={levels}
+						color={color}
+						onHover={onHover}
+						onLeave={onLeave}
+						onFocus={onFocus}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

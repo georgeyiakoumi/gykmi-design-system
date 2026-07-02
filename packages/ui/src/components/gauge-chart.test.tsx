@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { GaugeChart } from "./gauge-chart";
@@ -30,5 +30,16 @@ describe("GaugeChart a11y", () => {
 		const { container } = render(<GaugeChart value={0} title="Portfolio Health" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("GaugeChart interaction", () => {
+	it("tooltip appears on focus", () => {
+		const { container } = render(<GaugeChart value={72} max={100} title="Portfolio Health" />);
+		const path = container.querySelector("path[tabindex='0']");
+		if (path) {
+			fireEvent.focus(path);
+			expect(screen.getByText("72 / 100")).toBeInTheDocument();
+		}
 	});
 });

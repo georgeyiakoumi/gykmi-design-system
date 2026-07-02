@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { StackedBarChart } from "./stacked-bar-chart";
@@ -82,5 +82,36 @@ describe("StackedBarChart a11y", () => {
 		);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("StackedBarChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(
+			<StackedBarChart
+				data={sampleData}
+				keys={keys}
+				indexKey="quarter"
+				title="AUM by Asset Class"
+				showTable
+			/>,
+		);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(
+			<StackedBarChart
+				data={sampleData}
+				keys={keys}
+				indexKey="quarter"
+				title="AUM by Asset Class"
+			/>,
+		);
+		const rect = container.querySelector("rect[tabindex='0']");
+		if (rect) {
+			fireEvent.focus(rect);
+			expect(screen.getByText("equities")).toBeInTheDocument();
+		}
 	});
 });

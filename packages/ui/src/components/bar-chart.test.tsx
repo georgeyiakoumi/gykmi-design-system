@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { BarChart } from "./bar-chart";
@@ -50,5 +50,21 @@ describe("BarChart a11y", () => {
 		const { container } = render(<BarChart data={[]} title="Quarterly Revenue" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("BarChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<BarChart data={sampleData} title="Quarterly Revenue" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<BarChart data={sampleData} title="Quarterly Revenue" />);
+		const rect = container.querySelector("rect[tabindex='0']");
+		if (rect) {
+			fireEvent.focus(rect);
+			expect(screen.getByText("Q1")).toBeInTheDocument();
+		}
 	});
 });

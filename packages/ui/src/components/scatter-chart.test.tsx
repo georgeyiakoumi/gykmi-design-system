@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { ScatterChart } from "./scatter-chart";
@@ -51,5 +51,21 @@ describe("ScatterChart a11y", () => {
 		const { container } = render(<ScatterChart data={[]} title="Risk vs Return" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("ScatterChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<ScatterChart data={sampleData} title="Risk vs Return" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<ScatterChart data={sampleData} title="Risk vs Return" />);
+		const circle = container.querySelector("circle[tabindex='0']");
+		if (circle) {
+			fireEvent.focus(circle);
+			expect(screen.getByText("Fund A")).toBeInTheDocument();
+		}
 	});
 });

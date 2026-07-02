@@ -1,13 +1,11 @@
 "use client";
 
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleOrdinal } from "@visx/scale";
 import { Pie } from "@visx/shape";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { type ChartDataPoint, chartColors, chartFont } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
-import { cn } from "../lib/cn";
 
 const defaultPalette = [
 	chartColors.primary,
@@ -40,6 +38,8 @@ function DonutChartInner({
 	colors = defaultPalette,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: ChartDataPoint[];
 	width: number;
@@ -49,6 +49,8 @@ function DonutChartInner({
 	colors?: string[];
 	onHover?: (d: ChartDataPoint, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (d: ChartDataPoint, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const radius = Math.min(width, height) / 2;
 	const innerRadius = radius * innerRadiusRatio;
@@ -80,9 +82,12 @@ function DonutChartInner({
 							return (
 								<g
 									key={arc.data.label}
+									tabIndex={0}
 									style={{ cursor: "pointer" }}
 									onMouseEnter={() => onHover?.(arc.data, centroidX + centerX, centroidY + centerY)}
 									onMouseLeave={() => onLeave?.()}
+									onFocus={() => onFocus?.(arc.data, centroidX + centerX, centroidY + centerY)}
+									onBlur={() => onBlur?.()}
 								>
 									<path d={pie.path(arc) ?? ""} fill={colorScale(arc.data.label)} />
 									{showLabels && (
@@ -125,75 +130,18 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			data: ChartDataPoint;
-			left: number;
-			top: number;
-		} | null>(null);
-
-		if (loading) {
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		}
-		if (data.length === 0) {
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — no data`}
-					{...props}
-				>
-					No data available
-				</div>
-			);
-		}
 		const total = data.reduce((sum, d) => sum + d.value, 0);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: donut chart with ${data.length} segments`}
-					style={{ height }}
-				>
-					<ParentSize>
-						{({ width: w }) => (
-							<DonutChartInner
-								data={data}
-								width={w}
-								height={height}
-								innerRadiusRatio={innerRadiusRatio}
-								showLabels={showLabels}
-								colors={colors}
-								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.data.label}</div>
-						<div>
-							{fmt(tooltip.data.value)} ({((tooltip.data.value / total) * 100).toFixed(0)}%)
-						</div>
-					</ChartTooltip>
-				)}
-				{showTable && (
+			<ChartContainer<ChartDataPoint>
+				title={title}
+				ariaDescription={`donut chart with ${data.length} segments`}
+				loading={loading}
+				height={height}
+				isEmpty={data.length === 0}
+				showTable={showTable}
+				tableContent={
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
@@ -210,8 +158,34 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
 							))}
 						</tbody>
 					</table>
+				}
+				renderTooltip={(d) => (
+					<>
+						<div className="font-medium">{d.label}</div>
+						<div>
+							{fmt(d.value)} ({((d.value / total) * 100).toFixed(0)}%)
+						</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<DonutChartInner
+						data={data}
+						width={width}
+						height={h}
+						innerRadiusRatio={innerRadiusRatio}
+						showLabels={showLabels}
+						colors={colors}
+						onHover={onHover}
+						onLeave={onLeave}
+						onFocus={onFocus}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

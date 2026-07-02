@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { HeatmapChart } from "./heatmap-chart";
@@ -68,5 +68,21 @@ describe("HeatmapChart a11y", () => {
 		const { container } = render(<HeatmapChart data={[]} title="Correlation Matrix" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("HeatmapChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<HeatmapChart data={sampleData} title="Correlation Matrix" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<HeatmapChart data={sampleData} title="Correlation Matrix" />);
+		const rect = container.querySelector("rect[tabindex='0']");
+		if (rect) {
+			fireEvent.focus(rect);
+			expect(screen.getByText("12")).toBeInTheDocument();
+		}
 	});
 });

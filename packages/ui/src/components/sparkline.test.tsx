@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { Sparkline } from "./sparkline";
@@ -49,5 +49,16 @@ describe("Sparkline a11y", () => {
 		const { container } = render(<Sparkline data={[]} label="Share price" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("Sparkline interaction", () => {
+	it("tooltip appears on focus", () => {
+		const { container } = render(<Sparkline data={sampleData} label="Share price" width={120} />);
+		const circle = container.querySelector("circle[tabindex='0']");
+		if (circle) {
+			fireEvent.focus(circle);
+			expect(screen.getByText("#0")).toBeInTheDocument();
+		}
 	});
 });

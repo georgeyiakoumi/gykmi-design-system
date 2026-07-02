@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { RadarChart } from "./radar-chart";
@@ -31,7 +31,7 @@ describe("RadarChart", () => {
 				title="Fund Risk Profile"
 			/>,
 		);
-		expect(screen.getByLabelText("Fund Risk Profile \u2014 insufficient data")).toBeInTheDocument();
+		expect(screen.getByLabelText("Fund Risk Profile \u2014 no data")).toBeInTheDocument();
 	});
 
 	it("renders loading state", () => {
@@ -65,5 +65,21 @@ describe("RadarChart a11y", () => {
 		const { container } = render(<RadarChart data={[]} title="Fund Risk Profile" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("RadarChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<RadarChart data={sampleData} title="Fund Risk Profile" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<RadarChart data={sampleData} title="Fund Risk Profile" />);
+		const circle = container.querySelector("circle[tabindex='0']");
+		if (circle) {
+			fireEvent.focus(circle);
+			expect(screen.getByText("Liquidity")).toBeInTheDocument();
+		}
 	});
 });

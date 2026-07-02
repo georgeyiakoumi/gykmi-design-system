@@ -3,13 +3,11 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear } from "@visx/scale";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
 import { minMax } from "../lib/chart-utils";
-import { cn } from "../lib/cn";
 
 export interface WaterfallItem {
 	label: string;
@@ -41,6 +39,8 @@ function WaterfallInner({
 	totalColor = chartColors.primary,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: WaterfallItem[];
 	width: number;
@@ -51,6 +51,8 @@ function WaterfallInner({
 	totalColor?: string;
 	onHover?: (d: WaterfallItem, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (d: WaterfallItem, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -105,11 +107,16 @@ function WaterfallInner({
 							height={barHeight}
 							fill={color}
 							rx={2}
+							tabIndex={0}
 							style={{ cursor: "pointer" }}
 							onMouseEnter={() =>
 								onHover?.(d, barX + xScale.bandwidth() / 2 + margin.left, top + margin.top)
 							}
 							onMouseLeave={() => onLeave?.()}
+							onFocus={() =>
+								onFocus?.(d, barX + xScale.bandwidth() / 2 + margin.left, top + margin.top)
+							}
+							onBlur={() => onBlur?.()}
 						/>
 					);
 				})}
@@ -159,74 +166,17 @@ export const WaterfallChart = forwardRef<HTMLDivElement, WaterfallChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			data: WaterfallItem;
-			left: number;
-			top: number;
-		} | null>(null);
-
-		if (loading)
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		if (data.length === 0)
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — no data`}
-					{...props}
-				>
-					No data available
-				</div>
-			);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: waterfall chart with ${data.length} items`}
-					style={{ height }}
-				>
-					<ParentSize>
-						{({ width: w }) => (
-							<WaterfallInner
-								data={data}
-								width={w}
-								height={height}
-								showGrid={showGrid}
-								positiveColor={positiveColor}
-								negativeColor={negativeColor}
-								totalColor={totalColor}
-								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.data.label}</div>
-						<div>
-							{tooltip.data.isTotal ? "Total" : tooltip.data.value >= 0 ? "+" : ""}
-							{fmt(tooltip.data.value)}
-						</div>
-					</ChartTooltip>
-				)}
-				{showTable && (
+			<ChartContainer<WaterfallItem>
+				title={title}
+				ariaDescription={`waterfall chart with ${data.length} items`}
+				loading={loading}
+				height={height}
+				isEmpty={data.length === 0}
+				showTable={showTable}
+				tableContent={
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
@@ -245,8 +195,36 @@ export const WaterfallChart = forwardRef<HTMLDivElement, WaterfallChartProps>(
 							))}
 						</tbody>
 					</table>
+				}
+				renderTooltip={(d) => (
+					<>
+						<div className="font-medium">{d.label}</div>
+						<div>
+							{d.isTotal ? "Total" : d.value >= 0 ? "+" : ""}
+							{fmt(d.value)}
+						</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<WaterfallInner
+						data={data}
+						width={width}
+						height={h}
+						showGrid={showGrid}
+						positiveColor={positiveColor}
+						negativeColor={negativeColor}
+						totalColor={totalColor}
+						onHover={onHover}
+						onLeave={onLeave}
+						onFocus={onFocus}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

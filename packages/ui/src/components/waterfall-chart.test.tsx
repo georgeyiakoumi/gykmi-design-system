@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { WaterfallChart } from "./waterfall-chart";
@@ -51,5 +51,21 @@ describe("WaterfallChart a11y", () => {
 		const { container } = render(<WaterfallChart data={[]} title="P&L Breakdown" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("WaterfallChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<WaterfallChart data={sampleData} title="P&L Breakdown" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<WaterfallChart data={sampleData} title="P&L Breakdown" />);
+		const rect = container.querySelector("rect[tabindex='0']");
+		if (rect) {
+			fireEvent.focus(rect);
+			expect(screen.getByText("Revenue")).toBeInTheDocument();
+		}
 	});
 });

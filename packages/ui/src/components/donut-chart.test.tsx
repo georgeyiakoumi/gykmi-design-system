@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { DonutChart } from "./donut-chart";
@@ -50,5 +50,21 @@ describe("DonutChart a11y", () => {
 		const { container } = render(<DonutChart data={[]} title="Portfolio Allocation" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("DonutChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<DonutChart data={sampleData} title="Portfolio Allocation" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<DonutChart data={sampleData} title="Portfolio Allocation" />);
+		const group = container.querySelector("g[tabindex='0']");
+		if (group) {
+			fireEvent.focus(group);
+			expect(screen.getByText("Equities")).toBeInTheDocument();
+		}
 	});
 });

@@ -1,13 +1,11 @@
 "use client";
 
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear } from "@visx/scale";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
 import { minMax } from "../lib/chart-utils";
-import { cn } from "../lib/cn";
 
 export interface HeatmapBin {
 	bin: number;
@@ -41,6 +39,8 @@ function HeatmapInner({
 	colorTo = chartColors.primary,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: HeatmapRow[];
 	columnLabels?: string[];
@@ -50,6 +50,8 @@ function HeatmapInner({
 	colorTo?: string;
 	onHover?: (row: string, col: string, count: number, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (row: string, col: string, count: number, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = { top: 20, right: 20, bottom: 40, left: 60 };
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -93,6 +95,7 @@ function HeatmapInner({
 									height={yScale.bandwidth()}
 									fill={colorScale(bin.count) as string}
 									rx={2}
+									tabIndex={0}
 									style={{ cursor: "pointer" }}
 									onMouseEnter={() =>
 										onHover?.(
@@ -104,6 +107,16 @@ function HeatmapInner({
 										)
 									}
 									onMouseLeave={() => onLeave?.()}
+									onFocus={() =>
+										onFocus?.(
+											row.label,
+											colLabel,
+											bin.count,
+											cellX + xScale.bandwidth() / 2 + margin.left,
+											(yScale(row.label) ?? 0) + margin.top,
+										)
+									}
+									onBlur={() => onBlur?.()}
 								/>
 							);
 						})}
@@ -158,70 +171,17 @@ export const HeatmapChart = forwardRef<HTMLDivElement, HeatmapChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			row: string;
-			col: string;
-			count: number;
-			left: number;
-			top: number;
-		} | null>(null);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
-		if (loading) {
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		}
-		if (data.length === 0) {
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — no data`}
-					{...props}
-				>
-					No data available
-				</div>
-			);
-		}
+
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div role="img" aria-label={`${title}: heatmap chart`} style={{ height }}>
-					<ParentSize>
-						{({ width: w }) => (
-							<HeatmapInner
-								data={data}
-								columnLabels={columnLabels}
-								width={w}
-								height={height}
-								colorFrom={colorFrom}
-								colorTo={colorTo}
-								onHover={(row, col, count, left, top) => setTooltip({ row, col, count, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">
-							{tooltip.row} / {tooltip.col}
-						</div>
-						<div>{fmt(tooltip.count)}</div>
-					</ChartTooltip>
-				)}
-				{showTable && (
+			<ChartContainer<{ row: string; col: string; count: number }>
+				title={title}
+				ariaDescription="heatmap chart"
+				loading={loading}
+				height={height}
+				isEmpty={data.length === 0}
+				showTable={showTable}
+				tableContent={
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
@@ -242,8 +202,34 @@ export const HeatmapChart = forwardRef<HTMLDivElement, HeatmapChartProps>(
 							))}
 						</tbody>
 					</table>
+				}
+				renderTooltip={(d) => (
+					<>
+						<div className="font-medium">
+							{d.row} / {d.col}
+						</div>
+						<div>{fmt(d.count)}</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<HeatmapInner
+						data={data}
+						columnLabels={columnLabels}
+						width={width}
+						height={h}
+						colorFrom={colorFrom}
+						colorTo={colorTo}
+						onHover={(row, col, count, left, top) => onHover({ row, col, count }, left, top)}
+						onLeave={onLeave}
+						onFocus={(row, col, count, left, top) => onFocus({ row, col, count }, left, top)}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

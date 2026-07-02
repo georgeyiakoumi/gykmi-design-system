@@ -3,13 +3,11 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { GridColumns, GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
 import { minMax } from "../lib/chart-utils";
-import { cn } from "../lib/cn";
 
 export interface ScatterPoint {
 	x: number;
@@ -40,6 +38,8 @@ function ScatterInner({
 	color = chartColors.primary,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: ScatterPoint[];
 	width: number;
@@ -48,6 +48,8 @@ function ScatterInner({
 	color?: string;
 	onHover?: (d: ScatterPoint, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (d: ScatterPoint, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -97,9 +99,12 @@ function ScatterInner({
 						fillOpacity={0.7}
 						stroke={color}
 						strokeWidth={1}
+						tabIndex={0}
 						style={{ cursor: "pointer" }}
 						onMouseEnter={() => onHover?.(d, xScale(d.x) + margin.left, yScale(d.y) + margin.top)}
 						onMouseLeave={() => onLeave?.()}
+						onFocus={() => onFocus?.(d, xScale(d.x) + margin.left, yScale(d.y) + margin.top)}
+						onBlur={() => onBlur?.()}
 					/>
 				))}
 				<AxisBottom
@@ -146,71 +151,17 @@ export const ScatterChart = forwardRef<HTMLDivElement, ScatterChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			data: ScatterPoint;
-			left: number;
-			top: number;
-		} | null>(null);
-
-		if (loading)
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		if (data.length === 0)
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — no data`}
-					{...props}
-				>
-					No data available
-				</div>
-			);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: scatter chart with ${data.length} points`}
-					style={{ height }}
-				>
-					<ParentSize>
-						{({ width: w }) => (
-							<ScatterInner
-								data={data}
-								width={w}
-								height={height}
-								showGrid={showGrid}
-								color={color}
-								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						{tooltip.data.label && <div className="font-medium">{tooltip.data.label}</div>}
-						<div>
-							x: {fmt(tooltip.data.x)}, y: {fmt(tooltip.data.y)}
-						</div>
-					</ChartTooltip>
-				)}
-				{showTable && (
+			<ChartContainer<ScatterPoint>
+				title={title}
+				ariaDescription={`scatter chart with ${data.length} points`}
+				loading={loading}
+				height={height}
+				isEmpty={data.length === 0}
+				showTable={showTable}
+				tableContent={
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
@@ -229,8 +180,33 @@ export const ScatterChart = forwardRef<HTMLDivElement, ScatterChartProps>(
 							))}
 						</tbody>
 					</table>
+				}
+				renderTooltip={(d) => (
+					<>
+						{d.label && <div className="font-medium">{d.label}</div>}
+						<div>
+							x: {fmt(d.x)}, y: {fmt(d.y)}
+						</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<ScatterInner
+						data={data}
+						width={width}
+						height={h}
+						showGrid={showGrid}
+						color={color}
+						onHover={onHover}
+						onLeave={onLeave}
+						onFocus={onFocus}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

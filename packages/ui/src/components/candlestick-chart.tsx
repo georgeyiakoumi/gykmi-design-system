@@ -3,13 +3,11 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear } from "@visx/scale";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
 import { minMax } from "../lib/chart-utils";
-import { cn } from "../lib/cn";
 
 export interface CandlestickPoint {
 	date: string;
@@ -41,6 +39,8 @@ function CandlestickInner({
 	downColor = chartColors.danger,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: CandlestickPoint[];
 	width: number;
@@ -50,6 +50,8 @@ function CandlestickInner({
 	downColor?: string;
 	onHover?: (d: CandlestickPoint, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (d: CandlestickPoint, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -91,9 +93,12 @@ function CandlestickInner({
 					return (
 						<g
 							key={d.date}
+							tabIndex={0}
 							style={{ cursor: "pointer" }}
 							onMouseEnter={() => onHover?.(d, x + margin.left, bodyTop + margin.top)}
 							onMouseLeave={() => onLeave?.()}
+							onFocus={() => onFocus?.(d, x + margin.left, bodyTop + margin.top)}
+							onBlur={() => onBlur?.()}
 						>
 							<line
 								x1={x}
@@ -159,75 +164,17 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			data: CandlestickPoint;
-			left: number;
-			top: number;
-		} | null>(null);
-
-		if (loading)
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		if (data.length === 0)
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — no data`}
-					{...props}
-				>
-					No data available
-				</div>
-			);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: candlestick chart with ${data.length} data points`}
-					style={{ height }}
-				>
-					<ParentSize>
-						{({ width: w }) => (
-							<CandlestickInner
-								data={data}
-								width={w}
-								height={height}
-								showGrid={showGrid}
-								upColor={upColor}
-								downColor={downColor}
-								onHover={(d, left, top) => setTooltip({ data: d, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.data.date}</div>
-						<div>
-							O: {fmt(tooltip.data.open)} H: {fmt(tooltip.data.high)}
-						</div>
-						<div>
-							L: {fmt(tooltip.data.low)} C: {fmt(tooltip.data.close)}
-						</div>
-					</ChartTooltip>
-				)}
-				{showTable && (
+			<ChartContainer<CandlestickPoint>
+				title={title}
+				ariaDescription={`candlestick chart with ${data.length} data points`}
+				loading={loading}
+				height={height}
+				isEmpty={data.length === 0}
+				showTable={showTable}
+				tableContent={
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
@@ -250,8 +197,37 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 							))}
 						</tbody>
 					</table>
+				}
+				renderTooltip={(d) => (
+					<>
+						<div className="font-medium">{d.date}</div>
+						<div>
+							O: {fmt(d.open)} H: {fmt(d.high)}
+						</div>
+						<div>
+							L: {fmt(d.low)} C: {fmt(d.close)}
+						</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<CandlestickInner
+						data={data}
+						width={width}
+						height={h}
+						showGrid={showGrid}
+						upColor={upColor}
+						downColor={downColor}
+						onHover={onHover}
+						onLeave={onLeave}
+						onFocus={onFocus}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

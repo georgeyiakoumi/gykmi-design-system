@@ -34,6 +34,8 @@ function SparklineInner({
 	color = chartColors.primary,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: number[];
 	width: number;
@@ -41,6 +43,8 @@ function SparklineInner({
 	color?: string;
 	onHover?: (index: number, value: number, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (index: number, value: number, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = chartSpacing.sparklineMargin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -79,9 +83,12 @@ function SparklineInner({
 					cy={yScale(pt.y)}
 					r={8}
 					fill="transparent"
+					tabIndex={0}
 					style={{ cursor: "pointer" }}
 					onMouseEnter={() => onHover?.(pt.x, pt.y, xScale(pt.x), yScale(pt.y))}
 					onMouseLeave={() => onLeave?.()}
+					onFocus={() => onFocus?.(pt.x, pt.y, xScale(pt.x), yScale(pt.y))}
+					onBlur={() => onBlur?.()}
 				/>
 			))}
 		</svg>
@@ -159,6 +166,8 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
 						color={color}
 						onHover={handleHover}
 						onLeave={handleLeave}
+						onFocus={handleHover}
+						onBlur={handleLeave}
 					/>
 				) : (
 					<ParentSize>
@@ -170,6 +179,8 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
 								color={color}
 								onHover={handleHover}
 								onLeave={handleLeave}
+								onFocus={handleHover}
+								onBlur={handleLeave}
 							/>
 						)}
 					</ParentSize>

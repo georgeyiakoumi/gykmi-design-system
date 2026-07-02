@@ -3,14 +3,12 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
 import { BarStack } from "@visx/shape";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
 import { minMax } from "../lib/chart-utils";
-import { cn } from "../lib/cn";
 
 const defaultPalette = [
 	chartColors.primary,
@@ -43,6 +41,8 @@ function StackedBarInner({
 	colors = defaultPalette,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	data: Record<string, string | number>[];
 	keys: string[];
@@ -53,6 +53,8 @@ function StackedBarInner({
 	colors?: string[];
 	onHover?: (key: string, value: number, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (key: string, value: number, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = chartSpacing.margin;
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -105,6 +107,7 @@ function StackedBarInner({
 									height={bar.height}
 									fill={bar.color}
 									rx={2}
+									tabIndex={0}
 									style={{ cursor: "pointer" }}
 									onMouseEnter={() =>
 										onHover?.(
@@ -115,6 +118,15 @@ function StackedBarInner({
 										)
 									}
 									onMouseLeave={() => onLeave?.()}
+									onFocus={() =>
+										onFocus?.(
+											barStack.key,
+											Number(bar.bar.data[barStack.key]) || 0,
+											bar.x + bar.width / 2 + margin.left,
+											bar.y + margin.top,
+										)
+									}
+									onBlur={() => onBlur?.()}
 								/>
 							)),
 						)
@@ -166,68 +178,17 @@ export const StackedBarChart = forwardRef<HTMLDivElement, StackedBarChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			key: string;
-			value: number;
-			left: number;
-			top: number;
-		} | null>(null);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
-		if (loading) {
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded-lg bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
-		}
-		if (data.length === 0) {
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex items-center justify-center rounded-lg border border-border text-text-muted",
-						className,
-					)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} — no data`}
-					{...props}
-				>
-					No data available
-				</div>
-			);
-		}
+
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div role="img" aria-label={`${title}: stacked bar chart`} style={{ height }}>
-					<ParentSize>
-						{({ width: w }) => (
-							<StackedBarInner
-								data={data}
-								keys={keys}
-								indexKey={indexKey}
-								width={w}
-								height={height}
-								showGrid={showGrid}
-								colors={colors}
-								onHover={(key, value, left, top) => setTooltip({ key, value, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">{tooltip.key}</div>
-						<div>{fmt(tooltip.value)}</div>
-					</ChartTooltip>
-				)}
-				{showTable && (
+			<ChartContainer<{ key: string; value: number }>
+				title={title}
+				ariaDescription="stacked bar chart"
+				loading={loading}
+				height={height}
+				isEmpty={data.length === 0}
+				showTable={showTable}
+				tableContent={
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
@@ -248,8 +209,33 @@ export const StackedBarChart = forwardRef<HTMLDivElement, StackedBarChartProps>(
 							))}
 						</tbody>
 					</table>
+				}
+				renderTooltip={(d) => (
+					<>
+						<div className="font-medium">{d.key}</div>
+						<div>{fmt(d.value)}</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<StackedBarInner
+						data={data}
+						keys={keys}
+						indexKey={indexKey}
+						width={width}
+						height={h}
+						showGrid={showGrid}
+						colors={colors}
+						onHover={(key, value, left, top) => onHover({ key, value }, left, top)}
+						onLeave={onLeave}
+						onFocus={(key, value, left, top) => onFocus({ key, value }, left, top)}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

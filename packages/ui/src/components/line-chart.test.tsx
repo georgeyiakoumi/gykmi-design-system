@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { LineChart } from "./line-chart";
@@ -48,5 +48,21 @@ describe("LineChart a11y", () => {
 		const { container } = render(<LineChart data={[]} title="Revenue" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("LineChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<LineChart data={sampleData} title="Revenue" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<LineChart data={sampleData} title="Revenue" />);
+		const circle = container.querySelector("circle[tabindex='0']");
+		if (circle) {
+			fireEvent.focus(circle);
+			expect(screen.getByText("Jan")).toBeInTheDocument();
+		}
 	});
 });

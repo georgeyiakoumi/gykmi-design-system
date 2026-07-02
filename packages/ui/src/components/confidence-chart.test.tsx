@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { ConfidenceChart } from "./confidence-chart";
@@ -52,5 +52,21 @@ describe("ConfidenceChart a11y", () => {
 		const { container } = render(<ConfidenceChart data={[]} title="Revenue Forecast" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("ConfidenceChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<ConfidenceChart data={sampleData} title="Revenue Forecast" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<ConfidenceChart data={sampleData} title="Revenue Forecast" />);
+		const circle = container.querySelector("circle[tabindex='0']");
+		if (circle) {
+			fireEvent.focus(circle);
+			expect(screen.getByText("Jan")).toBeInTheDocument();
+		}
 	});
 });

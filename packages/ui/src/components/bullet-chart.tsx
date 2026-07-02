@@ -1,12 +1,10 @@
 "use client";
 
 import { Group } from "@visx/group";
-import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
+import { ChartContainer } from "../lib/chart-container";
 import { chartColors, chartFont } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
-import { cn } from "../lib/cn";
 
 export interface BulletChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	actual: number;
@@ -29,6 +27,8 @@ function BulletInner({
 	label,
 	onHover,
 	onLeave,
+	onFocus,
+	onBlur,
 }: {
 	actual: number;
 	target: number;
@@ -38,6 +38,8 @@ function BulletInner({
 	label?: string;
 	onHover?: (actual: number, target: number, left: number, top: number) => void;
 	onLeave?: () => void;
+	onFocus?: (actual: number, target: number, left: number, top: number) => void;
+	onBlur?: () => void;
 }) {
 	const margin = { top: 8, right: 20, bottom: 20, left: label ? 80 : 20 };
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -86,11 +88,16 @@ function BulletInner({
 					height={barHeight * 0.7}
 					fill={chartColors.primary}
 					rx={2}
+					tabIndex={0}
 					style={{ cursor: "pointer" }}
 					onMouseEnter={() =>
 						onHover?.(actual, target, xScale(actual) / 2 + margin.left, barY + margin.top)
 					}
 					onMouseLeave={() => onLeave?.()}
+					onFocus={() =>
+						onFocus?.(actual, target, xScale(actual) / 2 + margin.left, barY + margin.top)
+					}
+					onBlur={() => onBlur?.()}
 				/>
 				<line
 					x1={xScale(target)}
@@ -121,54 +128,40 @@ export const BulletChart = forwardRef<HTMLDivElement, BulletChartProps>(
 		},
 		ref,
 	) => {
-		const [tooltip, setTooltip] = useState<{
-			actual: number;
-			target: number;
-			left: number;
-			top: number;
-		} | null>(null);
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
-		if (loading)
-			return (
-				<div
-					ref={ref}
-					className={cn("animate-pulse rounded bg-surface-raised", className)}
-					style={{ height }}
-					role="img"
-					aria-label={`${title} loading`}
-					{...props}
-				/>
-			);
 		return (
-			<div ref={ref} className={cn("relative w-full", className)} {...props}>
-				<div
-					role="img"
-					aria-label={`${title}: actual ${actual}, target ${target}`}
-					style={{ height }}
-				>
-					<ParentSize>
-						{({ width: w }) => (
-							<BulletInner
-								actual={actual}
-								target={target}
-								ranges={ranges}
-								width={w}
-								height={height}
-								label={label}
-								onHover={(a, t, left, top) => setTooltip({ actual: a, target: t, left, top })}
-								onLeave={() => setTooltip(null)}
-							/>
-						)}
-					</ParentSize>
-				</div>
-				{tooltip && (
-					<ChartTooltip top={tooltip.top} left={tooltip.left}>
-						<div className="font-medium">Actual: {fmt(tooltip.actual)}</div>
-						<div>Target: {fmt(tooltip.target)}</div>
-					</ChartTooltip>
+			<ChartContainer<{ actual: number; target: number }>
+				title={title}
+				ariaDescription={`actual ${actual}, target ${target}`}
+				loading={loading}
+				height={height}
+				isEmpty={false}
+				renderTooltip={(d) => (
+					<>
+						<div className="font-medium">Actual: {fmt(d.actual)}</div>
+						<div>Target: {fmt(d.target)}</div>
+					</>
 				)}
-			</div>
+				className={className}
+				ref={ref}
+				{...props}
+			>
+				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
+					<BulletInner
+						actual={actual}
+						target={target}
+						ranges={ranges}
+						width={width}
+						height={h}
+						label={label}
+						onHover={(a, t, left, top) => onHover({ actual: a, target: t }, left, top)}
+						onLeave={onLeave}
+						onFocus={(a, t, left, top) => onFocus({ actual: a, target: t }, left, top)}
+						onBlur={onBlur}
+					/>
+				)}
+			</ChartContainer>
 		);
 	},
 );

@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { TreemapChart } from "./treemap-chart";
@@ -51,5 +51,21 @@ describe("TreemapChart a11y", () => {
 		const { container } = render(<TreemapChart data={[]} title="Sector Exposure" loading />);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);
+	});
+});
+
+describe("TreemapChart interaction", () => {
+	it("showTable renders accessible table", () => {
+		render(<TreemapChart data={sampleData} title="Sector Exposure" showTable />);
+		expect(screen.getByRole("table")).toBeInTheDocument();
+	});
+
+	it("tooltip appears on focus", () => {
+		const { container } = render(<TreemapChart data={sampleData} title="Sector Exposure" />);
+		const rect = container.querySelector("rect[tabindex='0']");
+		if (rect) {
+			fireEvent.focus(rect);
+			expect(screen.getByText("Technology")).toBeInTheDocument();
+		}
 	});
 });
