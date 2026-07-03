@@ -5,7 +5,6 @@ import {
 	AnalysisSection,
 	AuditTrail,
 	Badge,
-	Button,
 	Card,
 	CardContent,
 	CardDescription,
@@ -34,8 +33,8 @@ import {
 	SidebarSeparator,
 	SidebarTrigger,
 	Stack,
+	ThemeToggle,
 } from "@gykmi/ui";
-import { useState } from "react";
 
 // ─── DATA NARRATIVE ─────────────────────────────────────────────────────────
 // Nadia is a risk & compliance analyst. She opens this first thing each morning.
@@ -194,25 +193,6 @@ const dataSources = [
 	{ name: "Pricing Engine", version: "2.8", lastUpdated: "2026-07-02T07:42:00Z", verified: true },
 	{ name: "Market Data Feed", lastUpdated: "2026-06-30T23:59:00Z", verified: false },
 ];
-
-function ThemeToggle() {
-	const [dark, setDark] = useState(false);
-	return (
-		<Button
-			variant="secondary"
-			size="sm"
-			onClick={() => {
-				setDark((prev) => {
-					const next = !prev;
-					document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
-					return next;
-				});
-			}}
-		>
-			{dark ? "☀ Light" : "☾ Dark"}
-		</Button>
-	);
-}
 
 export default function DashboardPage() {
 	const needsReview = flaggedItems.filter((i) => i.status === "needs-review").length;

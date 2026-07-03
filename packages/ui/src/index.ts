@@ -277,6 +277,8 @@ export type { SwitchProps } from "./components/switch";
 export { Switch } from "./components/switch";
 export type { TabsContentProps, TabsListProps, TabsTriggerProps } from "./components/tabs";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/tabs";
+export type { ThemeToggleProps } from "./components/theme-toggle";
+export { ThemeToggle } from "./components/theme-toggle";
 export type {
 	ToastActionProps,
 	ToastCloseProps,
