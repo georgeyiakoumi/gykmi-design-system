@@ -349,7 +349,7 @@ export default function DashboardPage() {
 						{/* ─── QUALIFYING KPIs ─────────────────────────────────── */}
 						<div className="grid grid-cols-2 gap-3 md:grid-cols-4">
 							<Card>
-								<CardHeader className="pb-2">
+								<CardHeader>
 									<CardDescription className="text-xs">Meridian exposure</CardDescription>
 									<CardTitle className="text-xl text-danger">17.4%</CardTitle>
 									<p className="text-xs text-text-muted">Limit: 15.0%</p>
