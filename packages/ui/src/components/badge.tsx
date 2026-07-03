@@ -69,7 +69,7 @@ export const BadgeCount = forwardRef<HTMLSpanElement, BadgeCountProps>(
 				ref={ref}
 				data-slot="badge-count"
 				className={cn(
-					"inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1 text-xs font-semibold tabular-nums",
+					"inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1 text-xs font-bold tabular-nums",
 					className,
 				)}
 				{...props}

@@ -3,7 +3,7 @@
 import type { BadgeVariant } from "@gykmi/ui";
 import { Badge, Text } from "@gykmi/ui";
 
-interface StatusBadge {
+export interface StatusBadge {
 	label: string;
 	count: number;
 	variant: BadgeVariant;

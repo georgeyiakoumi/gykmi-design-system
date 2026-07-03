@@ -31,6 +31,8 @@ export function HeatmapSection({ data, columnLabels }: HeatmapSectionProps) {
 						columnLabels={columnLabels}
 						title="Counterparty exposure by asset class"
 						height={240}
+						colorFrom="#eef2ff"
+						colorTo="#2563eb"
 						formatValue={(v) => `$${v.toFixed(1)}M`}
 					/>
 				</CardContent>

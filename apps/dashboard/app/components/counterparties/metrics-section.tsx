@@ -1,15 +1,26 @@
 "use client";
 
 import type { ChartDataPoint, TimeSeriesPoint } from "@gykmi/ui";
+import { chartColors } from "@gykmi/ui";
 import {
 	Card,
 	CardContent,
+	CardFooter,
 	CardHeader,
 	CardTitle,
 	DonutChart,
 	LineChart,
 	MetricCard,
 } from "@gykmi/ui";
+
+const DONUT_COLORS = [
+	chartColors.primary,
+	chartColors.secondary,
+	chartColors.tertiary,
+	chartColors.quaternary,
+	chartColors.danger,
+	chartColors.muted,
+];
 
 interface Counterparty {
 	exposure: number;
@@ -64,6 +75,19 @@ export function MetricsSection({ counterparties, concentration, exposureTrend }:
 						formatValue={(v) => `${v.toFixed(1)}%`}
 					/>
 				</CardContent>
+				<CardFooter>
+					<div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted">
+						{concentration.map((item, i) => (
+							<span key={item.label} className="flex items-center gap-1.5">
+								<span
+									className="inline-block h-2 w-2 rounded-full"
+									style={{ backgroundColor: DONUT_COLORS[i % DONUT_COLORS.length] }}
+								/>
+								{item.label}
+							</span>
+						))}
+					</div>
+				</CardFooter>
 			</Card>
 
 			<Card>

@@ -5,7 +5,6 @@ import { ActivitySection } from "./components/morning-review/activity-section";
 import { ExposureTrendSection } from "./components/morning-review/exposure-trend-section";
 import { FlaggedItemsSection } from "./components/morning-review/flagged-items-section";
 import { OverviewSection } from "./components/morning-review/overview-section";
-import { PageTitle } from "./components/page-title";
 import seed from "./data/seed.json";
 
 const { exposureTrend, flaggedItems, auditEntries, dataSources } = seed.morningReview;
@@ -23,21 +22,16 @@ export default function DashboardPage() {
 	).length;
 
 	return (
-		<DashboardShell>
-			<div className="flex flex-col space-y-8 p-6">
-				<PageTitle
-					title="Morning review"
-					badges={[
-						{ label: "Review required", count: needsReview, variant: "warning", href: "#flagged-items" },
-						{ label: "Sign-off required", count: highPriority, variant: "default", href: "#flagged-items" },
-					]}
-				/>
-
-				<OverviewSection />
-				<FlaggedItemsSection items={flaggedItems as any} />
-				<ExposureTrendSection data={exposureTrend} />
-				<ActivitySection auditEntries={auditEntries} dataSources={sortedDataSources} />
-			</div>
+		<DashboardShell
+			badges={[
+				{ label: "Review required", count: needsReview, variant: "warning", href: "#flagged-items" },
+				{ label: "Sign-off required", count: highPriority, variant: "default", href: "#flagged-items" },
+			]}
+		>
+			<OverviewSection />
+			<FlaggedItemsSection items={flaggedItems as any} />
+			<ExposureTrendSection data={exposureTrend} />
+			<ActivitySection auditEntries={auditEntries} dataSources={sortedDataSources} />
 		</DashboardShell>
 	);
 }

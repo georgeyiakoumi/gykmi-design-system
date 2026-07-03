@@ -77,7 +77,9 @@ const ROUTE_LABELS: Record<string, string> = Object.values(NAV_ITEMS)
 		{} as Record<string, string>,
 	);
 
-export function DashboardShell({ children }: { children: ReactNode }) {
+import { PageTitle, type StatusBadge } from "./page-title";
+
+export function DashboardShell({ children, badges }: { children: ReactNode; badges?: StatusBadge[] }) {
 	const pathname = usePathname();
 
 	// Derive breadcrumbs from pathname
@@ -92,10 +94,8 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 			<Sidebar collapsible="icon">
 				<SidebarHeader className="p-4">
 					<div className="flex items-center gap-2">
-						<span className="text-sm font-bold">M</span>
 						<div className="flex flex-col group-data-[collapsible=icon]:hidden">
-							<span className="text-sm font-semibold">Meridian</span>
-							<span className="text-[10px] text-text-muted">Risk platform</span>
+							<span className="text-sm font-semibold">Meridian Risk Platform</span>
 						</div>
 					</div>
 				</SidebarHeader>
@@ -206,7 +206,10 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
 			<SidebarInset>
 				<PageHeader breadcrumbs={breadcrumbs} action={<Button variant="secondary" size="sm">Export report</Button>} />
-				{children}
+				<div className="flex flex-col space-y-8 p-6">
+					<PageTitle title={pageLabel} badges={badges} />
+					{children}
+				</div>
 			</SidebarInset>
 		</SidebarProvider>
 	);

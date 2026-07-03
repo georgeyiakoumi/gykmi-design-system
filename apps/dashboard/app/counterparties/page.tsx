@@ -6,7 +6,6 @@ import { HeatmapSection } from "../components/counterparties/heatmap-section";
 import { MetricsSection } from "../components/counterparties/metrics-section";
 import { TopExposuresSection } from "../components/counterparties/top-exposures-section";
 import { DashboardShell } from "../components/dashboard-shell";
-import { PageTitle } from "../components/page-title";
 import seed from "../data/seed.json";
 
 const {
@@ -35,28 +34,23 @@ export default function CounterpartiesPage() {
 	const nearLimit = typedCounterparties.filter((c) => c.status === "near-limit").length;
 
 	return (
-		<DashboardShell>
-			<div className="flex flex-col space-y-8 p-6">
-				<PageTitle
-					title="Counterparties"
-					badges={[
-						{ label: "Limit breached", count: breached, variant: "danger" },
-						{ label: "Near limit", count: nearLimit, variant: "warning" },
-					]}
-				/>
-
-				<MetricsSection
-					counterparties={typedCounterparties}
-					concentration={concentration}
-					exposureTrend={exposureTrend}
-				/>
-				<TopExposuresSection data={topExposures} />
-				<HeatmapSection 
-					data={heatmapData as HeatmapRow[]}
-					columnLabels={assetClasses}
-				/>
-				<CounterpartyTableSection data={typedCounterparties} />
-			</div>
+		<DashboardShell
+			badges={[
+				{ label: "Limit breached", count: breached, variant: "danger" },
+				{ label: "Near limit", count: nearLimit, variant: "warning" },
+			]}
+		>
+			<MetricsSection
+				counterparties={typedCounterparties}
+				concentration={concentration}
+				exposureTrend={exposureTrend}
+			/>
+			<TopExposuresSection data={topExposures} />
+			<HeatmapSection
+				data={heatmapData as HeatmapRow[]}
+				columnLabels={assetClasses}
+			/>
+			<CounterpartyTableSection data={typedCounterparties} />
 		</DashboardShell>
 	);
 }
