@@ -18,7 +18,6 @@ import {
 	DataTable,
 	Disclaimer,
 	RegulatoryNotice,
-	Separator,
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
@@ -34,7 +33,6 @@ import {
 	SidebarProvider,
 	SidebarSeparator,
 	SidebarTrigger,
-	Sparkline,
 	Stack,
 } from "@gykmi/ui";
 import { useState } from "react";
@@ -60,11 +58,6 @@ const exposureTrend = [
 	{ date: "30 Jun", value: 16.9, low: 15.6, high: 18.2 },
 	{ date: "1 Jul", value: 17.4, low: 15.8, high: 19.0 },
 ];
-
-// KPI sparklines (7-day trailing)
-const sparkExposure = [14.2, 14.5, 15.1, 15.8, 16.3, 16.9, 17.4];
-const sparkVaR = [2.1, 2.0, 2.3, 2.4, 2.6, 2.5, 2.8];
-const sparkModelCoverage = [98, 98, 97, 97, 96, 96, 95];
 
 // Flagged items — each row carries confidence and provenance
 interface FlaggedItem {
@@ -148,11 +141,6 @@ const flaggedColumns: DataTableColumn<FlaggedItem>[] = [
 		header: "Confidence",
 		cell: (row) => <ConfidenceIndicator level={row.confidence} />,
 		sortValue: (row) => row.confidence,
-	},
-	{
-		key: "source",
-		header: "Source",
-		cell: (row) => <span className="text-xs text-text-muted">{row.source}</span>,
 	},
 ];
 
@@ -314,7 +302,7 @@ export default function DashboardPage() {
 
 			{/* ─── MAIN CONTENT ────────────────────────────────────── */}
 			<SidebarInset>
-				<div className="mx-auto max-w-6xl px-6 py-8">
+				<div className="px-6 py-8">
 					<Stack gap="6">
 						{/* ─── HEADER ─────────────────────────────────────────── */}
 						<div className="flex items-start justify-between">
@@ -335,10 +323,9 @@ export default function DashboardPage() {
 							<ThemeToggle />
 						</div>
 
-						{/* ─── COMPLIANCE ALERT ────────────────────────────────── */}
-						<ComplianceBanner severity="warning" title="Stale data source" dismissible>
-							Market Data Feed has not updated since 30 June. Exposure figures may not reflect
-							overnight moves.
+						{/* ─── COMPLIANCE ALERT (dismissible, low severity — Nadia sees this daily) ─── */}
+						<ComplianceBanner severity="info" title="Stale data source" dismissible>
+							Market Data Feed last updated 30 June.
 						</ComplianceBanner>
 
 						{/* ─── AI SUMMARY ──────────────────────────────────────── */}
@@ -350,19 +337,12 @@ export default function DashboardPage() {
 							generatedAt="2026-07-02T07:45:00Z"
 						>
 							<p>
-								Counterparty concentration to Meridian Capital has risen to 17.4%, breaching the 15%
-								single-counterparty limit. The drift is sustained over three trading days, not a
-								single-day spike. One structured credit position (est. $4.2M) carries a
-								model-uncertain valuation and requires human sign-off before the morning report is
-								released.
-							</p>
-							<p className="mt-2 text-sm text-text-muted">
-								VaR is elevated at $2.8M (limit: $2.5M) but was acknowledged by Nadia K. yesterday.
-								Model coverage has dropped to 95% due to the uncertain position.
+								Meridian Capital exposure has risen to 17.4% (limit: 15%), sustained over three
+								trading days. One structured credit position (est. $4.2M) has a model-uncertain
+								valuation requiring sign-off before the morning report is released.
 							</p>
 							<Disclaimer variant="info" className="mt-3">
-								AI-generated summary. Reviewed for factual accuracy against source data but does not
-								constitute a risk decision.
+								AI-generated. Does not constitute a risk decision.
 							</Disclaimer>
 						</AnalysisSection>
 
@@ -371,47 +351,21 @@ export default function DashboardPage() {
 							<Card>
 								<CardHeader className="pb-2">
 									<CardDescription className="text-xs">Meridian exposure</CardDescription>
-									<div className="flex items-end justify-between">
-										<CardTitle className="text-xl text-danger">17.4%</CardTitle>
-										<Sparkline
-											data={sparkExposure}
-											label="Exposure trend"
-											height={24}
-											width={64}
-											color="var(--danger-default)"
-										/>
-									</div>
+									<CardTitle className="text-xl text-danger">17.4%</CardTitle>
 									<p className="text-xs text-text-muted">Limit: 15.0%</p>
 								</CardHeader>
 							</Card>
 							<Card>
 								<CardHeader className="pb-2">
 									<CardDescription className="text-xs">Portfolio VaR (99%)</CardDescription>
-									<div className="flex items-end justify-between">
-										<CardTitle className="text-xl text-warning">$2.8M</CardTitle>
-										<Sparkline
-											data={sparkVaR}
-											label="VaR trend"
-											height={24}
-											width={64}
-											color="var(--warning-default)"
-										/>
-									</div>
+									<CardTitle className="text-xl text-warning">$2.8M</CardTitle>
 									<p className="text-xs text-text-muted">Limit: $2.5M</p>
 								</CardHeader>
 							</Card>
 							<Card>
 								<CardHeader className="pb-2">
 									<CardDescription className="text-xs">Model coverage</CardDescription>
-									<div className="flex items-end justify-between">
-										<CardTitle className="text-xl">95%</CardTitle>
-										<Sparkline
-											data={sparkModelCoverage}
-											label="Coverage trend"
-											height={24}
-											width={64}
-										/>
-									</div>
+									<CardTitle className="text-xl">95%</CardTitle>
 									<p className="text-xs text-text-muted">1 position unscored</p>
 								</CardHeader>
 							</Card>
@@ -428,14 +382,7 @@ export default function DashboardPage() {
 						<Card>
 							<CardHeader>
 								<div className="flex items-center justify-between">
-									<div>
-										<CardTitle className="text-base">
-											Meridian Capital exposure — 7 day trend
-										</CardTitle>
-										<CardDescription>
-											Single-counterparty concentration with 95% confidence band
-										</CardDescription>
-									</div>
+									<CardTitle className="text-base">Meridian Capital — 7 day exposure</CardTitle>
 									<ConfidenceIndicator level="medium" score={68} />
 								</div>
 							</CardHeader>
@@ -462,26 +409,28 @@ export default function DashboardPage() {
 							/>
 						</div>
 
-						<Separator />
-
-						{/* ─── SUPPORTING: provenance + audit ──────────────────── */}
-						<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-							<div>
-								<h3 className="mb-2 text-sm font-medium text-text-muted">Data sources</h3>
-								<DataProvenance sources={dataSources} />
-							</div>
-							<div>
-								<h3 className="mb-2 text-sm font-medium text-text-muted">Audit trail</h3>
-								<AuditTrail entries={auditEntries} />
-							</div>
+						{/* ─── AUDIT TRAIL ─────────────────────────────────────── */}
+						<div>
+							<h3 className="mb-2 text-sm font-medium text-text-muted">Audit trail</h3>
+							<AuditTrail entries={auditEntries} />
 						</div>
 
-						{/* ─── REGULATORY ──────────────────────────────────────── */}
-						<RegulatoryNotice framework="FCA" reference="FRN-123456">
-							This firm is authorised and regulated by the Financial Conduct Authority. AI-generated
-							outputs are reviewed by authorised personnel before release. The value of investments
-							can go down as well as up.
-						</RegulatoryNotice>
+						{/* ─── DATA SOURCES (secondary) ────────────────────────── */}
+						<details className="text-sm">
+							<summary className="cursor-pointer text-xs font-medium text-text-muted hover:text-text">
+								Data sources ({dataSources.length})
+							</summary>
+							<div className="mt-2">
+								<DataProvenance sources={dataSources} />
+							</div>
+						</details>
+
+						{/* ─── REGULATORY (quiet) ──────────────────────────────── */}
+						<div className="opacity-60">
+							<RegulatoryNotice framework="FCA" reference="FRN-123456">
+								Authorised and regulated by the FCA. AI outputs reviewed before release.
+							</RegulatoryNotice>
+						</div>
 					</Stack>
 				</div>
 			</SidebarInset>
