@@ -45,11 +45,11 @@ export const AnalysisSection = forwardRef<HTMLDivElement, AnalysisSectionProps>(
 				aria-label={title}
 				aria-busy={status === "streaming" || undefined}
 				data-status={status}
-				className={cn(status === "streaming" && "border-action/30", className)}
+				className={cn("flex flex-col", status === "streaming" && "border-action/30", className)}
 				{...props}
 			>
 				<CardHeader>
-					<CardTitle className="text-lg">{title}</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">{title}</CardTitle>
 					<CardAction>
 						{confidence && <ConfidenceIndicator level={confidence} score={confidenceScore} />}
 						{generatedAt && (
@@ -64,7 +64,7 @@ export const AnalysisSection = forwardRef<HTMLDivElement, AnalysisSectionProps>(
 						)}
 					</CardAction>
 				</CardHeader>
-				<CardContent>
+				<CardContent className="flex-1">
 					{status === "streaming" && !summary && (
 						<div className="space-y-2">
 							<Skeleton className="h-4 w-full" />
@@ -74,7 +74,7 @@ export const AnalysisSection = forwardRef<HTMLDivElement, AnalysisSectionProps>(
 					)}
 					{summary && <p className="text-sm text-text leading-relaxed">{summary}</p>}
 				</CardContent>
-				<CardFooter className="text-xs text-text-muted">
+				<CardFooter className="mt-auto text-xs text-text-muted">
 					AI-generated. Does not constitute a risk decision.
 				</CardFooter>
 			</Card>

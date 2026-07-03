@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, Info, ShieldAlert, X } from "lucide-react";
-import { type ComponentPropsWithRef, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, type ReactNode, forwardRef, useState } from "react";
 import { cn } from "../../lib/cn";
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "../alert";
 import { Button } from "../button";
@@ -15,6 +15,8 @@ export interface ComplianceBannerProps extends Omit<ComponentPropsWithRef<"div">
 	title: string;
 	/** Description text */
 	description?: string;
+	/** Optional action element (e.g. a Button) */
+	action?: ReactNode;
 	/** Whether the banner can be dismissed */
 	dismissible?: boolean;
 	/** Callback when dismissed */
@@ -28,7 +30,7 @@ const severityConfig: Record<ComplianceSeverity, { style: string; icon: typeof I
 };
 
 export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps>(
-	({ severity = "info", title, description, dismissible, onDismiss, className, ...props }, ref) => {
+	({ severity = "info", title, description, action, dismissible, onDismiss, className, ...props }, ref) => {
 		const [dismissed, setDismissed] = useState(false);
 		const config = severityConfig[severity];
 		const Icon = config.icon;
@@ -45,19 +47,24 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 				<Icon size={16} className="text-text-muted" />
 				<AlertTitle>{title}</AlertTitle>
 				{description && <AlertDescription>{description}</AlertDescription>}
-				{dismissible && (
+				{(action || dismissible) && (
 					<AlertAction>
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={() => {
-								setDismissed(true);
-								onDismiss?.();
-							}}
-							aria-label="Dismiss"
-						>
-							<X size={14} />
-						</Button>
+						<div className="flex items-center gap-1">
+							{action}
+							{dismissible && (
+								<Button
+									variant="ghost"
+									size="sm"
+									onClick={() => {
+										setDismissed(true);
+										onDismiss?.();
+									}}
+									aria-label="Dismiss"
+								>
+									<X size={14} />
+								</Button>
+							)}
+						</div>
 					</AlertAction>
 				)}
 			</Alert>

@@ -4,6 +4,8 @@ import { Terminal } from "lucide-react";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../../lib/cn";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
+import { ScrollArea, ScrollBar } from "../scroll-area";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../tooltip";
 
 export interface AuditEntry {
 	/** Unique identifier for the event */
@@ -54,57 +56,62 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 		const chronological = [...entries].reverse();
 
 		return (
-			<div
-				ref={ref}
-				role="log"
-				aria-label={label}
-				className={cn("overflow-x-auto scroll-fade-x", className)}
-				{...props}
-			>
+			<div ref={ref} role="log" aria-label={label} className={cn(className)} {...props}>
 				{entries.length === 0 && (
 					<p className="py-4 text-center text-sm text-text-muted">No audit entries recorded.</p>
 				)}
-				<div className="flex">
-					{chronological.map((entry, index) => (
-						<div
-							key={entry.id}
-							className="flex flex-col items-start min-w-56 max-w-72"
-						>
-							{/* Timeline row: avatar/icon + line */}
-							<div className="flex items-center w-full">
-								<ActorNode entry={entry} />
-								{index < chronological.length - 1 && (
-									<span
-										className="h-px flex-1 bg-border"
-										aria-hidden="true"
-									/>
-								)}
-							</div>
-
-							{/* Time label */}
-							<time
-								dateTime={entry.timestamp}
-								className="mt-2 text-[10px] text-text-muted tabular-nums"
+				<ScrollArea type="always" viewportClassName="scroll-fade-x">
+					<div className="flex">
+						{chronological.map((entry, index) => (
+							<div
+								key={entry.id}
+								className="flex flex-col items-start min-w-56 max-w-72"
 							>
-								{new Date(entry.timestamp).toLocaleString("en-GB", {
-									day: "numeric",
-									month: "short",
-									hour: "2-digit",
-									minute: "2-digit",
-								})}
-							</time>
+								{/* Timeline row: avatar/icon + line */}
+								<div className="flex items-center w-full">
+									<TooltipProvider delayDuration={200}>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<span><ActorNode entry={entry} /></span>
+											</TooltipTrigger>
+											<TooltipContent side="top">
+												{entry.actor}
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+									{index < chronological.length - 1 && (
+										<span
+											className="h-px flex-1 bg-border"
+											aria-hidden="true"
+										/>
+									)}
+								</div>
 
-							{/* Content */}
-							<div className="mt-1.5 pr-6 flex flex-col gap-1">
-								<p className="text-xs font-medium text-text">{entry.actor}</p>
-								<p className="text-xs text-text-muted">{entry.action}</p>
-								{entry.detail && (
-									<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
-								)}
+								{/* Time label */}
+								<time
+									dateTime={entry.timestamp}
+									className="mt-2 text-[10px] text-text-muted tabular-nums"
+								>
+									{new Date(entry.timestamp).toLocaleString("en-GB", {
+										day: "numeric",
+										month: "short",
+										hour: "2-digit",
+										minute: "2-digit",
+									})}
+								</time>
+
+								{/* Content */}
+								<div className="mt-1.5 pr-6 flex flex-col gap-1">
+									<p className="text-xs font-medium text-text">{entry.action}</p>
+									{entry.detail && (
+										<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
+									)}
+								</div>
 							</div>
-						</div>
-					))}
-				</div>
+						))}
+					</div>
+					<ScrollBar orientation="horizontal" />
+				</ScrollArea>
 			</div>
 		);
 	},

@@ -34,7 +34,7 @@ export const ConfidenceIndicator = forwardRef<HTMLDivElement, ConfidenceIndicato
 			>
 				<span className={cn("h-2 w-2 rounded-full", styles.bg)} aria-hidden="true" />
 				<span className={cn("font-medium", styles.text)}>
-					{score !== undefined ? `${score}%` : styles.label}
+					{label && score !== undefined ? `${label}: ${score}%` : score !== undefined ? `${score}%` : label ?? styles.label}
 				</span>
 			</div>
 		);

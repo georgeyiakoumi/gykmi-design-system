@@ -1,5 +1,6 @@
 "use client";
 
+import { MoreHorizontal, Plus } from "lucide-react";
 import type { DataTableColumn } from "@gykmi/ui";
 import {
 	AnalysisSection,
@@ -14,20 +15,23 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
+	Button,
 	Card,
 	CardAction,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
-	ComplianceBanner,
 	ConfidenceChart,
 	ConfidenceIndicator,
+	DataProvenance,
 	DataTable,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
 	ScrollArea,
 	MetricCard,
-	RegulatoryNotice,
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
@@ -152,6 +156,31 @@ const flaggedColumns: DataTableColumn<FlaggedItem>[] = [
 		cell: (row) => <ConfidenceIndicator level={row.confidence} />,
 		sortValue: (row) => row.confidence,
 	},
+	{
+		key: "actions",
+		header: "",
+		cell: (row) => (
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" size="sm" aria-label={`Actions for ${row.id}`}>
+						<MoreHorizontal size={14} />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					{row.status === "needs-review" && (
+						<>
+							<DropdownMenuItem>Acknowledge</DropdownMenuItem>
+							<DropdownMenuItem>Escalate</DropdownMenuItem>
+						</>
+					)}
+					{row.confidence === "uncertain" && (
+						<DropdownMenuItem>Sign off</DropdownMenuItem>
+					)}
+					<DropdownMenuItem>View detail</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		),
+	},
 ];
 
 const auditEntries = [
@@ -219,21 +248,22 @@ const auditEntries = [
 ];
 
 const dataSources = [
-	{
-		name: "Bloomberg Terminal",
-		version: "2024.3",
-		lastUpdated: "2026-07-02T07:30:00Z",
-		verified: true,
-	},
-	{
-		name: "Internal Ledger",
-		version: "3.2.1",
-		lastUpdated: "2026-07-02T07:40:00Z",
-		verified: true,
-	},
+	{ name: "Bloomberg Terminal", version: "2024.3", lastUpdated: "2026-07-02T07:30:00Z", verified: true },
+	{ name: "Internal Ledger", version: "3.2.1", lastUpdated: "2026-07-02T07:40:00Z", verified: true },
 	{ name: "Pricing Engine", version: "2.8", lastUpdated: "2026-07-02T07:42:00Z", verified: true },
+	{ name: "Reuters Eikon", version: "12.1", lastUpdated: "2026-07-02T07:35:00Z", verified: true },
+	{ name: "DTCC Trade Repository", version: "4.0", lastUpdated: "2026-07-02T06:00:00Z", verified: true },
+	{ name: "Risk Analytics Engine", version: "1.9.2", lastUpdated: "2026-07-02T07:44:00Z", verified: true },
+	{ name: "Counterparty Database", version: "6.3", lastUpdated: "2026-07-01T23:00:00Z", verified: true },
 	{ name: "Market Data Feed", lastUpdated: "2026-06-30T23:59:00Z", verified: false },
+	{ name: "Regulatory Filings API", version: "2.1", lastUpdated: "2026-07-01T18:00:00Z", verified: false },
 ];
+
+// Stale sources first, then alphabetical
+const sortedDataSources = [...dataSources].sort((a, b) => {
+	if (a.verified !== b.verified) return a.verified ? 1 : -1;
+	return a.name.localeCompare(b.name);
+});
 
 export default function DashboardPage() {
 	const needsReview = flaggedItems.filter((i) => i.status === "needs-review").length;
@@ -337,19 +367,16 @@ export default function DashboardPage() {
 					</Breadcrumb>
 					<ThemeToggle />
 				</div>
-				<ComplianceBanner
-					severity="info"
-					title="Stale data source"
-					description="Market Data Feed last updated 30 June."
-					dismissible
-				/>
 
 				<div className="flex flex-col space-y-6 p-6">
 					{/* ─── HEADER ─────────────────────────────────────────── */}
 					<div className="flex flex-col items-start gap-4">
-						<Text as="h1" variant="heading-2xl">
-							Morning review
-						</Text>
+						<div className="flex w-full items-center justify-between">
+							<Text as="h1" variant="heading-2xl">
+								Morning review
+							</Text>
+							<Button variant="secondary" size="sm">Export report</Button>
+						</div>
 						<div className="flex items-center gap-2">
 							<a href="#flagged-items" className="no-underline">
 								<Badge
@@ -376,9 +403,6 @@ export default function DashboardPage() {
 
 					{/* ─── AI SUMMARY + KPIs (single scan line) ───────────── */}
 					<div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1fr]">
-						<Text as="h2" variant="heading-xl" className="col-span-full">
-							Overview
-						</Text>
 						<AnalysisSection
 							title="Risk summary"
 							summary="Meridian Capital exposure has risen to 17.4% (limit: 15%), sustained over three trading days. One structured credit position (est. $4.2M) has a model-uncertain valuation requiring sign-off before the morning report is released."
@@ -388,59 +412,25 @@ export default function DashboardPage() {
 							generatedAt="2026-07-02T07:45:00Z"
 						/>
 
-						<div className="flex flex-col gap-4">
-							<MetricCard
-								label="Meridian exposure"
-								value="17.4%"
-								context="Limit: 15.0%"
-								variant="danger"
-							/>
-							<MetricCard
-								label="Portfolio VaR (99%)"
-								value="$2.8M"
-								context="Limit: $2.5M"
-								variant="warning"
-							/>
-							<MetricCard label="Model coverage" value="95%" context="1 position unscored" />
-						</div>
-					</div>
-
-					{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
-					<div className="flex flex-col gap-4">
-						<Text as="h2" variant="heading-xl">
-							Exposure trend
-						</Text>
 						<Card>
 							<CardHeader>
-								<CardTitle className="text-sm">Meridian Capital — 7 day</CardTitle>
-								<CardAction>
-									<ConfidenceIndicator level="medium" score={68} />
-								</CardAction>
+								<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Key metrics</CardTitle>
 							</CardHeader>
-							<CardContent className="[&_.mt-2.flex.items-center.gap-4]:hidden">
-								<ConfidenceChart
-									data={exposureTrend}
-									title="Meridian Capital counterparty exposure"
-									bandLabel="95% confidence interval"
-									height={240}
-									showTable
-									formatValue={(v) => `${v.toFixed(1)}%`}
+							<CardContent className="flex flex-col gap-1 pb-4 divide-y divide-border">
+								<MetricCard
+									label="Meridian exposure"
+									value="17.4%"
+									context="Limit: 15.0%"
+									variant="danger"
 								/>
+								<MetricCard
+									label="Portfolio VaR (99%)"
+									value="$2.8M"
+									context="Limit: $2.5M"
+									variant="warning"
+								/>
+								<MetricCard label="Model coverage" value="95%" context="1 position unscored" />
 							</CardContent>
-							<CardFooter className="gap-4 text-xs text-text-muted">
-								<span className="flex items-center gap-1">
-									<span className="inline-block h-0.5 w-4 bg-action" />
-									Actual
-								</span>
-								<span className="flex items-center gap-1">
-									<span className="inline-block h-0.5 w-4 border-t border-dashed border-action" />
-									Estimated
-								</span>
-								<span className="flex items-center gap-1">
-									<span className="inline-block h-3 w-4 rounded-sm bg-action/15" />
-									95% confidence
-								</span>
-							</CardFooter>
 						</Card>
 					</div>
 
@@ -457,49 +447,81 @@ export default function DashboardPage() {
 						/>
 					</div>
 
-					{/* ─── AUDIT TRAIL + DATA SOURCES ─────────────────────── */}
+					{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
 					<div className="flex flex-col gap-4">
-						<Text as="h2" variant="heading-xl">Audit trail</Text>
+						<Text as="h2" variant="heading-xl">
+							Exposure trend
+						</Text>
 						<Card>
-							<CardContent className="py-6">
-								<div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_auto]">
-									<AuditTrail entries={auditEntries} className="min-w-0" />
-									<div className="flex flex-col gap-3 lg:border-l lg:border-border lg:pl-6 lg:min-w-48">
-										<Text as="h3" variant="label-xs" className="text-text-muted uppercase tracking-wider">
-											Data sources
-										</Text>
-										<ScrollArea className="max-h-48">
-											<ul className="space-y-2">
-												{dataSources.map((source) => (
-													<li key={source.name} className="flex items-center gap-2 text-xs">
-														{source.verified !== undefined && (
-															<span
-																className={`h-1.5 w-1.5 shrink-0 rounded-full ${source.verified ? "bg-success" : "bg-warning"}`}
-																aria-hidden="true"
-															/>
-														)}
-														<div className="min-w-0">
-															<span className="font-medium text-text">{source.name}</span>
-															{source.version && (
-																<span className="ml-1 text-text-muted">v{source.version}</span>
-															)}
-														</div>
-													</li>
-												))}
-											</ul>
-										</ScrollArea>
-									</div>
-								</div>
+							<CardHeader>
+								<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Meridian Capital — 7 day</CardTitle>
+								<CardAction>
+									<ConfidenceIndicator level="medium" label="Model confidence" score={68} />
+								</CardAction>
+							</CardHeader>
+							<CardContent className="[&_.mt-2.flex.items-center.gap-4]:hidden">
+								<ConfidenceChart
+									data={exposureTrend}
+									title="Meridian Capital counterparty exposure"
+									bandLabel="95% confidence interval"
+									height={240}
+									showTable
+									formatValue={(v) => `${v.toFixed(1)}%`}
+								/>
 							</CardContent>
+							<CardFooter className="justify-between">
+								<div className="flex gap-4 text-xs text-text-muted">
+									<span className="flex items-center gap-1">
+										<span className="inline-block h-0.5 w-4 bg-action" />
+										Actual
+									</span>
+									<span className="flex items-center gap-1">
+										<span className="inline-block h-0.5 w-4 border-t border-dashed border-action" />
+										Estimated
+									</span>
+									<span className="flex items-center gap-1">
+										<span className="inline-block h-3 w-4 rounded-sm bg-action/15" />
+										95% confidence
+									</span>
+								</div>
+								<div className="flex gap-2">
+									<Button variant="secondary" size="sm">Set alert</Button>
+									<Button variant="secondary" size="sm">View positions</Button>
+									<Button variant="default" size="sm">Escalate</Button>
+								</div>
+							</CardFooter>
 						</Card>
 					</div>
 
-					{/* ─── REGULATORY (quiet) ──────────────────────────────── */}
-					<div>
-						<RegulatoryNotice framework="FCA" reference="FRN-123456">
-							Authorised and regulated by the FCA. AI outputs reviewed before release.
-						</RegulatoryNotice>
+					{/* ─── ACTIVITY ───────────────────────────────────────── */}
+					<div className="grid lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr] gap-4">
+						<Text as="h2" variant="heading-xl" className="col-span-full">Activity</Text>
+						
+							<Card className="min-w-0 h-64">
+								<CardHeader>
+									<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Recent activity</CardTitle>
+								</CardHeader>
+								<CardContent className="pb-6">
+									<AuditTrail entries={auditEntries} />
+								</CardContent>
+							</Card>
+							<Card className="flex flex-col overflow-hidden h-64">
+								<CardHeader>
+									<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Data sources</CardTitle>
+									<CardAction>
+										<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source">
+											<Plus size={14} />
+										</Button>
+									</CardAction>
+								</CardHeader>
+								<CardContent className="flex-1 overflow-hidden pb-6">
+									<ScrollArea type="always" className="h-full" viewportClassName="scroll-fade">
+										<DataProvenance sources={sortedDataSources} />
+									</ScrollArea>
+								</CardContent>
+							</Card>
 					</div>
+
 				</div>
 			</SidebarInset>
 		</SidebarProvider>

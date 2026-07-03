@@ -1,9 +1,16 @@
 "use client";
 
+import { MoreHorizontal } from "lucide-react";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../../lib/cn";
 import { Badge } from "../badge";
-import { Card, CardContent, CardHeader, CardTitle } from "../card";
+import { Button } from "../button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "../dropdown-menu";
 
 export interface DataSource {
 	/** Name of the data source */
@@ -16,63 +23,83 @@ export interface DataSource {
 	verified?: boolean;
 }
 
-export interface DataProvenanceProps extends ComponentPropsWithRef<"div"> {
+export interface DataProvenanceProps extends ComponentPropsWithRef<"ul"> {
 	/** List of data sources */
 	sources: DataSource[];
-	/** Section label */
+	/** Label for accessibility */
 	label?: string;
+	/** Callback when an action is triggered on a source */
+	onAction?: (source: DataSource, action: "view" | "refresh" | "remove") => void;
 }
 
-export const DataProvenance = forwardRef<HTMLDivElement, DataProvenanceProps>(
-	({ sources, label = "Data sources", className, ...props }, ref) => {
+function DataSourceItem({
+	source,
+	onAction,
+}: {
+	source: DataSource;
+	onAction?: DataProvenanceProps["onAction"];
+}) {
+	const isStale = source.verified === false;
+
+	return (
+		<li className="group/item flex items-center gap-2 rounded-sm pl-3 pr-1 py-1 text-xs transition-colors hover:bg-surface">
+			<div className="flex-1 min-w-0">
+				<span className="font-medium text-text truncate">{source.name}</span>
+				{source.version && (
+					<span className="ml-1.5 text-text-muted">v{source.version}</span>
+				)}
+				{isStale && (
+					<Badge
+						variant="warning"
+						label="Stale"
+						className="ml-1.5 text-[10px] px-1.5 py-0"
+					/>
+				)}
+			</div>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button
+						variant="ghost"
+						size="sm"
+						className="h-5 w-5 p-0 opacity-0 group-hover/item:opacity-100 transition-opacity"
+						aria-label={`Actions for ${source.name}`}
+					>
+						<MoreHorizontal size={12} />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuItem onSelect={() => onAction?.(source, "view")}>
+						View
+					</DropdownMenuItem>
+					<DropdownMenuItem onSelect={() => onAction?.(source, "refresh")}>
+						Refresh
+					</DropdownMenuItem>
+					<DropdownMenuItem onSelect={() => onAction?.(source, "remove")}>
+						Remove
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</li>
+	);
+}
+
+export const DataProvenance = forwardRef<HTMLUListElement, DataProvenanceProps>(
+	({ sources, label = "Data sources", onAction, className, ...props }, ref) => {
 		return (
-			<Card ref={ref} role="region" aria-label={label} className={className} {...props}>
-				<CardHeader className="pb-3">
-					<CardTitle className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-						{label}
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					{sources.length === 0 && (
-						<p className="text-xs text-text-muted">No data sources recorded.</p>
-					)}
-					<ul className="space-y-2">
-						{sources.map((source) => (
-							<li key={source.name} className="flex items-center justify-between gap-2 text-xs">
-								<div className="flex items-center gap-2 min-w-0">
-									{source.verified !== undefined && (
-										<span
-											className={cn(
-												"h-1.5 w-1.5 shrink-0 rounded-full",
-												source.verified ? "bg-success" : "bg-warning",
-											)}
-											title={source.verified ? "Verified source" : "Unverified source"}
-											aria-hidden="true"
-										/>
-									)}
-									<span className="font-medium text-text truncate">{source.name}</span>
-									{source.version && (
-										<Badge
-											variant="default"
-											label={`v${source.version}`}
-											className="text-[10px] px-1.5 py-0"
-										/>
-									)}
-								</div>
-								{source.lastUpdated && (
-									<time dateTime={source.lastUpdated} className="shrink-0 text-text-muted">
-										{new Date(source.lastUpdated).toLocaleDateString("en-GB", {
-											day: "numeric",
-											month: "short",
-											year: "numeric",
-										})}
-									</time>
-								)}
-							</li>
-						))}
-					</ul>
-				</CardContent>
-			</Card>
+			<ul
+				ref={ref}
+				role="list"
+				aria-label={label}
+				className={cn("space-y-0.5 pr-4", className)}
+				{...props}
+			>
+				{sources.length === 0 && (
+					<li className="py-2 text-center text-xs text-text-muted">No data sources.</li>
+				)}
+				{sources.map((source) => (
+					<DataSourceItem key={source.name} source={source} onAction={onAction} />
+				))}
+			</ul>
 		);
 	},
 );

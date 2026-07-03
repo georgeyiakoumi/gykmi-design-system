@@ -24,16 +24,14 @@ export const RegulatoryNotice = forwardRef<HTMLElement, RegulatoryNoticeProps>(
 				)}
 				{...props}
 			>
-				{(framework || reference) && (
-					<div className="mb-1 flex items-center gap-2">
-						<Shield size={12} className="text-text-muted" aria-hidden="true" />
-						{framework && <span className="font-medium text-text">{framework}</span>}
-						{reference && (
-							<Badge variant="default" label={reference} className="text-[10px] px-1.5 py-0" />
-						)}
-					</div>
-				)}
-				{children}
+				<div className="flex items-center gap-2">
+					<Shield size={12} className="text-text-muted" aria-hidden="true" />
+					{framework && <span className="font-medium text-text">{framework}</span>}
+					{reference && (
+						<Badge variant="default" label={reference} className="text-[10px] px-1.5 py-0" />
+					)}
+					{children && <span>{children}</span>}
+				</div>
 			</footer>
 		);
 	},
