@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, Stack } from "@gykmi/ui";
+import { Avatar, AvatarFallback } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -20,7 +20,7 @@ export const WithFallback: Story = {
 
 export const AllSizes: Story = {
 	render: () => (
-		<Stack direction="row" gap="4" align="center">
+		<div className="flex flex-row gap-4 items-center">
 			<Avatar className="h-8 w-8">
 				<AvatarFallback className="text-xs">SM</AvatarFallback>
 			</Avatar>
@@ -30,6 +30,6 @@ export const AllSizes: Story = {
 			<Avatar className="h-14 w-14">
 				<AvatarFallback className="text-lg">LG</AvatarFallback>
 			</Avatar>
-		</Stack>
+		</div>
 	),
 };

@@ -1,4 +1,4 @@
-import { ModelError, Stack } from "@gykmi/ui";
+import { ModelError } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -26,12 +26,12 @@ export const WithRetry: Story = {
 
 export const AllKinds: Story = {
 	render: () => (
-		<Stack gap="4">
+		<div className="flex flex-col gap-4">
 			<ModelError kind="timeout" onRetry={() => {}} />
 			<ModelError kind="rate-limit" />
 			<ModelError kind="unavailable" />
 			<ModelError kind="content-filter" />
 			<ModelError kind="unknown" onRetry={() => {}} />
-		</Stack>
+		</div>
 	),
 };

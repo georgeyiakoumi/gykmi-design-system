@@ -1,11 +1,4 @@
-import {
-	Avatar,
-	AvatarFallback,
-	HoverCard,
-	HoverCardContent,
-	HoverCardTrigger,
-	Stack,
-} from "@gykmi/ui";
+import { Avatar, AvatarFallback, HoverCard, HoverCardContent, HoverCardTrigger } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -29,15 +22,15 @@ export const Default: Story = {
 				</a>
 			</HoverCardTrigger>
 			<HoverCardContent>
-				<Stack direction="row" gap="4">
+				<div className="flex flex-row gap-4">
 					<Avatar>
 						<AvatarFallback>GY</AvatarFallback>
 					</Avatar>
-					<Stack gap="1">
+					<div className="flex flex-col gap-1">
 						<h4 className="text-sm font-semibold text-text">George Yiakoumi</h4>
 						<p className="text-sm text-text-muted">Building design systems.</p>
-					</Stack>
-				</Stack>
+					</div>
+				</div>
 			</HoverCardContent>
 		</HoverCard>
 	),

@@ -1,4 +1,4 @@
-import { Disclaimer, Stack } from "@gykmi/ui";
+import { Disclaimer } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -42,7 +42,7 @@ export const Regulatory: Story = {
 
 export const AllVariants: Story = {
 	render: () => (
-		<Stack gap="3">
+		<div className="flex flex-col gap-3">
 			<Disclaimer variant="info" title="AI-generated content">
 				Review before acting on this analysis.
 			</Disclaimer>
@@ -52,6 +52,6 @@ export const AllVariants: Story = {
 			<Disclaimer variant="regulatory" title="FCA disclosure">
 				Not financial advice.
 			</Disclaimer>
-		</Stack>
+		</div>
 	),
 };

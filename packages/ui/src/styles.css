@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "shadcn/tailwind.css";
 @import "@gykmi/tokens/css";
 
 @source "./";
@@ -10,6 +11,9 @@
  * @theme inline: tells Tailwind these utilities exist and map to
  * the given values, WITHOUT emitting new CSS custom properties.
  * This avoids circular references with our token vars.
+ *
+ * ⚠ KEEP IN SYNC WITH theme.css — both files define the same mappings
+ * for different consumers (styles.css for internal, theme.css for consumers).
  */
 @theme inline {
 	/* Surface colours */
@@ -38,10 +42,15 @@
 	--color-danger-active: var(--danger-active);
 	--color-danger-text: var(--danger-text);
 
+	/* Danger subtle */
+	--color-danger-subtle: var(--danger-subtle);
+
 	/* Success / Warning */
 	--color-success: var(--success-default);
+	--color-success-subtle: var(--success-subtle);
 	--color-success-text: var(--success-text);
 	--color-warning: var(--warning-default);
+	--color-warning-subtle: var(--warning-subtle);
 	--color-warning-text: var(--warning-text);
 
 	/* Focus */

@@ -1,12 +1,4 @@
-import {
-	Label,
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-	Stack,
-} from "@gykmi/ui";
+import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -35,7 +27,7 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
 	render: () => (
-		<Stack gap="2" style={{ maxWidth: 300 }}>
+		<div className="flex flex-col gap-2" style={{ maxWidth: 300 }}>
 			<Label htmlFor="fruit-select">Favourite fruit</Label>
 			<Select>
 				<SelectTrigger id="fruit-select">
@@ -47,6 +39,6 @@ export const WithLabel: Story = {
 					<SelectItem value="cherry">Cherry</SelectItem>
 				</SelectContent>
 			</Select>
-		</Stack>
+		</div>
 	),
 };

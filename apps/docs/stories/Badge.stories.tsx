@@ -11,24 +11,24 @@ const meta = {
 			options: ["default", "success", "danger", "warning"],
 		},
 	},
-	args: { children: "Badge" },
+	args: { label: "Badge" },
 } satisfies Meta<typeof Badge>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = { args: { variant: "default" } };
-export const Success: Story = { args: { variant: "success", children: "Active" } };
-export const Danger: Story = { args: { variant: "danger", children: "Error" } };
-export const Warning: Story = { args: { variant: "warning", children: "Pending" } };
+export const Success: Story = { args: { variant: "success", label: "Active" } };
+export const Danger: Story = { args: { variant: "danger", label: "Error" } };
+export const Warning: Story = { args: { variant: "warning", label: "Pending" } };
 
 export const AllVariants: Story = {
 	render: () => (
 		<div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-			<Badge variant="default">Default</Badge>
-			<Badge variant="success">Success</Badge>
-			<Badge variant="danger">Danger</Badge>
-			<Badge variant="warning">Warning</Badge>
+			<Badge variant="default" label="Default" />
+			<Badge variant="success" label="Success" />
+			<Badge variant="danger" label="Danger" />
+			<Badge variant="warning" label="Warning" />
 		</div>
 	),
 };

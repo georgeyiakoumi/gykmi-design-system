@@ -8,18 +8,18 @@ afterEach(() => {
 });
 
 describe("Badge", () => {
-	it("renders children", () => {
-		render(<Badge>New</Badge>);
+	it("renders label", () => {
+		render(<Badge label="New" />);
 		expect(screen.getByText("New")).toBeInTheDocument();
 	});
 
 	it("renders with default variant", () => {
-		render(<Badge>Default</Badge>);
+		render(<Badge label="Default" />);
 		expect(screen.getByText("Default").className).toContain("bg-surface-raised");
 	});
 
 	it("renders with danger variant", () => {
-		render(<Badge variant="danger">Error</Badge>);
+		render(<Badge variant="danger" label="Error" />);
 		expect(screen.getByText("Error").className).toContain("bg-danger");
 	});
 });
@@ -28,10 +28,10 @@ describe("Badge a11y", () => {
 	it("has no axe violations", async () => {
 		const { container } = render(
 			<div>
-				<Badge>Default</Badge>
-				<Badge variant="success">Success</Badge>
-				<Badge variant="danger">Danger</Badge>
-				<Badge variant="warning">Warning</Badge>
+				<Badge label="Default" />
+				<Badge variant="success" label="Success" />
+				<Badge variant="danger" label="Danger" />
+				<Badge variant="warning" label="Warning" />
 			</div>,
 		);
 		const results = await axe(container);

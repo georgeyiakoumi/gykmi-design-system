@@ -131,7 +131,7 @@ const columns: DataTableColumn<Transaction>[] = [
 	{
 		key: "status",
 		header: "Status",
-		cell: (row) => <Badge variant={statusVariant[row.status]}>{row.status}</Badge>,
+		cell: (row) => <Badge variant={statusVariant[row.status]} label={row.status} />,
 		sortable: true,
 		align: "center",
 	},

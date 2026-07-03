@@ -9,7 +9,6 @@ import {
 	DialogTrigger,
 	Input,
 	Label,
-	Stack,
 } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
@@ -35,20 +34,20 @@ export const Default: Story = {
 						Make changes to your profile here. Click save when you're done.
 					</DialogDescription>
 				</DialogHeader>
-				<Stack gap="4" className="py-4">
-					<Stack gap="2">
+				<div className="flex flex-col gap-4 py-4">
+					<div className="flex flex-col gap-2">
 						<Label htmlFor="name">Name</Label>
 						<Input id="name" defaultValue="George Yiakoumi" />
-					</Stack>
-				</Stack>
-				<Stack direction="row" gap="2" align="center" className="justify-end">
+					</div>
+				</div>
+				<div className="flex flex-row gap-2 items-center justify-end">
 					<DialogClose asChild>
 						<Button variant="secondary">Cancel</Button>
 					</DialogClose>
 					<DialogClose asChild>
 						<Button>Save changes</Button>
 					</DialogClose>
-				</Stack>
+				</div>
 			</DialogContent>
 		</Dialog>
 	),

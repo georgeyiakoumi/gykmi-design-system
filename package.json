@@ -11,7 +11,8 @@
 		"typecheck": "turbo run typecheck",
 		"test": "turbo run test",
 		"format": "biome format --write .",
-		"check": "biome check ."
+		"check": "biome check .",
+		"tokens": "pnpm --filter @gykmi/tokens build"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.18.4",
