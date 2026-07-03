@@ -99,6 +99,10 @@ Before raising a PR:
 | M5 | Dogfood (consuming app) | Done |
 | M6 | Governance, docs, polish | Done |
 | M7 | Figma loop | Done |
+| M8 | Change process | Done |
+| M9 | DataViz layer | Done |
+| M10 | Voice and content | Done |
+| M11 | Dashboard as a product | Done |
 
 ## Technical notes (learned during the build)
 
