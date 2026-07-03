@@ -285,7 +285,7 @@ export default function DashboardPage() {
 			{/* ─── MAIN CONTENT ────────────────────────────────────── */}
 			<SidebarInset>
 				{/* ─── BREADCRUMB ──────────────────────────────────────── */}
-				<div className="flex items-center justify-between border-b border-border px-6 py-2">
+				<div className="flex items-center justify-between border-b border-border pl-6 pr-2 py-2">
 					<SidebarTrigger className="md:hidden" />
 					<Breadcrumb>
 						<BreadcrumbList>
@@ -300,9 +300,14 @@ export default function DashboardPage() {
 					</Breadcrumb>
 					<ThemeToggle />
 				</div>
-				
-				<div className="flex flex-col space-y-6 p-6">
+				<ComplianceBanner
+					severity="info"
+					title="Stale data source"
+					description="Market Data Feed last updated 30 June."
+					dismissible
+				/>
 
+				<div className="flex flex-col space-y-6 p-6">
 					{/* ─── HEADER ─────────────────────────────────────────── */}
 					<div className="flex items-start justify-between">
 						<h1 className="text-2xl font-bold text-text">
@@ -314,11 +319,6 @@ export default function DashboardPage() {
 							)}
 						</h1>
 					</div>
-
-					{/* ─── COMPLIANCE ALERT (dismissible, low severity — Nadia sees this daily) ─── */}
-					<ComplianceBanner severity="info" title="Stale data source" dismissible>
-						Market Data Feed last updated 30 June.
-					</ComplianceBanner>
 
 					{/* ─── AI SUMMARY + KPIs (single scan line) ───────────── */}
 					<div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr]">

@@ -23,9 +23,7 @@ describe("ComplianceBanner a11y", () => {
 	it("has no axe violations", async () => {
 		const { container } = render(
 			<div>
-				<ComplianceBanner severity="info" title="Information">
-					Details here.
-				</ComplianceBanner>
+				<ComplianceBanner severity="info" title="Information" description="Details here." />
 				<ComplianceBanner severity="warning" title="Warning" />
 				<ComplianceBanner severity="critical" title="Critical" />
 			</div>,

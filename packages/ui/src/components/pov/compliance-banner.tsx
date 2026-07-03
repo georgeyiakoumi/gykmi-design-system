@@ -7,11 +7,13 @@ import { Button } from "../button";
 
 export type ComplianceSeverity = "info" | "warning" | "critical";
 
-export interface ComplianceBannerProps extends ComponentPropsWithRef<"div"> {
+export interface ComplianceBannerProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	/** Severity level */
 	severity?: ComplianceSeverity;
 	/** Short headline */
 	title: string;
+	/** Description text */
+	description?: string;
 	/** Whether the banner can be dismissed */
 	dismissible?: boolean;
 	/** Callback when dismissed */
@@ -25,7 +27,7 @@ const severityConfig: Record<ComplianceSeverity, { style: string; icon: typeof I
 };
 
 export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps>(
-	({ severity = "info", title, dismissible, onDismiss, className, children, ...props }, ref) => {
+	({ severity = "info", title, description, dismissible, onDismiss, className, ...props }, ref) => {
 		const [dismissed, setDismissed] = useState(false);
 		const config = severityConfig[severity];
 		const Icon = config.icon;
@@ -37,22 +39,21 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 				ref={ref}
 				role="alert"
 				aria-live={severity === "critical" ? "assertive" : "polite"}
-				className={cn("relative rounded-lg border px-4 py-3", config.style, className)}
+				className={cn("relative border-b px-6 py-3", config.style, className)}
 				{...props}
 			>
 				<div className="flex items-start gap-3">
 					<Icon size={16} className="mt-0.5 shrink-0 text-text-muted" aria-hidden="true" />
 					<div className="flex-1">
 						<p className="text-sm font-semibold text-text">{title}</p>
-						{children && (
-							<div className="mt-1 text-xs text-text-muted leading-relaxed">{children}</div>
+						{description && (
+							<p className="mt-1 text-xs text-text-muted leading-relaxed">{description}</p>
 						)}
 					</div>
 					{dismissible && (
 						<Button
 							variant="ghost"
 							size="sm"
-							className="h-6 w-6 shrink-0 p-0"
 							onClick={() => {
 								setDismissed(true);
 								onDismiss?.();
@@ -60,6 +61,7 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 							aria-label="Dismiss"
 						>
 							<X size={14} />
+							Dismiss
 						</Button>
 					)}
 				</div>
