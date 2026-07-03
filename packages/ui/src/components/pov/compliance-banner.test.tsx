@@ -24,8 +24,17 @@ describe("ComplianceBanner a11y", () => {
 		const { container } = render(
 			<div>
 				<ComplianceBanner severity="info" title="Information" description="Details here." />
-				<ComplianceBanner severity="warning" title="Warning" />
-				<ComplianceBanner severity="critical" title="Critical" />
+				<ComplianceBanner
+					severity="warning"
+					title="Warning"
+					description="Action recommended but not urgent."
+					dismissible
+				/>
+				<ComplianceBanner
+					severity="critical"
+					title="Critical"
+					description="Immediate attention required."
+				/>
 			</div>,
 		);
 		const results = await axe(container);

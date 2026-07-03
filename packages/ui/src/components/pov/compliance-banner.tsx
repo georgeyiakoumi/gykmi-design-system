@@ -3,6 +3,7 @@
 import { AlertTriangle, Info, ShieldAlert, X } from "lucide-react";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { cn } from "../../lib/cn";
+import { Alert, AlertAction, AlertDescription, AlertTitle } from "../alert";
 import { Button } from "../button";
 
 export type ComplianceSeverity = "info" | "warning" | "critical";
@@ -35,25 +36,21 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 		if (dismissed) return null;
 
 		return (
-			<div
+			<Alert
 				ref={ref}
-				role="alert"
 				aria-live={severity === "critical" ? "assertive" : "polite"}
-				className={cn("relative border-b px-6 py-3", config.style, className)}
+				className={cn("rounded-none border-x-0 border-t-0", config.style, className)}
 				{...props}
 			>
-				<div className="flex items-start gap-3">
-					<Icon size={16} className="mt-0.5 shrink-0 text-text-muted" aria-hidden="true" />
-					<div className="flex-1">
-						<p className="text-sm font-semibold text-text">{title}</p>
-						{description && (
-							<p className="mt-1 text-xs text-text-muted leading-relaxed">{description}</p>
-						)}
-					</div>
-					{dismissible && (
+				<Icon size={16} className="text-text-muted" />
+				<AlertTitle>{title}</AlertTitle>
+				{description && <AlertDescription>{description}</AlertDescription>}
+				{dismissible && (
+					<AlertAction>
 						<Button
 							variant="ghost"
 							size="sm"
+							className="h-6 w-6 p-0"
 							onClick={() => {
 								setDismissed(true);
 								onDismiss?.();
@@ -61,11 +58,10 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 							aria-label="Dismiss"
 						>
 							<X size={14} />
-							Dismiss
 						</Button>
-					)}
-				</div>
-			</div>
+					</AlertAction>
+				)}
+			</Alert>
 		);
 	},
 );

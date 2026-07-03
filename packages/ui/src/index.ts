@@ -12,6 +12,8 @@ export {
 	AccordionItem,
 	AccordionTrigger,
 } from "./components/accordion";
+export type { AlertProps, AlertVariant } from "./components/alert";
+export { Alert, AlertAction, AlertDescription, AlertTitle } from "./components/alert";
 // Overlays & menus
 export type {
 	AlertDialogContentProps,
