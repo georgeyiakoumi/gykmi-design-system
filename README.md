@@ -2,6 +2,8 @@
 
 A distributable, versioned design system built on headless primitives (Radix), with design tokens as the single source of truth. Fintech/AI POV. Documented in Storybook, consumed by a real app.
 
+**[Live dashboard](https://gykmi-ds-dashboard.netlify.app/)** · **[Storybook](https://gykmi-ds-storybook.netlify.app/)** · **[Figma library](https://www.figma.com/design/tqcsSSGM38hdEU4Yaqsmdn/GYKMI-Design-System)**
+
 ## Getting started
 
 ```bash
@@ -46,17 +48,20 @@ cd apps/dashboard && npx playwright test
 | Package | Description | Version |
 |---|---|---|
 | `@gykmi/tokens` | Design tokens (CSS vars + TS types) | v1.0.0 |
-| `@gykmi/ui` | Component library (43 components) | v1.0.1 |
+| `@gykmi/ui` | Component library (50+ components) | v1.3.0 |
 | `@gykmi/docs` | Storybook documentation | — |
 | `@gykmi/dashboard` | Financial dashboard (consuming app) | — |
 
-## Components (43)
+## Components
 
-**Layout:** Box, Stack, Separator
-**Display:** Accordion, AspectRatio, Avatar, Badge, Card, Collapsible, Progress, ScrollArea, VisuallyHidden
+**Layout:** Box, Separator, Sidebar, Sheet, Skeleton
+**Typography:** Text (10-variant type scale)
+**Display:** Accordion, AspectRatio, Avatar, Badge, Breadcrumb, Card, Collapsible, Progress, ScrollArea, VisuallyHidden
 **Form:** Button, Checkbox, Input, Label, RadioGroup, Select, Slider, Switch, Toggle, ToggleGroup
-**Overlay/Menu:** AlertDialog, ContextMenu, Dialog, DropdownMenu, HoverCard, Menubar, NavigationMenu, Popover, Tabs, Toast, Toolbar, Tooltip
-**POV (Fintech/AI):** AnalysisSection, AuditTrail, ComplianceBanner, ConfidenceIndicator, DataProvenance, DataTable, Disclaimer, ModelError, RegulatoryNotice, StreamingText
+**Overlay/Menu:** Alert, AlertDialog, ContextMenu, Dialog, DropdownMenu, HoverCard, Menubar, NavigationMenu, Popover, Tabs, Toast, Toolbar, Tooltip
+**POV (Fintech/AI):** AnalysisSection, AuditTrail, ComplianceBanner, ConfidenceIndicator, DataProvenance, DataTable, Disclaimer, MetricCard, ModelError, RegulatoryNotice, StreamingText
+**DataViz:** BarChart, BulletChart, CandlestickChart, ConfidenceChart, DonutChart, GaugeChart, HeatmapChart, LineChart, RadarChart, ScatterChart, Sparkline, StackedBarChart, TreemapChart, WaterfallChart
+**Utilities:** ThemeToggle
 
 ## Architecture
 
