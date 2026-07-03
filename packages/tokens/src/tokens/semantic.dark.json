@@ -22,17 +22,20 @@
 	},
 	"danger": {
 		"default": { "$value": "{color.red.500}", "$type": "color" },
+		"subtle": { "$value": "{color.red.700}", "$type": "color" },
 		"hover": { "$value": "{color.red.400}", "$type": "color" },
 		"active": { "$value": "{color.red.300}", "$type": "color" },
 		"text": { "$value": "{color.neutral.0}", "$type": "color" }
 	},
 	"success": {
 		"default": { "$value": "{color.green.500}", "$type": "color" },
+		"subtle": { "$value": "{color.green.700}", "$type": "color" },
 		"text": { "$value": "{color.neutral.0}", "$type": "color" }
 	},
 	"warning": {
 		"default": { "$value": "{color.amber.400}", "$type": "color" },
-		"text": { "$value": "{color.neutral.900}", "$type": "color" }
+		"subtle": { "$value": "{color.amber.700}", "$type": "color" },
+		"text": { "$value": "{color.neutral.0}", "$type": "color" }
 	},
 	"focus": {
 		"ring": { "$value": "{color.blue.400}", "$type": "color" }

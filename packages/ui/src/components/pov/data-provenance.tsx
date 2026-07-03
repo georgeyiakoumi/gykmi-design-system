@@ -52,9 +52,11 @@ export const DataProvenance = forwardRef<HTMLDivElement, DataProvenanceProps>(
 									)}
 									<span className="font-medium text-text truncate">{source.name}</span>
 									{source.version && (
-										<Badge variant="default" className="text-[10px] px-1.5 py-0">
-											v{source.version}
-										</Badge>
+										<Badge
+											variant="default"
+											label={`v${source.version}`}
+											className="text-[10px] px-1.5 py-0"
+										/>
 									)}
 								</div>
 								{source.lastUpdated && (

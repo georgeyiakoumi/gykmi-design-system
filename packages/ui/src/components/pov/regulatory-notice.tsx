@@ -29,9 +29,7 @@ export const RegulatoryNotice = forwardRef<HTMLElement, RegulatoryNoticeProps>(
 						<Shield size={12} className="text-text-muted" aria-hidden="true" />
 						{framework && <span className="font-medium text-text">{framework}</span>}
 						{reference && (
-							<Badge variant="default" className="text-[10px] px-1.5 py-0">
-								{reference}
-							</Badge>
+							<Badge variant="default" label={reference} className="text-[10px] px-1.5 py-0" />
 						)}
 					</div>
 				)}

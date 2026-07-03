@@ -39,7 +39,7 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 			<Alert
 				ref={ref}
 				aria-live={severity === "critical" ? "assertive" : "polite"}
-				className={cn("rounded-none border-x-0 border-t-0", config.style, className)}
+				className={cn("rounded-none border-x-0 border-t-0 px-6", config.style, className)}
 				{...props}
 			>
 				<Icon size={16} className="text-text-muted" />
@@ -50,7 +50,6 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 						<Button
 							variant="ghost"
 							size="sm"
-							className="h-6 w-6 p-0"
 							onClick={() => {
 								setDismissed(true);
 								onDismiss?.();

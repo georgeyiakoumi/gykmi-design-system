@@ -38,10 +38,15 @@
 	--color-danger-active: var(--danger-active);
 	--color-danger-text: var(--danger-text);
 
+	/* Danger subtle */
+	--color-danger-subtle: var(--danger-subtle);
+
 	/* Success / Warning */
 	--color-success: var(--success-default);
+	--color-success-subtle: var(--success-subtle);
 	--color-success-text: var(--success-text);
 	--color-warning: var(--warning-default);
+	--color-warning-subtle: var(--warning-subtle);
 	--color-warning-text: var(--warning-text);
 
 	/* Focus */

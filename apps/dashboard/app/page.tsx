@@ -125,7 +125,7 @@ const flaggedColumns: DataTableColumn<FlaggedItem>[] = [
 					: row.status === "escalated"
 						? "Escalated"
 						: "Acknowledged";
-			return <Badge variant={variant}>{label}</Badge>;
+			return <Badge variant={variant} label={label} />;
 		},
 		sortValue: (row) => row.status,
 	},
@@ -309,15 +309,12 @@ export default function DashboardPage() {
 
 				<div className="flex flex-col space-y-6 p-6">
 					{/* ─── HEADER ─────────────────────────────────────────── */}
-					<div className="flex items-start justify-between">
-						<h1 className="text-2xl font-bold text-text">
-							{needsReview} items need review
-							{highPriority > 0 && (
-								<span className="ml-2 text-lg font-normal text-danger">
-									{highPriority} model-uncertain
-								</span>
-							)}
-						</h1>
+					<div className="flex items-center gap-3">
+						<h1 className="text-2xl font-bold text-text">Morning review</h1>
+						<Badge variant="warning" label="Review required" count={needsReview} />
+						{highPriority > 0 && (
+							<Badge variant="danger" label="Sign-off required" count={highPriority} />
+						)}
 					</div>
 
 					{/* ─── AI SUMMARY + KPIs (single scan line) ───────────── */}
