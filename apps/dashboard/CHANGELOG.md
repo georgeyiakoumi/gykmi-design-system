@@ -1,5 +1,17 @@
 # @gykmi/dashboard
 
+## 0.1.1
+
+### Patch Changes
+
+- [#27](https://github.com/georgeyiakoumi/gykmi-design-system/pull/27) [`5911a24`](https://github.com/georgeyiakoumi/gykmi-design-system/commit/5911a24ad2619321541c481d7ec7caf340095125) Thanks [@georgeyiakoumi](https://github.com/georgeyiakoumi)! - Netlify deploy: dashboard and Storybook live on Netlify from committed config.
+
+  Static export for Next.js dashboard, Turbo-scoped builds, Node 22 pinned.
+  Demo-data disclaimer footer. Biome excludes build output.
+
+- Updated dependencies [[`5911a24`](https://github.com/georgeyiakoumi/gykmi-design-system/commit/5911a24ad2619321541c481d7ec7caf340095125)]:
+  - @gykmi/ui@1.2.1
+
 ## 0.1.0
 
 ### Minor Changes
