@@ -235,6 +235,16 @@ export function DashboardShell({
 					<PageTitle title={pageLabel} badges={badges} />
 					{children}
 				</div>
+				<footer className="border-t border-border px-6 py-3 text-xs text-text-muted">
+					Demo only — fictional data, no real financial instruments or counterparties. Part of the{" "}
+					<a
+						href="https://github.com/georgeyiakoumi/gykmi-design-system"
+						className="underline hover:text-text"
+					>
+						GYKMI Design System
+					</a>
+					.
+				</footer>
 			</SidebarInset>
 		</SidebarProvider>
 	);
