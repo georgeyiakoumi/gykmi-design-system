@@ -10,6 +10,9 @@
  * @theme inline: tells Tailwind these utilities exist and map to
  * the given values, WITHOUT emitting new CSS custom properties.
  * This avoids circular references with our token vars.
+ *
+ * ⚠ KEEP IN SYNC WITH theme.css — both files define the same mappings
+ * for different consumers (styles.css for internal, theme.css for consumers).
  */
 @theme inline {
 	/* Surface colours */

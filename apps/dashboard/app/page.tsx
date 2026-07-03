@@ -12,8 +12,10 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 	Card,
+	CardAction,
 	CardContent,
 	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
 	ComplianceBanner,
@@ -38,6 +40,7 @@ import {
 	SidebarProvider,
 	SidebarSeparator,
 	SidebarTrigger,
+	Text,
 	ThemeToggle,
 } from "@gykmi/ui";
 
@@ -309,16 +312,39 @@ export default function DashboardPage() {
 
 				<div className="flex flex-col space-y-6 p-6">
 					{/* ─── HEADER ─────────────────────────────────────────── */}
-					<div className="flex items-center gap-3">
-						<h1 className="text-2xl font-bold text-text">Morning review</h1>
-						<Badge variant="warning" label="Review required" count={needsReview} />
-						{highPriority > 0 && (
-							<Badge variant="danger" label="Sign-off required" count={highPriority} />
-						)}
+					<div className="flex flex-col items-start gap-4">
+						<Text as="h1" variant="heading-2xl">
+							Morning review
+						</Text>
+						<div className="flex items-center gap-2">
+							<a href="#flagged-items" className="no-underline">
+								<Badge
+									variant="warning"
+									label="Review required"
+									count={needsReview}
+									className="cursor-pointer hover:opacity-80"
+									style={{ transition: `opacity var(--duration-normal) var(--easing-default)` }}
+								/>
+							</a>
+							{highPriority > 0 && (
+								<a href="#flagged-items" className="no-underline">
+									<Badge
+										variant="default"
+										label="Sign-off required"
+										count={highPriority}
+										className="cursor-pointer hover:opacity-80"
+										style={{ transition: `opacity var(--duration-normal) var(--easing-default)` }}
+									/>
+								</a>
+							)}
+						</div>
 					</div>
 
 					{/* ─── AI SUMMARY + KPIs (single scan line) ───────────── */}
-					<div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr]">
+					<div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1fr]">
+						<Text as="h2" variant="heading-xl" className="col-span-full">
+							Overview
+						</Text>
 						<AnalysisSection
 							title="Risk summary"
 							summary="Meridian Capital exposure has risen to 17.4% (limit: 15%), sustained over three trading days. One structured credit position (est. $4.2M) has a model-uncertain valuation requiring sign-off before the morning report is released."
@@ -328,7 +354,7 @@ export default function DashboardPage() {
 							generatedAt="2026-07-02T07:45:00Z"
 						/>
 
-						<div className="grid grid-cols-2 gap-3">
+						<div className="flex flex-col gap-4">
 							<MetricCard
 								label="Meridian exposure"
 								value="17.4%"
@@ -342,37 +368,53 @@ export default function DashboardPage() {
 								variant="warning"
 							/>
 							<MetricCard label="Model coverage" value="95%" context="1 position unscored" />
-							<MetricCard
-								label="Flagged items"
-								value={flaggedItems.length}
-								context={`${needsReview} awaiting review`}
-							/>
 						</div>
 					</div>
 
 					{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
-					<Card>
-						<CardHeader>
-							<div className="flex items-center justify-between">
-								<CardTitle className="text-base">Meridian Capital — 7 day exposure</CardTitle>
-								<ConfidenceIndicator level="medium" score={68} />
-							</div>
-						</CardHeader>
-						<CardContent>
-							<ConfidenceChart
-								data={exposureTrend}
-								title="Meridian Capital counterparty exposure"
-								bandLabel="95% confidence interval"
-								height={240}
-								showTable
-								formatValue={(v) => `${v.toFixed(1)}%`}
-							/>
-						</CardContent>
-					</Card>
+					<div className="flex flex-col gap-4">
+						<Text as="h2" variant="heading-xl">
+							Exposure trend
+						</Text>
+						<Card>
+							<CardHeader>
+								<CardTitle className="text-sm">Meridian Capital — 7 day</CardTitle>
+								<CardAction>
+									<ConfidenceIndicator level="medium" score={68} />
+								</CardAction>
+							</CardHeader>
+							<CardContent className="[&_.mt-2.flex.items-center.gap-4]:hidden">
+								<ConfidenceChart
+									data={exposureTrend}
+									title="Meridian Capital counterparty exposure"
+									bandLabel="95% confidence interval"
+									height={240}
+									showTable
+									formatValue={(v) => `${v.toFixed(1)}%`}
+								/>
+							</CardContent>
+							<CardFooter className="gap-4 text-xs text-text-muted">
+								<span className="flex items-center gap-1">
+									<span className="inline-block h-0.5 w-4 bg-action" />
+									Actual
+								</span>
+								<span className="flex items-center gap-1">
+									<span className="inline-block h-0.5 w-4 border-t border-dashed border-action" />
+									Estimated
+								</span>
+								<span className="flex items-center gap-1">
+									<span className="inline-block h-3 w-4 rounded-sm bg-action/15" />
+									95% confidence
+								</span>
+							</CardFooter>
+						</Card>
+					</div>
 
 					{/* ─── FLAGGED ITEMS ───────────────────────────────────── */}
-					<div>
-						<h2 className="mb-3 text-lg font-semibold text-text">Flagged items</h2>
+					<div id="flagged-items" className="flex flex-col gap-4">
+						<Text as="h2" variant="heading-xl" className="mb-3">
+							Flagged items
+						</Text>
 						<DataTable
 							columns={flaggedColumns}
 							data={flaggedItems}
@@ -383,7 +425,9 @@ export default function DashboardPage() {
 
 					{/* ─── AUDIT TRAIL ─────────────────────────────────────── */}
 					<div>
-						<h3 className="mb-2 text-sm font-medium text-text-muted">Audit trail</h3>
+						<Text as="h3" variant="label-sm" className="mb-2 text-text-muted">
+							Audit trail
+						</Text>
 						<AuditTrail entries={auditEntries} />
 					</div>
 

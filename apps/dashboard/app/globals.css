@@ -4,6 +4,17 @@
 
 @source "../../../packages/ui/src/";
 
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
 body {
 	background-color: var(--surface-default);
 	color: var(--text-default);

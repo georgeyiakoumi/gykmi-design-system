@@ -17,19 +17,19 @@ export interface BadgeProps extends Omit<ComponentPropsWithRef<"span">, "childre
 const variantStyles: Record<BadgeVariant, { badge: string; count: string }> = {
 	default: {
 		badge: "bg-surface-raised text-text border border-border",
-		count: "bg-text text-surface",
+		count: "bg-text/10 text-text",
 	},
 	success: {
 		badge: "bg-success-subtle text-success-text",
-		count: "bg-success-text text-success-subtle",
+		count: "bg-success/10 text-success-text",
 	},
 	danger: {
 		badge: "bg-danger-subtle text-danger-text",
-		count: "bg-danger-text text-danger-subtle",
+		count: "bg-danger/10 text-danger-text",
 	},
 	warning: {
 		badge: "bg-warning-subtle text-warning-text",
-		count: "bg-warning-text text-warning-subtle",
+		count: "bg-warning/10 text-warning-text",
 	},
 };
 

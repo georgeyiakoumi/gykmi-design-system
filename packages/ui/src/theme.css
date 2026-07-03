@@ -6,6 +6,9 @@
  *   @import "tailwindcss";
  *   @import "@gykmi/tokens/css";
  *   @import "@gykmi/ui/theme";
+ *
+ * ⚠ KEEP IN SYNC WITH styles.css — both files define the same mappings
+ * for different consumers (theme.css for consumers, styles.css for internal).
  */
 @theme inline {
 	/* Surface colours */
@@ -30,14 +33,17 @@
 
 	/* Danger colours */
 	--color-danger: var(--danger-default);
+	--color-danger-subtle: var(--danger-subtle);
 	--color-danger-hover: var(--danger-hover);
 	--color-danger-active: var(--danger-active);
 	--color-danger-text: var(--danger-text);
 
 	/* Success / Warning */
 	--color-success: var(--success-default);
+	--color-success-subtle: var(--success-subtle);
 	--color-success-text: var(--success-text);
 	--color-warning: var(--warning-default);
+	--color-warning-subtle: var(--warning-subtle);
 	--color-warning-text: var(--warning-text);
 
 	/* Focus */
