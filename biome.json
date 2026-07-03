@@ -37,7 +37,8 @@
 			"!**/dist",
 			"!**/.turbo",
 			"!**/storybook-static",
-			"!**/.next"
+			"!**/.next",
+			"!**/out"
 		]
 	}
 }

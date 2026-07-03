@@ -1,0 +1,7 @@
+[build]
+  command = "cd ../.. && npx turbo run build --filter=@gykmi/dashboard"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--prefix=/dev/null"
