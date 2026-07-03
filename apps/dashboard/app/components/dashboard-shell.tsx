@@ -15,10 +15,12 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { PageHeader } from "./page-header";
 import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
+	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuGroup,
@@ -63,8 +65,27 @@ const NAV_ITEMS: { overview: NavItem[]; compliance: NavItem[] } = {
 	],
 };
 
+// Flat lookup: pathname → label
+const ROUTE_LABELS: Record<string, string> = Object.values(NAV_ITEMS)
+	.flat()
+	.filter((item) => item.href)
+	.reduce(
+		(acc, item) => {
+			acc[item.href as string] = item.label;
+			return acc;
+		},
+		{} as Record<string, string>,
+	);
+
 export function DashboardShell({ children }: { children: ReactNode }) {
 	const pathname = usePathname();
+
+	// Derive breadcrumbs from pathname
+	const pageLabel = ROUTE_LABELS[pathname] ?? "Overview";
+	const isRoot = pathname === "/";
+	const breadcrumbs = isRoot
+		? [{ label: "Overview" }, { label: pageLabel }]
+		: [{ label: "Overview", href: "/" }, { label: pageLabel }];
 
 	return (
 		<SidebarProvider>
@@ -184,6 +205,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 			</Sidebar>
 
 			<SidebarInset>
+				<PageHeader breadcrumbs={breadcrumbs} action={<Button variant="secondary" size="sm">Export report</Button>} />
 				{children}
 			</SidebarInset>
 		</SidebarProvider>
