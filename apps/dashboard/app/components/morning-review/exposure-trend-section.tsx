@@ -41,7 +41,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						formatValue={(v) => `${v.toFixed(1)}%`}
 					/>
 				</CardContent>
-				<CardFooter className="justify-between">
+				<CardFooter className="flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<div className="flex gap-4 text-xs text-text-muted">
 						<span className="flex items-center gap-1">
 							<span className="inline-block h-0.5 w-4 bg-action" />
@@ -56,7 +56,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 							95% confidence
 						</span>
 					</div>
-					<div className="flex gap-2">
+					<div className="flex flex-col gap-2 w-full sm:flex-row sm:w-auto">
 						<Button variant="secondary" size="sm">Set alert</Button>
 						<Button variant="secondary" size="sm">View positions</Button>
 						<Button variant="default" size="sm">Escalate</Button>

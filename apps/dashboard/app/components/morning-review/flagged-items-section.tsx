@@ -5,6 +5,10 @@ import type { DataTableColumn } from "@gykmi/ui";
 import {
 	Badge,
 	Button,
+	Card,
+	CardAction,
+	CardContent,
+	CardHeader,
 	ConfidenceIndicator,
 	DataTable,
 	DropdownMenu,
@@ -25,25 +29,78 @@ interface FlaggedItem {
 	status: "needs-review" | "acknowledged" | "escalated";
 }
 
+// ─── SHARED ──────────────────────────────────────────────────────────────────
+
+function StatusBadge({ status }: { status: FlaggedItem["status"] }) {
+	const variant = status === "needs-review" ? "danger" : status === "escalated" ? "warning" : "default";
+	const label = status === "needs-review" ? "Needs review" : status === "escalated" ? "Escalated" : "Acknowledged";
+	return <Badge variant={variant} label={label} />;
+}
+
+function ActionsMenu({ item }: { item: FlaggedItem }) {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost" size="sm" aria-label={`Actions for ${item.id}`}>
+					<MoreHorizontal size={14} />
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end">
+				{item.status === "needs-review" && (
+					<>
+						<DropdownMenuItem>Acknowledge</DropdownMenuItem>
+						<DropdownMenuItem>Escalate</DropdownMenuItem>
+					</>
+				)}
+				{item.confidence === "uncertain" && (
+					<DropdownMenuItem>Sign off</DropdownMenuItem>
+				)}
+				<DropdownMenuItem>View detail</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+}
+
+// ─── MOBILE CARD ─────────────────────────────────────────────────────────────
+
+function FlaggedItemCard({ item }: { item: FlaggedItem }) {
+	return (
+		<Card>
+			<CardHeader>
+				<StatusBadge status={item.status} />
+				<CardAction>
+					<ConfidenceIndicator level={item.confidence} />
+				</CardAction>
+			</CardHeader>
+			<CardContent className="flex flex-col gap-3 pb-4">
+				<p className="text-sm font-medium text-text">{item.description}</p>
+				<div className="flex items-baseline gap-2 text-xs">
+					<span className="font-medium text-text">{item.value}</span>
+					<span className="text-text-muted">/ {item.threshold}</span>
+				</div>
+				<div className="flex flex-col gap-2 pt-1">
+					{item.status === "needs-review" && (
+						<>
+							<Button variant="secondary" size="sm">Acknowledge</Button>
+							<Button variant="secondary" size="sm">Escalate</Button>
+						</>
+					)}
+					{item.confidence === "uncertain" && (
+						<Button variant="default" size="sm">Sign off</Button>
+					)}
+				</div>
+			</CardContent>
+		</Card>
+	);
+}
+
+// ─── DESKTOP TABLE ───────────────────────────────────────────────────────────
+
 const flaggedColumns: DataTableColumn<FlaggedItem>[] = [
 	{
 		key: "status",
 		header: "Status",
-		cell: (row) => {
-			const variant =
-				row.status === "needs-review"
-					? "danger"
-					: row.status === "escalated"
-						? "warning"
-						: "default";
-			const label =
-				row.status === "needs-review"
-					? "Needs review"
-					: row.status === "escalated"
-						? "Escalated"
-						: "Acknowledged";
-			return <Badge variant={variant} label={label} />;
-		},
+		cell: (row) => <StatusBadge status={row.status} />,
 		sortValue: (row) => row.status,
 	},
 	{ key: "description", header: "Description", cell: (row) => row.description },
@@ -66,29 +123,11 @@ const flaggedColumns: DataTableColumn<FlaggedItem>[] = [
 	{
 		key: "actions",
 		header: "",
-		cell: (row) => (
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant="ghost" size="sm" aria-label={`Actions for ${row.id}`}>
-						<MoreHorizontal size={14} />
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent align="end">
-					{row.status === "needs-review" && (
-						<>
-							<DropdownMenuItem>Acknowledge</DropdownMenuItem>
-							<DropdownMenuItem>Escalate</DropdownMenuItem>
-						</>
-					)}
-					{row.confidence === "uncertain" && (
-						<DropdownMenuItem>Sign off</DropdownMenuItem>
-					)}
-					<DropdownMenuItem>View detail</DropdownMenuItem>
-				</DropdownMenuContent>
-			</DropdownMenu>
-		),
+		cell: (row) => <ActionsMenu item={row} />,
 	},
 ];
+
+// ─── SECTION ─────────────────────────────────────────────────────────────────
 
 interface FlaggedItemsSectionProps {
 	items: FlaggedItem[];
@@ -100,12 +139,23 @@ export function FlaggedItemsSection({ items }: FlaggedItemsSectionProps) {
 			<Text as="h2" variant="heading-xl">
 				Flagged items
 			</Text>
-			<DataTable
-				columns={flaggedColumns}
-				data={items}
-				getRowKey={(row) => row.id}
-				caption="Items requiring review"
-			/>
+
+			{/* Mobile: cards */}
+			<div className="flex flex-col gap-3 lg:hidden">
+				{items.map((item) => (
+					<FlaggedItemCard key={item.id} item={item} />
+				))}
+			</div>
+
+			{/* Desktop: table */}
+			<div className="hidden lg:block">
+				<DataTable
+					columns={flaggedColumns}
+					data={items}
+					getRowKey={(row) => row.id}
+					caption="Items requiring review"
+				/>
+			</div>
 		</div>
 	);
 }

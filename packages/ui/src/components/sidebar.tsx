@@ -134,7 +134,7 @@ function Sidebar({
 			<div
 				data-slot="sidebar"
 				className={cn(
-					"flex h-full w-[var(--sidebar-width)] flex-col border-r border-border bg-surface-default text-text",
+					"flex h-full w-[var(--sidebar-width)] flex-col border-r border-border bg-surface text-text",
 					className,
 				)}
 				{...props}
@@ -151,7 +151,7 @@ function Sidebar({
 					data-sidebar="sidebar"
 					data-slot="sidebar"
 					data-mobile="true"
-					className="w-[var(--sidebar-width)] bg-surface-default p-0 text-text [&>button]:hidden"
+					className="w-[var(--sidebar-width)] bg-surface p-0 text-text [&>button]:hidden"
 					style={{ "--sidebar-width": SIDEBAR_WIDTH_MOBILE } as React.CSSProperties}
 					side={side}
 				>
@@ -203,7 +203,7 @@ function Sidebar({
 					data-sidebar="sidebar"
 					data-slot="sidebar-inner"
 					className={cn(
-						"flex h-full w-full flex-col bg-surface-default",
+						"flex h-full w-full flex-col bg-surface",
 						variant === "floating" && "rounded-lg border border-border shadow-sm",
 					)}
 				>

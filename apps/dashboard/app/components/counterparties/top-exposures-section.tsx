@@ -35,8 +35,8 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						formatValue={(v) => `$${v.toFixed(1)}M`}
 					/>
 				</CardContent>
-				<CardFooter className="justify-end">
-					<div className="flex gap-2">
+				<CardFooter className="sm:justify-end">
+					<div className="flex flex-col gap-2 w-full sm:flex-row sm:w-auto">
 						<Button variant="secondary" size="sm">Set alerts</Button>
 						<Button variant="secondary" size="sm">Adjust limits</Button>
 					</div>
