@@ -3,6 +3,7 @@
 import { DashboardShell } from "./components/dashboard-shell";
 import { ActivitySection } from "./components/morning-review/activity-section";
 import { ExposureTrendSection } from "./components/morning-review/exposure-trend-section";
+import type { FlaggedItem } from "./components/morning-review/flagged-items-section";
 import { FlaggedItemsSection } from "./components/morning-review/flagged-items-section";
 import { OverviewSection } from "./components/morning-review/overview-section";
 import seed from "./data/seed.json";
@@ -24,12 +25,22 @@ export default function DashboardPage() {
 	return (
 		<DashboardShell
 			badges={[
-				{ label: "Review required", count: needsReview, variant: "warning", href: "#flagged-items" },
-				{ label: "Sign-off required", count: highPriority, variant: "default", href: "#flagged-items" },
+				{
+					label: "Review required",
+					count: needsReview,
+					variant: "warning",
+					href: "#flagged-items",
+				},
+				{
+					label: "Sign-off required",
+					count: highPriority,
+					variant: "default",
+					href: "#flagged-items",
+				},
 			]}
 		>
 			<OverviewSection />
-			<FlaggedItemsSection items={flaggedItems as any} />
+			<FlaggedItemsSection items={flaggedItems as FlaggedItem[]} />
 			<ExposureTrendSection data={exposureTrend} />
 			<ActivitySection auditEntries={auditEntries} dataSources={sortedDataSources} />
 		</DashboardShell>

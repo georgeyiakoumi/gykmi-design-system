@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	AnalysisSection,
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-	MetricCard,
-} from "@gykmi/ui";
+import { AnalysisSection, Card, CardContent, CardHeader, CardTitle, MetricCard } from "@gykmi/ui";
 
 export function OverviewSection() {
 	return (
@@ -23,7 +16,9 @@ export function OverviewSection() {
 
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Key metrics</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						Key metrics
+					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex flex-col gap-1 pb-4 divide-y divide-border">
 					<MetricCard

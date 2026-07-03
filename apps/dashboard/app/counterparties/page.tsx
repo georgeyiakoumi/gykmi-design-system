@@ -46,10 +46,7 @@ export default function CounterpartiesPage() {
 				exposureTrend={exposureTrend}
 			/>
 			<TopExposuresSection data={topExposures} />
-			<HeatmapSection
-				data={heatmapData as HeatmapRow[]}
-				columnLabels={assetClasses}
-			/>
+			<HeatmapSection data={heatmapData as HeatmapRow[]} columnLabels={assetClasses} />
 			<CounterpartyTableSection data={typedCounterparties} />
 		</DashboardShell>
 	);

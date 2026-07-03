@@ -101,15 +101,55 @@
 			}
 		],
 		"dataSources": [
-			{ "name": "Bloomberg Terminal", "version": "2024.3", "lastUpdated": "2026-07-02T07:30:00Z", "verified": true },
-			{ "name": "Internal Ledger", "version": "3.2.1", "lastUpdated": "2026-07-02T07:40:00Z", "verified": true },
-			{ "name": "Pricing Engine", "version": "2.8", "lastUpdated": "2026-07-02T07:42:00Z", "verified": true },
-			{ "name": "Reuters Eikon", "version": "12.1", "lastUpdated": "2026-07-02T07:35:00Z", "verified": true },
-			{ "name": "DTCC Trade Repository", "version": "4.0", "lastUpdated": "2026-07-02T06:00:00Z", "verified": true },
-			{ "name": "Risk Analytics Engine", "version": "1.9.2", "lastUpdated": "2026-07-02T07:44:00Z", "verified": true },
-			{ "name": "Counterparty Database", "version": "6.3", "lastUpdated": "2026-07-01T23:00:00Z", "verified": true },
+			{
+				"name": "Bloomberg Terminal",
+				"version": "2024.3",
+				"lastUpdated": "2026-07-02T07:30:00Z",
+				"verified": true
+			},
+			{
+				"name": "Internal Ledger",
+				"version": "3.2.1",
+				"lastUpdated": "2026-07-02T07:40:00Z",
+				"verified": true
+			},
+			{
+				"name": "Pricing Engine",
+				"version": "2.8",
+				"lastUpdated": "2026-07-02T07:42:00Z",
+				"verified": true
+			},
+			{
+				"name": "Reuters Eikon",
+				"version": "12.1",
+				"lastUpdated": "2026-07-02T07:35:00Z",
+				"verified": true
+			},
+			{
+				"name": "DTCC Trade Repository",
+				"version": "4.0",
+				"lastUpdated": "2026-07-02T06:00:00Z",
+				"verified": true
+			},
+			{
+				"name": "Risk Analytics Engine",
+				"version": "1.9.2",
+				"lastUpdated": "2026-07-02T07:44:00Z",
+				"verified": true
+			},
+			{
+				"name": "Counterparty Database",
+				"version": "6.3",
+				"lastUpdated": "2026-07-01T23:00:00Z",
+				"verified": true
+			},
 			{ "name": "Market Data Feed", "lastUpdated": "2026-06-30T23:59:00Z", "verified": false },
-			{ "name": "Regulatory Filings API", "version": "2.1", "lastUpdated": "2026-07-01T18:00:00Z", "verified": false }
+			{
+				"name": "Regulatory Filings API",
+				"version": "2.1",
+				"lastUpdated": "2026-07-01T18:00:00Z",
+				"verified": false
+			}
 		]
 	},
 	"counterparties": {
@@ -142,21 +182,138 @@
 		],
 		"assetClasses": ["Equities", "Fixed income", "Credit", "FX", "Commodities"],
 		"heatmap": [
-			{ "label": "Hawkstone Partners", "bins": [{ "bin": 0, "count": 8.2 }, { "bin": 1, "count": 3.1 }, { "bin": 2, "count": 4.8 }, { "bin": 3, "count": 1.1 }, { "bin": 4, "count": 0.2 }] },
-			{ "label": "Apex Partners", "bins": [{ "bin": 0, "count": 5.4 }, { "bin": 1, "count": 9.2 }, { "bin": 2, "count": 2.1 }, { "bin": 3, "count": 8.7 }, { "bin": 4, "count": 4.3 }] },
-			{ "label": "Northvale Group", "bins": [{ "bin": 0, "count": 2.1 }, { "bin": 1, "count": 6.8 }, { "bin": 2, "count": 7.4 }, { "bin": 3, "count": 5.2 }, { "bin": 4, "count": 2.6 }] },
-			{ "label": "Clearwater Ltd", "bins": [{ "bin": 0, "count": 7.1 }, { "bin": 1, "count": 1.9 }, { "bin": 2, "count": 3.6 }, { "bin": 3, "count": 4.4 }, { "bin": 4, "count": 3.8 }] },
-			{ "label": "Summit Holdings", "bins": [{ "bin": 0, "count": 3.8 }, { "bin": 1, "count": 4.5 }, { "bin": 2, "count": 1.2 }, { "bin": 3, "count": 2.9 }, { "bin": 4, "count": 5.2 }] }
+			{
+				"label": "Hawkstone Partners",
+				"bins": [
+					{ "bin": 0, "count": 8.2 },
+					{ "bin": 1, "count": 3.1 },
+					{ "bin": 2, "count": 4.8 },
+					{ "bin": 3, "count": 1.1 },
+					{ "bin": 4, "count": 0.2 }
+				]
+			},
+			{
+				"label": "Apex Partners",
+				"bins": [
+					{ "bin": 0, "count": 5.4 },
+					{ "bin": 1, "count": 9.2 },
+					{ "bin": 2, "count": 2.1 },
+					{ "bin": 3, "count": 8.7 },
+					{ "bin": 4, "count": 4.3 }
+				]
+			},
+			{
+				"label": "Northvale Group",
+				"bins": [
+					{ "bin": 0, "count": 2.1 },
+					{ "bin": 1, "count": 6.8 },
+					{ "bin": 2, "count": 7.4 },
+					{ "bin": 3, "count": 5.2 },
+					{ "bin": 4, "count": 2.6 }
+				]
+			},
+			{
+				"label": "Clearwater Ltd",
+				"bins": [
+					{ "bin": 0, "count": 7.1 },
+					{ "bin": 1, "count": 1.9 },
+					{ "bin": 2, "count": 3.6 },
+					{ "bin": 3, "count": 4.4 },
+					{ "bin": 4, "count": 3.8 }
+				]
+			},
+			{
+				"label": "Summit Holdings",
+				"bins": [
+					{ "bin": 0, "count": 3.8 },
+					{ "bin": 1, "count": 4.5 },
+					{ "bin": 2, "count": 1.2 },
+					{ "bin": 3, "count": 2.9 },
+					{ "bin": 4, "count": 5.2 }
+				]
+			}
 		],
 		"counterparties": [
-			{ "id": "CP-001", "name": "Hawkstone Partners", "exposure": 42.6, "limit": 36.8, "utilisation": 115.8, "rating": "BBB+", "trend": [34.2, 35.8, 37.1, 38.9, 40.2, 41.5, 42.6], "status": "breached" },
-			{ "id": "CP-002", "name": "Apex Partners", "exposure": 29.7, "limit": 32.0, "utilisation": 92.8, "rating": "A-", "trend": [28.1, 28.5, 29.0, 29.2, 29.4, 29.5, 29.7], "status": "near-limit" },
-			{ "id": "CP-003", "name": "Northvale Group", "exposure": 24.1, "limit": 30.0, "utilisation": 80.3, "rating": "A", "trend": [23.8, 24.0, 24.2, 24.0, 23.9, 24.0, 24.1], "status": "within-limit" },
-			{ "id": "CP-004", "name": "Clearwater Ltd", "exposure": 20.8, "limit": 28.0, "utilisation": 74.3, "rating": "A+", "trend": [19.2, 19.8, 20.1, 20.4, 20.5, 20.6, 20.8], "status": "within-limit" },
-			{ "id": "CP-005", "name": "Summit Holdings", "exposure": 17.6, "limit": 25.0, "utilisation": 70.4, "rating": "BBB", "trend": [16.8, 17.0, 17.1, 17.2, 17.3, 17.4, 17.6], "status": "within-limit" },
-			{ "id": "CP-006", "name": "Ironbridge Corp", "exposure": 14.2, "limit": 20.0, "utilisation": 71.0, "rating": "A-", "trend": [13.5, 13.8, 14.0, 14.1, 14.0, 14.1, 14.2], "status": "within-limit" },
-			{ "id": "CP-007", "name": "Vanguard Trust", "exposure": 11.9, "limit": 18.0, "utilisation": 66.1, "rating": "AA-", "trend": [12.4, 12.2, 12.0, 11.8, 11.9, 11.9, 11.9], "status": "within-limit" },
-			{ "id": "CP-008", "name": "Pacific Rim Ltd", "exposure": 9.3, "limit": 15.0, "utilisation": 62.0, "rating": "BBB+", "trend": [9.0, 9.1, 9.2, 9.2, 9.3, 9.3, 9.3], "status": "within-limit" }
+			{
+				"id": "CP-001",
+				"name": "Hawkstone Partners",
+				"exposure": 42.6,
+				"limit": 36.8,
+				"utilisation": 115.8,
+				"rating": "BBB+",
+				"trend": [34.2, 35.8, 37.1, 38.9, 40.2, 41.5, 42.6],
+				"status": "breached"
+			},
+			{
+				"id": "CP-002",
+				"name": "Apex Partners",
+				"exposure": 29.7,
+				"limit": 32.0,
+				"utilisation": 92.8,
+				"rating": "A-",
+				"trend": [28.1, 28.5, 29.0, 29.2, 29.4, 29.5, 29.7],
+				"status": "near-limit"
+			},
+			{
+				"id": "CP-003",
+				"name": "Northvale Group",
+				"exposure": 24.1,
+				"limit": 30.0,
+				"utilisation": 80.3,
+				"rating": "A",
+				"trend": [23.8, 24.0, 24.2, 24.0, 23.9, 24.0, 24.1],
+				"status": "within-limit"
+			},
+			{
+				"id": "CP-004",
+				"name": "Clearwater Ltd",
+				"exposure": 20.8,
+				"limit": 28.0,
+				"utilisation": 74.3,
+				"rating": "A+",
+				"trend": [19.2, 19.8, 20.1, 20.4, 20.5, 20.6, 20.8],
+				"status": "within-limit"
+			},
+			{
+				"id": "CP-005",
+				"name": "Summit Holdings",
+				"exposure": 17.6,
+				"limit": 25.0,
+				"utilisation": 70.4,
+				"rating": "BBB",
+				"trend": [16.8, 17.0, 17.1, 17.2, 17.3, 17.4, 17.6],
+				"status": "within-limit"
+			},
+			{
+				"id": "CP-006",
+				"name": "Ironbridge Corp",
+				"exposure": 14.2,
+				"limit": 20.0,
+				"utilisation": 71.0,
+				"rating": "A-",
+				"trend": [13.5, 13.8, 14.0, 14.1, 14.0, 14.1, 14.2],
+				"status": "within-limit"
+			},
+			{
+				"id": "CP-007",
+				"name": "Vanguard Trust",
+				"exposure": 11.9,
+				"limit": 18.0,
+				"utilisation": 66.1,
+				"rating": "AA-",
+				"trend": [12.4, 12.2, 12.0, 11.8, 11.9, 11.9, 11.9],
+				"status": "within-limit"
+			},
+			{
+				"id": "CP-008",
+				"name": "Pacific Rim Ltd",
+				"exposure": 9.3,
+				"limit": 15.0,
+				"utilisation": 62.0,
+				"rating": "BBB+",
+				"trend": [9.0, 9.1, 9.2, 9.2, 9.3, 9.3, 9.3],
+				"status": "within-limit"
+			}
 		]
 	}
 }

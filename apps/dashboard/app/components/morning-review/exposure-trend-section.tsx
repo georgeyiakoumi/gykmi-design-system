@@ -26,7 +26,9 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 			</Text>
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Hawkstone Partners — 7 day</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						Hawkstone Partners — 7 day
+					</CardTitle>
 					<CardAction>
 						<ConfidenceIndicator level="medium" label="Model confidence" score={68} />
 					</CardAction>
@@ -57,9 +59,15 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						</span>
 					</div>
 					<div className="flex flex-col gap-2 w-full sm:flex-row sm:w-auto">
-						<Button variant="secondary" size="sm">Set alert</Button>
-						<Button variant="secondary" size="sm">View positions</Button>
-						<Button variant="default" size="sm">Escalate</Button>
+						<Button variant="secondary" size="sm">
+							Set alert
+						</Button>
+						<Button variant="secondary" size="sm">
+							View positions
+						</Button>
+						<Button variant="default" size="sm">
+							Escalate
+						</Button>
 					</div>
 				</CardFooter>
 			</Card>

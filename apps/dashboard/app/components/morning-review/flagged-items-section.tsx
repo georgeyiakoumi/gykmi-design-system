@@ -1,6 +1,5 @@
 "use client";
 
-import { MoreHorizontal } from "lucide-react";
 import type { DataTableColumn } from "@gykmi/ui";
 import {
 	Badge,
@@ -17,8 +16,9 @@ import {
 	DropdownMenuTrigger,
 	Text,
 } from "@gykmi/ui";
+import { MoreHorizontal } from "lucide-react";
 
-interface FlaggedItem {
+export interface FlaggedItem {
 	id: string;
 	description: string;
 	metric: string;
@@ -32,8 +32,14 @@ interface FlaggedItem {
 // ─── SHARED ──────────────────────────────────────────────────────────────────
 
 function StatusBadge({ status }: { status: FlaggedItem["status"] }) {
-	const variant = status === "needs-review" ? "danger" : status === "escalated" ? "warning" : "default";
-	const label = status === "needs-review" ? "Needs review" : status === "escalated" ? "Escalated" : "Acknowledged";
+	const variant =
+		status === "needs-review" ? "danger" : status === "escalated" ? "warning" : "default";
+	const label =
+		status === "needs-review"
+			? "Needs review"
+			: status === "escalated"
+				? "Escalated"
+				: "Acknowledged";
 	return <Badge variant={variant} label={label} />;
 }
 
@@ -52,9 +58,7 @@ function ActionsMenu({ item }: { item: FlaggedItem }) {
 						<DropdownMenuItem>Escalate</DropdownMenuItem>
 					</>
 				)}
-				{item.confidence === "uncertain" && (
-					<DropdownMenuItem>Sign off</DropdownMenuItem>
-				)}
+				{item.confidence === "uncertain" && <DropdownMenuItem>Sign off</DropdownMenuItem>}
 				<DropdownMenuItem>View detail</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
@@ -81,12 +85,18 @@ function FlaggedItemCard({ item }: { item: FlaggedItem }) {
 				<div className="flex flex-col gap-2 pt-1">
 					{item.status === "needs-review" && (
 						<>
-							<Button variant="secondary" size="sm">Acknowledge</Button>
-							<Button variant="secondary" size="sm">Escalate</Button>
+							<Button variant="secondary" size="sm">
+								Acknowledge
+							</Button>
+							<Button variant="secondary" size="sm">
+								Escalate
+							</Button>
 						</>
 					)}
 					{item.confidence === "uncertain" && (
-						<Button variant="default" size="sm">Sign off</Button>
+						<Button variant="default" size="sm">
+							Sign off
+						</Button>
 					)}
 				</div>
 			</CardContent>

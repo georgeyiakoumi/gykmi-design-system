@@ -1,22 +1,6 @@
 "use client";
 
 import {
-	Bell,
-	Building2,
-	ChevronsUpDown,
-	ClipboardCheck,
-	FileText,
-	History,
-	LogOut,
-	Moon,
-	Scale,
-	Sun,
-	UserCircle,
-} from "lucide-react";
-import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
-import { PageHeader } from "./page-header";
-import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
@@ -44,6 +28,22 @@ import {
 	SidebarSeparator,
 	ThemeToggle,
 } from "@gykmi/ui";
+import {
+	Bell,
+	Building2,
+	ChevronsUpDown,
+	ClipboardCheck,
+	FileText,
+	History,
+	LogOut,
+	Moon,
+	Scale,
+	Sun,
+	UserCircle,
+} from "lucide-react";
+import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
+import { PageHeader } from "./page-header";
 
 interface NavItem {
 	label: string;
@@ -79,7 +79,13 @@ const ROUTE_LABELS: Record<string, string> = Object.values(NAV_ITEMS)
 
 import { PageTitle, type StatusBadge } from "./page-title";
 
-export function DashboardShell({ children, badges }: { children: ReactNode; badges?: StatusBadge[] }) {
+export function DashboardShell({
+	children,
+	badges,
+}: {
+	children: ReactNode;
+	badges?: StatusBadge[];
+}) {
 	const pathname = usePathname();
 
 	// Derive breadcrumbs from pathname
@@ -109,7 +115,11 @@ export function DashboardShell({ children, badges }: { children: ReactNode; badg
 									{items.map((item) => (
 										<SidebarMenuItem key={item.label}>
 											{item.href ? (
-												<SidebarMenuButton isActive={pathname === item.href} tooltip={item.label} asChild>
+												<SidebarMenuButton
+													isActive={pathname === item.href}
+													tooltip={item.label}
+													asChild
+												>
 													<a href={item.href}>
 														<item.icon size={16} />
 														<span>{item.label}</span>
@@ -123,7 +133,9 @@ export function DashboardShell({ children, badges }: { children: ReactNode; badg
 											)}
 											{item.badge != null && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
 											{item.soon && (
-												<SidebarMenuBadge className="text-[10px] text-text-muted">Soon</SidebarMenuBadge>
+												<SidebarMenuBadge className="text-[10px] text-text-muted">
+													Soon
+												</SidebarMenuBadge>
 											)}
 										</SidebarMenuItem>
 									))}
@@ -140,7 +152,10 @@ export function DashboardShell({ children, badges }: { children: ReactNode; badg
 								<DropdownMenuTrigger asChild>
 									<SidebarMenuButton size="lg" tooltip="Nadia K.">
 										<Avatar className="h-8 w-8">
-											<AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face" alt="Nadia K." />
+											<AvatarImage
+												src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face"
+												alt="Nadia K."
+											/>
 											<AvatarFallback>NK</AvatarFallback>
 										</Avatar>
 										<div className="grid flex-1 text-left text-sm leading-tight">
@@ -159,7 +174,10 @@ export function DashboardShell({ children, badges }: { children: ReactNode; badg
 									<DropdownMenuLabel className="p-0 font-normal">
 										<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 											<Avatar className="h-8 w-8">
-												<AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face" alt="Nadia K." />
+												<AvatarImage
+													src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face"
+													alt="Nadia K."
+												/>
 												<AvatarFallback>NK</AvatarFallback>
 											</Avatar>
 											<div className="grid flex-1 text-left text-sm leading-tight">
@@ -205,7 +223,14 @@ export function DashboardShell({ children, badges }: { children: ReactNode; badg
 			</Sidebar>
 
 			<SidebarInset>
-				<PageHeader breadcrumbs={breadcrumbs} action={<Button variant="secondary" size="sm">Export report</Button>} />
+				<PageHeader
+					breadcrumbs={breadcrumbs}
+					action={
+						<Button variant="secondary" size="sm">
+							Export report
+						</Button>
+					}
+				/>
 				<div className="flex flex-col space-y-8 p-6">
 					<PageTitle title={pageLabel} badges={badges} />
 					{children}

@@ -1,13 +1,13 @@
 "use client";
 
 import type { ChartDataPoint, TimeSeriesPoint } from "@gykmi/ui";
-import { chartColors } from "@gykmi/ui";
 import {
 	Card,
 	CardContent,
 	CardFooter,
 	CardHeader,
 	CardTitle,
+	chartColors,
 	DonutChart,
 	LineChart,
 	MetricCard,
@@ -33,15 +33,22 @@ interface MetricsSectionProps {
 	exposureTrend: TimeSeriesPoint[];
 }
 
-export function MetricsSection({ counterparties, concentration, exposureTrend }: MetricsSectionProps) {
+export function MetricsSection({
+	counterparties,
+	concentration,
+	exposureTrend,
+}: MetricsSectionProps) {
 	const totalExposure = counterparties.reduce((sum, c) => sum + c.exposure, 0);
-	const avgUtilisation = counterparties.reduce((s, c) => s + c.utilisation, 0) / counterparties.length;
+	const avgUtilisation =
+		counterparties.reduce((s, c) => s + c.utilisation, 0) / counterparties.length;
 
 	return (
 		<div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Key metrics</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						Key metrics
+					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex flex-col gap-1 pb-4 divide-y divide-border">
 					<MetricCard
@@ -65,7 +72,9 @@ export function MetricsSection({ counterparties, concentration, exposureTrend }:
 
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Concentration breakdown</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						Concentration breakdown
+					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<DonutChart
@@ -92,7 +101,9 @@ export function MetricsSection({ counterparties, concentration, exposureTrend }:
 
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Total exposure — 7 day</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						Total exposure — 7 day
+					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<LineChart

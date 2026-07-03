@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -10,6 +9,7 @@ import {
 	BreadcrumbSeparator,
 	SidebarTrigger,
 } from "@gykmi/ui";
+import type { ReactNode } from "react";
 
 interface BreadcrumbEntry {
 	label: string;

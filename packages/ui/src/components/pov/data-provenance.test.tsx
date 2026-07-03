@@ -21,8 +21,8 @@ describe("DataProvenance", () => {
 	it("uses aria-label for section label", () => {
 		const sources = [{ name: "Source A" }];
 		render(<DataProvenance sources={sources} label="Custom sources" />);
-		const section = screen.getByRole("region", { name: "Custom sources" });
-		expect(section).toHaveAttribute("aria-label", "Custom sources");
+		const list = screen.getByRole("list", { name: "Custom sources" });
+		expect(list).toHaveAttribute("aria-label", "Custom sources");
 	});
 });
 

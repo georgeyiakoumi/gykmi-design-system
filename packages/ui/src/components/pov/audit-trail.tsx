@@ -55,11 +55,11 @@ function ActorWithTooltip({ entry }: { entry: AuditEntry }) {
 		<TooltipProvider delayDuration={200}>
 			<Tooltip>
 				<TooltipTrigger asChild>
-					<span><ActorNode entry={entry} /></span>
+					<span>
+						<ActorNode entry={entry} />
+					</span>
 				</TooltipTrigger>
-				<TooltipContent side="top">
-					{entry.actor}
-				</TooltipContent>
+				<TooltipContent side="top">{entry.actor}</TooltipContent>
 			</Tooltip>
 		</TooltipProvider>
 	);
@@ -116,18 +116,12 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 					<ScrollArea type="always" viewportClassName="scroll-fade-x">
 						<div className="flex">
 							{chronological.map((entry, index) => (
-								<div
-									key={entry.id}
-									className="flex flex-col items-start min-w-56 max-w-72"
-								>
+								<div key={entry.id} className="flex flex-col items-start min-w-56 max-w-72">
 									{/* Timeline row: avatar/icon + line */}
 									<div className="flex items-center w-full">
 										<ActorWithTooltip entry={entry} />
 										{index < chronological.length - 1 && (
-											<span
-												className="h-px flex-1 bg-border"
-												aria-hidden="true"
-											/>
+											<span className="h-px flex-1 bg-border" aria-hidden="true" />
 										)}
 									</div>
 

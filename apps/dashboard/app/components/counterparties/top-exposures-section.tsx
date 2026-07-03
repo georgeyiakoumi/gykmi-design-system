@@ -24,7 +24,9 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 			</Text>
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Exposure by counterparty ($M)</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						Exposure by counterparty ($M)
+					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<BarChart
@@ -37,8 +39,12 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 				</CardContent>
 				<CardFooter className="sm:justify-end">
 					<div className="flex flex-col gap-2 w-full sm:flex-row sm:w-auto">
-						<Button variant="secondary" size="sm">Set alerts</Button>
-						<Button variant="secondary" size="sm">Adjust limits</Button>
+						<Button variant="secondary" size="sm">
+							Set alerts
+						</Button>
+						<Button variant="secondary" size="sm">
+							Adjust limits
+						</Button>
 					</div>
 				</CardFooter>
 			</Card>

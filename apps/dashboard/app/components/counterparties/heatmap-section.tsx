@@ -1,14 +1,7 @@
 "use client";
 
 import type { HeatmapRow } from "@gykmi/ui";
-import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-	HeatmapChart,
-	Text,
-} from "@gykmi/ui";
+import { Card, CardContent, CardHeader, CardTitle, HeatmapChart, Text } from "@gykmi/ui";
 
 interface HeatmapSectionProps {
 	data: HeatmapRow[];
@@ -23,7 +16,9 @@ export function HeatmapSection({ data, columnLabels }: HeatmapSectionProps) {
 			</Text>
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Counterparty vs asset class ($M)</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						Counterparty vs asset class ($M)
+					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<HeatmapChart

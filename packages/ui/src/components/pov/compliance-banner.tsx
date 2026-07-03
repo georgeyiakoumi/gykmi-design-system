@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, Info, ShieldAlert, X } from "lucide-react";
-import { type ComponentPropsWithRef, type ReactNode, forwardRef, useState } from "react";
+import { type ComponentPropsWithRef, forwardRef, type ReactNode, useState } from "react";
 import { cn } from "../../lib/cn";
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "../alert";
 import { Button } from "../button";
@@ -30,7 +30,10 @@ const severityConfig: Record<ComplianceSeverity, { style: string; icon: typeof I
 };
 
 export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps>(
-	({ severity = "info", title, description, action, dismissible, onDismiss, className, ...props }, ref) => {
+	(
+		{ severity = "info", title, description, action, dismissible, onDismiss, className, ...props },
+		ref,
+	) => {
 		const [dismissed, setDismissed] = useState(false);
 		const config = severityConfig[severity];
 		const Icon = config.icon;

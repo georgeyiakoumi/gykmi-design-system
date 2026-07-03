@@ -49,7 +49,9 @@ export const AnalysisSection = forwardRef<HTMLDivElement, AnalysisSectionProps>(
 				{...props}
 			>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">{title}</CardTitle>
+					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						{title}
+					</CardTitle>
 					<CardAction>
 						{confidence && <ConfidenceIndicator level={confidence} score={confidenceScore} />}
 						{generatedAt && (

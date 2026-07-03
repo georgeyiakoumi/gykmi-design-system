@@ -1,6 +1,5 @@
 "use client";
 
-import { MoreHorizontal } from "lucide-react";
 import type { DataTableColumn } from "@gykmi/ui";
 import {
 	Badge,
@@ -17,6 +16,7 @@ import {
 	Sparkline,
 	Text,
 } from "@gykmi/ui";
+import { MoreHorizontal } from "lucide-react";
 
 interface Counterparty {
 	id: string;
@@ -32,7 +32,8 @@ interface Counterparty {
 // ─── SHARED ──────────────────────────────────────────────────────────────────
 
 function StatusBadge({ status }: { status: Counterparty["status"] }) {
-	const variant = status === "breached" ? "danger" : status === "near-limit" ? "warning" : "default";
+	const variant =
+		status === "breached" ? "danger" : status === "near-limit" ? "warning" : "default";
 	const label = status === "breached" ? "Breached" : status === "near-limit" ? "Near limit" : "OK";
 	return <Badge variant={variant} label={label} />;
 }
@@ -55,7 +56,11 @@ function ActionsMenu({ item }: { item: Counterparty }) {
 }
 
 function sparklineColor(status: Counterparty["status"]) {
-	return status === "breached" ? "var(--danger-default)" : status === "near-limit" ? "var(--warning-default)" : "var(--action-default)";
+	return status === "breached"
+		? "var(--danger-default)"
+		: status === "near-limit"
+			? "var(--warning-default)"
+			: "var(--action-default)";
 }
 
 function utilisationColor(utilisation: number) {
@@ -100,10 +105,16 @@ function CounterpartyCard({ item }: { item: Counterparty }) {
 					</div>
 				</div>
 				<div className="flex flex-col gap-2 pt-1">
-					<Button variant="secondary" size="sm">View positions</Button>
-					<Button variant="secondary" size="sm">Adjust limit</Button>
+					<Button variant="secondary" size="sm">
+						View positions
+					</Button>
+					<Button variant="secondary" size="sm">
+						Adjust limit
+					</Button>
 					{item.status === "breached" && (
-						<Button variant="default" size="sm">Escalate</Button>
+						<Button variant="default" size="sm">
+							Escalate
+						</Button>
 					)}
 				</div>
 			</CardContent>
@@ -120,7 +131,11 @@ const counterpartyColumns: DataTableColumn<Counterparty>[] = [
 		cell: (row) => <StatusBadge status={row.status} />,
 		sortValue: (row) => row.status,
 	},
-	{ key: "name", header: "Counterparty", cell: (row) => <span className="font-medium">{row.name}</span> },
+	{
+		key: "name",
+		header: "Counterparty",
+		cell: (row) => <span className="font-medium">{row.name}</span>,
+	},
 	{
 		key: "exposure",
 		header: "Exposure ($M)",
@@ -136,7 +151,11 @@ const counterpartyColumns: DataTableColumn<Counterparty>[] = [
 	{
 		key: "utilisation",
 		header: "Utilisation",
-		cell: (row) => <span className={`tabular-nums font-medium ${utilisationColor(row.utilisation)}`}>{row.utilisation.toFixed(1)}%</span>,
+		cell: (row) => (
+			<span className={`tabular-nums font-medium ${utilisationColor(row.utilisation)}`}>
+				{row.utilisation.toFixed(1)}%
+			</span>
+		),
 		sortValue: (row) => row.utilisation,
 	},
 	{

@@ -1,6 +1,5 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import type { AuditEntry, DataSource } from "@gykmi/ui";
 import {
 	AuditTrail,
@@ -14,6 +13,7 @@ import {
 	ScrollArea,
 	Text,
 } from "@gykmi/ui";
+import { Plus } from "lucide-react";
 
 interface ActivitySectionProps {
 	auditEntries: AuditEntry[];
@@ -23,12 +23,16 @@ interface ActivitySectionProps {
 export function ActivitySection({ auditEntries, dataSources }: ActivitySectionProps) {
 	return (
 		<div className="flex flex-col gap-4">
-			<Text as="h2" variant="heading-xl">Activity</Text>
+			<Text as="h2" variant="heading-xl">
+				Activity
+			</Text>
 
 			<div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:grid-rows-[1fr]">
 				<Card className="min-w-0 lg:h-64">
 					<CardHeader>
-						<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Recent activity</CardTitle>
+						<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+							Recent activity
+						</CardTitle>
 					</CardHeader>
 					<CardContent className="pb-6 lg:h-[calc(16rem-3.5rem)] lg:overflow-hidden">
 						<AuditTrail entries={auditEntries} />
@@ -36,9 +40,16 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 				</Card>
 				<Card className="flex flex-col overflow-hidden lg:h-64">
 					<CardHeader>
-						<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Data sources</CardTitle>
+						<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+							Data sources
+						</CardTitle>
 						<CardAction>
-							<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source">
+							<Button
+								variant="ghost"
+								size="sm"
+								className="h-5 w-5 p-0"
+								aria-label="Add data source"
+							>
 								<Plus size={14} />
 							</Button>
 						</CardAction>
