@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev -p 3000",
-		"dev:fresh": "lsof -ti :3000 | xargs kill -9 2>/dev/null; rm -rf .next && next dev -p 3000",
+		"dev:fresh": "lsof -ti :3000 | xargs kill -9 2>/dev/null; pnpm --filter @gykmi/tokens build && rm -rf .next && next dev -p 3000",
 		"build": "next build",
 		"start": "next start",
 		"lint": "biome check .",
