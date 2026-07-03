@@ -103,6 +103,12 @@ Before raising a PR:
 | M9 | DataViz layer | Done |
 | M10 | Voice and content | Done |
 | M11 | Dashboard as a product | Done |
+| M12 | Netlify deploy | Done |
+
+## Live URLs
+- **Dashboard:** https://gykmi-ds-dashboard.netlify.app/
+- **Storybook:** https://gykmi-ds-storybook.netlify.app/
+- **Repo:** https://github.com/georgeyiakoumi/gykmi-design-system
 
 ## Technical notes (learned during the build)
 
