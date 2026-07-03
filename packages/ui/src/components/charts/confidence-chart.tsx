@@ -7,9 +7,9 @@ import { Group } from "@visx/group";
 import { scaleLinear, scalePoint } from "@visx/scale";
 import { AreaClosed, LinePath } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { type ConfidencePoint, chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { minMax } from "../lib/chart-utils";
+import { ChartContainer } from "../../lib/chart-container";
+import { type ConfidencePoint, chartColors, chartFont, chartSpacing } from "../../lib/chart-tokens";
+import { minMax } from "../../lib/chart-utils";
 
 export interface ConfidenceChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	/** Data points with value + confidence range (low/high) */

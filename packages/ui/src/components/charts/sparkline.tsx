@@ -5,10 +5,10 @@ import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
 import { LinePath } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef, useState } from "react";
-import { chartColors, chartSpacing } from "../lib/chart-tokens";
-import { ChartTooltip } from "../lib/chart-tooltip";
-import { minMax } from "../lib/chart-utils";
-import { cn } from "../lib/cn";
+import { chartColors, chartSpacing } from "../../lib/chart-tokens";
+import { ChartTooltip } from "../../lib/chart-tooltip";
+import { minMax } from "../../lib/chart-utils";
+import { cn } from "../../lib/cn";
 
 export interface SparklineProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	/** Numeric data values */

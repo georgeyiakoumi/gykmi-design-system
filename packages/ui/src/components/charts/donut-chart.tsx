@@ -4,8 +4,8 @@ import { Group } from "@visx/group";
 import { scaleOrdinal } from "@visx/scale";
 import { Pie } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { type ChartDataPoint, chartColors, chartFont } from "../lib/chart-tokens";
+import { ChartContainer } from "../../lib/chart-container";
+import { type ChartDataPoint, chartColors, chartFont } from "../../lib/chart-tokens";
 
 const defaultPalette = [
 	chartColors.primary,

@@ -1,7 +1,7 @@
 "use client";
 
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { cn } from "../lib/cn";
+import { cn } from "../../lib/cn";
 import type { ConfidenceLevel } from "./confidence-indicator";
 import { ConfidenceIndicator } from "./confidence-indicator";
 import type { StreamingStatus } from "./streaming-text";

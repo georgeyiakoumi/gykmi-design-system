@@ -5,52 +5,53 @@ import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { minMax } from "../lib/chart-utils";
+import { ChartContainer } from "../../lib/chart-container";
+import { chartColors, chartFont, chartSpacing } from "../../lib/chart-tokens";
+import { minMax } from "../../lib/chart-utils";
 
-export interface CandlestickPoint {
-	date: string;
-	open: number;
-	high: number;
-	low: number;
-	close: number;
+export interface WaterfallItem {
+	label: string;
+	value: number;
+	isTotal?: boolean;
 }
 
-export interface CandlestickChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
-	data: CandlestickPoint[];
+export interface WaterfallChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
+	data: WaterfallItem[];
 	title: string;
 	loading?: boolean;
 	height?: number;
 	showGrid?: boolean;
 	showTable?: boolean;
-	upColor?: string;
-	downColor?: string;
+	positiveColor?: string;
+	negativeColor?: string;
+	totalColor?: string;
 	/** Format value for tooltip display */
 	formatValue?: (value: number) => string;
 }
 
-function CandlestickInner({
+function WaterfallInner({
 	data,
 	width,
 	height,
 	showGrid = true,
-	upColor = chartColors.success,
-	downColor = chartColors.danger,
+	positiveColor = chartColors.success,
+	negativeColor = chartColors.danger,
+	totalColor = chartColors.primary,
 	onHover,
 	onLeave,
 	onFocus,
 	onBlur,
 }: {
-	data: CandlestickPoint[];
+	data: WaterfallItem[];
 	width: number;
 	height: number;
 	showGrid?: boolean;
-	upColor?: string;
-	downColor?: string;
-	onHover?: (d: CandlestickPoint, left: number, top: number) => void;
+	positiveColor?: string;
+	negativeColor?: string;
+	totalColor?: string;
+	onHover?: (d: WaterfallItem, left: number, top: number) => void;
 	onLeave?: () => void;
-	onFocus?: (d: CandlestickPoint, left: number, top: number) => void;
+	onFocus?: (d: WaterfallItem, left: number, top: number) => void;
 	onBlur?: () => void;
 }) {
 	const margin = chartSpacing.margin;
@@ -58,22 +59,30 @@ function CandlestickInner({
 	const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 	if (innerWidth <= 0 || innerHeight <= 0) return null;
 
+	let running = 0;
+	const cumulative = data.map((d) => {
+		if (d.isTotal) return { ...d, start: 0, end: running };
+		const start = running;
+		running += d.value;
+		return { ...d, start, end: running };
+	});
+
+	const allValues = cumulative.flatMap((d) => [d.start, d.end]);
+	const [minCum, maxCum] = minMax([0, ...allValues]);
 	const xScale = scaleBand({
-		domain: data.map((d) => d.date),
+		domain: data.map((d) => d.label),
 		range: [0, innerWidth],
 		padding: 0.3,
 	});
-	const allPrices = data.flatMap((d) => [d.high, d.low]);
-	const [minPrice, maxPrice] = minMax(allPrices);
 	const yScale = scaleLinear({
-		domain: [minPrice * 0.98, maxPrice * 1.02],
+		domain: [minCum * 1.1, maxCum * 1.1],
 		range: [innerHeight, 0],
 		nice: true,
 	});
 
 	return (
 		<svg width={width} height={height} role="img">
-			<title>Candlestick chart</title>
+			<title>Waterfall chart</title>
 			<Group left={margin.left} top={margin.top}>
 				{showGrid && (
 					<GridRows
@@ -83,40 +92,32 @@ function CandlestickInner({
 						strokeOpacity={0.5}
 					/>
 				)}
-				{data.map((d) => {
-					const isUp = d.close >= d.open;
-					const color = isUp ? upColor : downColor;
-					const bodyTop = yScale(Math.max(d.open, d.close));
-					const bodyBottom = yScale(Math.min(d.open, d.close));
-					const bodyHeight = Math.max(1, bodyBottom - bodyTop);
-					const x = (xScale(d.date) ?? 0) + xScale.bandwidth() / 2;
+				{cumulative.map((d) => {
+					const top = yScale(Math.max(d.start, d.end));
+					const bottom = yScale(Math.min(d.start, d.end));
+					const barHeight = Math.max(1, bottom - top);
+					const color = d.isTotal ? totalColor : d.value >= 0 ? positiveColor : negativeColor;
+					const barX = xScale(d.label) ?? 0;
 					return (
-						<g
-							key={d.date}
+						<rect
+							key={d.label}
+							x={barX}
+							y={top}
+							width={xScale.bandwidth()}
+							height={barHeight}
+							fill={color}
+							rx={2}
 							tabIndex={0}
 							style={{ cursor: "pointer" }}
-							onMouseEnter={() => onHover?.(d, x + margin.left, bodyTop + margin.top)}
+							onMouseEnter={() =>
+								onHover?.(d, barX + xScale.bandwidth() / 2 + margin.left, top + margin.top)
+							}
 							onMouseLeave={() => onLeave?.()}
-							onFocus={() => onFocus?.(d, x + margin.left, bodyTop + margin.top)}
+							onFocus={() =>
+								onFocus?.(d, barX + xScale.bandwidth() / 2 + margin.left, top + margin.top)
+							}
 							onBlur={() => onBlur?.()}
-						>
-							<line
-								x1={x}
-								x2={x}
-								y1={yScale(d.high)}
-								y2={yScale(d.low)}
-								stroke={color}
-								strokeWidth={1}
-							/>
-							<rect
-								x={xScale(d.date) ?? 0}
-								y={bodyTop}
-								width={xScale.bandwidth()}
-								height={bodyHeight}
-								fill={color}
-								rx={1}
-							/>
-						</g>
+						/>
 					);
 				})}
 				<AxisBottom
@@ -147,7 +148,7 @@ function CandlestickInner({
 	);
 }
 
-export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps>(
+export const WaterfallChart = forwardRef<HTMLDivElement, WaterfallChartProps>(
 	(
 		{
 			className,
@@ -157,8 +158,9 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 			height = 300,
 			showGrid,
 			showTable = false,
-			upColor,
-			downColor,
+			positiveColor,
+			negativeColor,
+			totalColor,
 			formatValue,
 			...props
 		},
@@ -167,9 +169,9 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 		const fmt = formatValue ?? ((v: number) => v.toLocaleString());
 
 		return (
-			<ChartContainer<CandlestickPoint>
+			<ChartContainer<WaterfallItem>
 				title={title}
-				ariaDescription={`candlestick chart with ${data.length} data points`}
+				ariaDescription={`waterfall chart with ${data.length} items`}
 				loading={loading}
 				height={height}
 				isEmpty={data.length === 0}
@@ -178,21 +180,17 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 					<table className="sr-only" aria-label={`${title} data`}>
 						<thead>
 							<tr>
-								<th>Date</th>
-								<th>Open</th>
-								<th>High</th>
-								<th>Low</th>
-								<th>Close</th>
+								<th>Label</th>
+								<th>Value</th>
+								<th>Type</th>
 							</tr>
 						</thead>
 						<tbody>
 							{data.map((d) => (
-								<tr key={d.date}>
-									<td>{d.date}</td>
-									<td>{d.open}</td>
-									<td>{d.high}</td>
-									<td>{d.low}</td>
-									<td>{d.close}</td>
+								<tr key={d.label}>
+									<td>{d.label}</td>
+									<td>{d.value}</td>
+									<td>{d.isTotal ? "Total" : d.value >= 0 ? "Increase" : "Decrease"}</td>
 								</tr>
 							))}
 						</tbody>
@@ -200,12 +198,10 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 				}
 				renderTooltip={(d) => (
 					<>
-						<div className="font-medium">{d.date}</div>
+						<div className="font-medium">{d.label}</div>
 						<div>
-							O: {fmt(d.open)} H: {fmt(d.high)}
-						</div>
-						<div>
-							L: {fmt(d.low)} C: {fmt(d.close)}
+							{d.isTotal ? "Total" : d.value >= 0 ? "+" : ""}
+							{fmt(d.value)}
 						</div>
 					</>
 				)}
@@ -214,13 +210,14 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 				{...props}
 			>
 				{({ width, height: h, onHover, onLeave, onFocus, onBlur }) => (
-					<CandlestickInner
+					<WaterfallInner
 						data={data}
 						width={width}
 						height={h}
 						showGrid={showGrid}
-						upColor={upColor}
-						downColor={downColor}
+						positiveColor={positiveColor}
+						negativeColor={negativeColor}
+						totalColor={totalColor}
 						onHover={onHover}
 						onLeave={onLeave}
 						onFocus={onFocus}
@@ -232,4 +229,4 @@ export const CandlestickChart = forwardRef<HTMLDivElement, CandlestickChartProps
 	},
 );
 
-CandlestickChart.displayName = "CandlestickChart";
+WaterfallChart.displayName = "WaterfallChart";

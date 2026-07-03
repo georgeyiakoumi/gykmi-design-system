@@ -1,7 +1,7 @@
 "use client";
 
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { cn } from "../lib/cn";
+import { cn } from "../../lib/cn";
 
 export interface RegulatoryNoticeProps extends ComponentPropsWithRef<"footer"> {
 	/** The regulatory body or framework (e.g. "FCA", "MiFID II", "SOX") */

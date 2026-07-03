@@ -2,7 +2,7 @@
 "use client";
 
 import { type ComponentPropsWithRef, forwardRef, type ReactNode, useMemo, useState } from "react";
-import { cn } from "../lib/cn";
+import { cn } from "../../lib/cn";
 
 export interface DataTableColumn<T> {
 	/** Unique key for the column */

@@ -3,9 +3,9 @@
 import { Group } from "@visx/group";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { chartColors } from "../lib/chart-tokens";
-import { minMax } from "../lib/chart-utils";
+import { ChartContainer } from "../../lib/chart-container";
+import { chartColors } from "../../lib/chart-tokens";
+import { minMax } from "../../lib/chart-utils";
 
 export interface HeatmapBin {
 	bin: number;

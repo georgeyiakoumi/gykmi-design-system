@@ -7,9 +7,9 @@ import { Group } from "@visx/group";
 import { scaleLinear, scalePoint } from "@visx/scale";
 import { AreaClosed, LinePath } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { chartColors, chartFont, chartSpacing, type TimeSeriesPoint } from "../lib/chart-tokens";
-import { minMax } from "../lib/chart-utils";
+import { ChartContainer } from "../../lib/chart-container";
+import { chartColors, chartFont, chartSpacing, type TimeSeriesPoint } from "../../lib/chart-tokens";
+import { minMax } from "../../lib/chart-utils";
 
 export interface LineChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	/** Chart data points */

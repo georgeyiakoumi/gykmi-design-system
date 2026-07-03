@@ -3,8 +3,8 @@
 import { Group } from "@visx/group";
 import { Arc } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { chartColors, chartFont } from "../lib/chart-tokens";
+import { ChartContainer } from "../../lib/chart-container";
+import { chartColors, chartFont } from "../../lib/chart-tokens";
 
 export interface GaugeChartProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
 	value: number;

@@ -3,8 +3,8 @@
 import { Group } from "@visx/group";
 import { scaleLinear } from "@visx/scale";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { chartColors, chartFont } from "../lib/chart-tokens";
+import { ChartContainer } from "../../lib/chart-container";
+import { chartColors, chartFont } from "../../lib/chart-tokens";
 
 export interface RadarPoint {
 	axis: string;

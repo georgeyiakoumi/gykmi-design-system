@@ -6,9 +6,9 @@ import { Group } from "@visx/group";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
 import { BarStack } from "@visx/shape";
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { ChartContainer } from "../lib/chart-container";
-import { chartColors, chartFont, chartSpacing } from "../lib/chart-tokens";
-import { minMax } from "../lib/chart-utils";
+import { ChartContainer } from "../../lib/chart-container";
+import { chartColors, chartFont, chartSpacing } from "../../lib/chart-tokens";
+import { minMax } from "../../lib/chart-utils";
 
 const defaultPalette = [
 	chartColors.primary,

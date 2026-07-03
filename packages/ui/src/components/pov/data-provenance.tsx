@@ -1,7 +1,7 @@
 "use client";
 
 import { type ComponentPropsWithRef, forwardRef } from "react";
-import { cn } from "../lib/cn";
+import { cn } from "../../lib/cn";
 
 export interface DataSource {
 	/** Name of the data source */
