@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "shadcn/tailwind.css";
 @import "../../../packages/tokens/dist/tokens.css";
 @import "../../../packages/ui/src/theme.css";
 

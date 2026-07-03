@@ -4,6 +4,9 @@ import type { DataTableColumn } from "@gykmi/ui";
 import {
 	AnalysisSection,
 	AuditTrail,
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
 	Badge,
 	Breadcrumb,
 	BreadcrumbItem,
@@ -21,8 +24,8 @@ import {
 	ComplianceBanner,
 	ConfidenceChart,
 	ConfidenceIndicator,
-	DataProvenance,
 	DataTable,
+	ScrollArea,
 	MetricCard,
 	RegulatoryNotice,
 	Sidebar,
@@ -178,10 +181,40 @@ const auditEntries = [
 	},
 	{
 		id: "4",
+		timestamp: "2026-07-02T07:30:00Z",
+		actor: "System",
+		action: "Model recalibration",
+		detail: "Pricing Engine v2.8 recalibrated against EOD marks. 12 instruments updated.",
+	},
+	{
+		id: "5",
+		timestamp: "2026-07-02T06:00:00Z",
+		actor: "System",
+		action: "Scheduled portfolio snapshot",
+		detail: "Pre-market snapshot captured. 342 positions across 8 portfolios.",
+	},
+	{
+		id: "6",
 		timestamp: "2026-07-01T17:30:00Z",
 		actor: "Nadia K.",
 		action: "Acknowledged VaR breach",
 		detail: "1-day VaR at $2.8M vs $2.5M limit. Within tolerance, monitoring.",
+		avatarUrl:
+			"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face",
+	},
+	{
+		id: "7",
+		timestamp: "2026-07-01T16:45:00Z",
+		actor: "System",
+		action: "End-of-day reconciliation",
+		detail: "All positions reconciled. No breaks detected.",
+	},
+	{
+		id: "8",
+		timestamp: "2026-07-01T09:12:00Z",
+		actor: "System",
+		action: "Limit breach warning",
+		detail: "Meridian Capital approaching 15% threshold — currently at 14.8%.",
 	},
 ];
 
@@ -274,9 +307,10 @@ export default function DashboardPage() {
 				<SidebarSeparator />
 				<SidebarFooter className="p-4">
 					<div className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
-						<div className="flex h-7 w-7 items-center justify-center rounded-full bg-action text-xs font-medium text-action-text">
-							NK
-						</div>
+						<Avatar className="h-7 w-7">
+							<AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face" alt="Nadia K." />
+							<AvatarFallback>NK</AvatarFallback>
+						</Avatar>
 						<div className="text-xs group-data-[collapsible=icon]:hidden">
 							<p className="font-medium text-text">Nadia K.</p>
 							<p className="text-text-muted">Risk analyst</p>
@@ -288,7 +322,7 @@ export default function DashboardPage() {
 			{/* ─── MAIN CONTENT ────────────────────────────────────── */}
 			<SidebarInset>
 				{/* ─── BREADCRUMB ──────────────────────────────────────── */}
-				<div className="flex items-center justify-between border-b border-border pl-6 pr-2 py-2">
+				<div className="sticky top-0 z-1 flex items-center justify-between bg-surface border-b border-border pl-6 pr-2 py-2">
 					<SidebarTrigger className="md:hidden" />
 					<Breadcrumb>
 						<BreadcrumbList>
@@ -412,7 +446,7 @@ export default function DashboardPage() {
 
 					{/* ─── FLAGGED ITEMS ───────────────────────────────────── */}
 					<div id="flagged-items" className="flex flex-col gap-4">
-						<Text as="h2" variant="heading-xl" className="mb-3">
+						<Text as="h2" variant="heading-xl">
 							Flagged items
 						</Text>
 						<DataTable
@@ -423,26 +457,45 @@ export default function DashboardPage() {
 						/>
 					</div>
 
-					{/* ─── AUDIT TRAIL ─────────────────────────────────────── */}
-					<div>
-						<Text as="h3" variant="label-sm" className="mb-2 text-text-muted">
-							Audit trail
-						</Text>
-						<AuditTrail entries={auditEntries} />
+					{/* ─── AUDIT TRAIL + DATA SOURCES ─────────────────────── */}
+					<div className="flex flex-col gap-4">
+						<Text as="h2" variant="heading-xl">Audit trail</Text>
+						<Card>
+							<CardContent className="py-6">
+								<div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_auto]">
+									<AuditTrail entries={auditEntries} className="min-w-0" />
+									<div className="flex flex-col gap-3 lg:border-l lg:border-border lg:pl-6 lg:min-w-48">
+										<Text as="h3" variant="label-xs" className="text-text-muted uppercase tracking-wider">
+											Data sources
+										</Text>
+										<ScrollArea className="max-h-48">
+											<ul className="space-y-2">
+												{dataSources.map((source) => (
+													<li key={source.name} className="flex items-center gap-2 text-xs">
+														{source.verified !== undefined && (
+															<span
+																className={`h-1.5 w-1.5 shrink-0 rounded-full ${source.verified ? "bg-success" : "bg-warning"}`}
+																aria-hidden="true"
+															/>
+														)}
+														<div className="min-w-0">
+															<span className="font-medium text-text">{source.name}</span>
+															{source.version && (
+																<span className="ml-1 text-text-muted">v{source.version}</span>
+															)}
+														</div>
+													</li>
+												))}
+											</ul>
+										</ScrollArea>
+									</div>
+								</div>
+							</CardContent>
+						</Card>
 					</div>
 
-					{/* ─── DATA SOURCES (secondary) ────────────────────────── */}
-					<details className="text-sm">
-						<summary className="cursor-pointer text-xs font-medium text-text-muted hover:text-text">
-							Data sources ({dataSources.length})
-						</summary>
-						<div className="mt-2">
-							<DataProvenance sources={dataSources} />
-						</div>
-					</details>
-
 					{/* ─── REGULATORY (quiet) ──────────────────────────────── */}
-					<div className="opacity-60">
+					<div>
 						<RegulatoryNotice framework="FCA" reference="FRN-123456">
 							Authorised and regulated by the FCA. AI outputs reviewed before release.
 						</RegulatoryNotice>

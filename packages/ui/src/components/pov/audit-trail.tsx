@@ -1,7 +1,9 @@
 "use client";
 
+import { Terminal } from "lucide-react";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../../lib/cn";
+import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 
 export interface AuditEntry {
 	/** Unique identifier for the event */
@@ -14,6 +16,8 @@ export interface AuditEntry {
 	action: string;
 	/** Additional detail */
 	detail?: string;
+	/** Optional avatar image URL for human actors */
+	avatarUrl?: string;
 }
 
 export interface AuditTrailProps extends ComponentPropsWithRef<"div"> {
@@ -23,49 +27,84 @@ export interface AuditTrailProps extends ComponentPropsWithRef<"div"> {
 	label?: string;
 }
 
+function ActorNode({ entry }: { entry: AuditEntry }) {
+	if (entry.avatarUrl) {
+		const initials = entry.actor
+			.split(" ")
+			.map((w) => w[0])
+			.join("")
+			.slice(0, 2);
+		return (
+			<Avatar className="h-7 w-7 flex-shrink-0">
+				<AvatarImage src={entry.avatarUrl} alt={entry.actor} />
+				<AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
+			</Avatar>
+		);
+	}
+	return (
+		<span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-surface-raised border border-border">
+			<Terminal className="h-3.5 w-3.5 text-text-muted" />
+		</span>
+	);
+}
+
 export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 	({ entries, label = "Audit trail", className, ...props }, ref) => {
+		// Display in chronological order (oldest first) so the timeline reads left to right
+		const chronological = [...entries].reverse();
+
 		return (
 			<div
 				ref={ref}
 				role="log"
 				aria-label={label}
-				className={cn("space-y-0", className)}
+				className={cn("overflow-x-auto scroll-fade-x", className)}
 				{...props}
 			>
 				{entries.length === 0 && (
 					<p className="py-4 text-center text-sm text-text-muted">No audit entries recorded.</p>
 				)}
-				{entries.map((entry, index) => (
-					<div
-						key={entry.id}
-						className={cn(
-							"relative flex gap-4 pb-4 pl-6",
-							index < entries.length - 1 && "border-l border-border",
-						)}
-					>
-						<span
-							className="absolute left-0 top-1.5 -translate-x-1/2 h-2 w-2 rounded-full bg-border"
-							aria-hidden="true"
-						/>
-						<div className="flex-1 min-w-0">
-							<div className="flex items-baseline gap-2 text-xs">
-								<span className="font-medium text-text">{entry.actor}</span>
-								<span className="text-text-muted">{entry.action}</span>
+				<div className="flex">
+					{chronological.map((entry, index) => (
+						<div
+							key={entry.id}
+							className="flex flex-col items-start min-w-56 max-w-72"
+						>
+							{/* Timeline row: avatar/icon + line */}
+							<div className="flex items-center w-full">
+								<ActorNode entry={entry} />
+								{index < chronological.length - 1 && (
+									<span
+										className="h-px flex-1 bg-border"
+										aria-hidden="true"
+									/>
+								)}
 							</div>
-							{entry.detail && <p className="mt-0.5 text-xs text-text-muted">{entry.detail}</p>}
-							<time dateTime={entry.timestamp} className="mt-1 block text-xs text-text-muted/70">
+
+							{/* Time label */}
+							<time
+								dateTime={entry.timestamp}
+								className="mt-2 text-[10px] text-text-muted tabular-nums"
+							>
 								{new Date(entry.timestamp).toLocaleString("en-GB", {
 									day: "numeric",
 									month: "short",
-									year: "numeric",
 									hour: "2-digit",
 									minute: "2-digit",
 								})}
 							</time>
+
+							{/* Content */}
+							<div className="mt-1.5 pr-6 flex flex-col gap-1">
+								<p className="text-xs font-medium text-text">{entry.actor}</p>
+								<p className="text-xs text-text-muted">{entry.action}</p>
+								{entry.detail && (
+									<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
+								)}
+							</div>
 						</div>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
 		);
 	},

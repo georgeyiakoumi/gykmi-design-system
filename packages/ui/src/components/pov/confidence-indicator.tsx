@@ -15,9 +15,9 @@ export interface ConfidenceIndicatorProps extends ComponentPropsWithRef<"div"> {
 }
 
 const levelStyles: Record<ConfidenceLevel, { bg: string; text: string; label: string }> = {
-	high: { bg: "bg-success", text: "text-success", label: "High confidence" },
-	medium: { bg: "bg-warning", text: "text-warning", label: "Medium confidence" },
-	low: { bg: "bg-danger", text: "text-danger", label: "Low confidence" },
+	high: { bg: "bg-success", text: "text-success-text", label: "High confidence" },
+	medium: { bg: "bg-warning", text: "text-warning-text", label: "Medium confidence" },
+	low: { bg: "bg-danger", text: "text-danger-text", label: "Low confidence" },
 	uncertain: { bg: "bg-border", text: "text-text-muted", label: "Uncertain" },
 };
 

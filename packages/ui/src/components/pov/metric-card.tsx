@@ -17,9 +17,9 @@ export interface MetricCardProps extends ComponentPropsWithRef<"div"> {
 
 const variantStyles: Record<NonNullable<MetricCardProps["variant"]>, string> = {
 	default: "text-text",
-	danger: "text-danger",
-	warning: "text-warning",
-	success: "text-success",
+	danger: "text-danger-text",
+	warning: "text-warning-text",
+	success: "text-success-text",
 };
 
 export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(

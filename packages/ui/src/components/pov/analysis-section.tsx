@@ -49,7 +49,7 @@ export const AnalysisSection = forwardRef<HTMLDivElement, AnalysisSectionProps>(
 				{...props}
 			>
 				<CardHeader>
-					<CardTitle className="text-sm">{title}</CardTitle>
+					<CardTitle className="text-lg">{title}</CardTitle>
 					<CardAction>
 						{confidence && <ConfidenceIndicator level={confidence} score={confidenceScore} />}
 						{generatedAt && (
