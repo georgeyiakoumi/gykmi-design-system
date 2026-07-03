@@ -5,6 +5,12 @@ import {
 	AnalysisSection,
 	AuditTrail,
 	Badge,
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
 	Card,
 	CardContent,
 	CardDescription,
@@ -15,7 +21,7 @@ import {
 	ConfidenceIndicator,
 	DataProvenance,
 	DataTable,
-	Disclaimer,
+	MetricCard,
 	RegulatoryNotice,
 	Sidebar,
 	SidebarContent,
@@ -32,7 +38,6 @@ import {
 	SidebarProvider,
 	SidebarSeparator,
 	SidebarTrigger,
-	Stack,
 	ThemeToggle,
 } from "@gykmi/ui";
 
@@ -205,11 +210,8 @@ export default function DashboardPage() {
 			{/* ─── SIDEBAR ────────────────────────────────────────── */}
 			<Sidebar collapsible="icon">
 				<SidebarHeader className="p-4">
-					<div className="flex items-center gap-2">
-						<span className="text-lg font-bold text-action">◆</span>
-						<span className="text-sm font-semibold group-data-[collapsible=icon]:hidden">
-							GYKMI Risk
-						</span>
+					<div className="flex items-center">
+						<span className="text-sm font-semibold group-data-[collapsible=icon]:hidden">Risk</span>
 					</div>
 				</SidebarHeader>
 				<SidebarSeparator />
@@ -282,136 +284,128 @@ export default function DashboardPage() {
 
 			{/* ─── MAIN CONTENT ────────────────────────────────────── */}
 			<SidebarInset>
-				<div className="px-6 py-8">
-					<Stack gap="6">
-						{/* ─── HEADER ─────────────────────────────────────────── */}
-						<div className="flex items-start justify-between">
-							<div className="flex items-center gap-3">
-								<SidebarTrigger className="md:hidden" />
-								<div>
-									<p className="text-sm text-text-muted">Morning risk review — 2 July 2026</p>
-									<h1 className="text-2xl font-bold text-text">
-										{needsReview} items need review
-										{highPriority > 0 && (
-											<span className="ml-2 text-lg font-normal text-danger">
-												{highPriority} model-uncertain
-											</span>
-										)}
-									</h1>
-								</div>
-							</div>
-							<ThemeToggle />
-						</div>
+				{/* ─── BREADCRUMB ──────────────────────────────────────── */}
+				<div className="flex items-center justify-between border-b border-border px-6 py-2">
+					<SidebarTrigger className="md:hidden" />
+					<Breadcrumb>
+						<BreadcrumbList>
+							<BreadcrumbItem>
+								<BreadcrumbLink href="#">Overview</BreadcrumbLink>
+							</BreadcrumbItem>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								<BreadcrumbPage>Morning review</BreadcrumbPage>
+							</BreadcrumbItem>
+						</BreadcrumbList>
+					</Breadcrumb>
+					<ThemeToggle />
+				</div>
+				
+				<div className="flex flex-col space-y-6 p-6">
 
-						{/* ─── COMPLIANCE ALERT (dismissible, low severity — Nadia sees this daily) ─── */}
-						<ComplianceBanner severity="info" title="Stale data source" dismissible>
-							Market Data Feed last updated 30 June.
-						</ComplianceBanner>
+					{/* ─── HEADER ─────────────────────────────────────────── */}
+					<div className="flex items-start justify-between">
+						<h1 className="text-2xl font-bold text-text">
+							{needsReview} items need review
+							{highPriority > 0 && (
+								<span className="ml-2 text-lg font-normal text-danger">
+									{highPriority} model-uncertain
+								</span>
+							)}
+						</h1>
+					</div>
 
-						{/* ─── AI SUMMARY ──────────────────────────────────────── */}
+					{/* ─── COMPLIANCE ALERT (dismissible, low severity — Nadia sees this daily) ─── */}
+					<ComplianceBanner severity="info" title="Stale data source" dismissible>
+						Market Data Feed last updated 30 June.
+					</ComplianceBanner>
+
+					{/* ─── AI SUMMARY + KPIs (single scan line) ───────────── */}
+					<div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr]">
 						<AnalysisSection
 							title="Risk summary"
+							summary="Meridian Capital exposure has risen to 17.4% (limit: 15%), sustained over three trading days. One structured credit position (est. $4.2M) has a model-uncertain valuation requiring sign-off before the morning report is released."
 							confidence="medium"
 							confidenceScore={68}
 							status="complete"
 							generatedAt="2026-07-02T07:45:00Z"
-						>
-							<p>
-								Meridian Capital exposure has risen to 17.4% (limit: 15%), sustained over three
-								trading days. One structured credit position (est. $4.2M) has a model-uncertain
-								valuation requiring sign-off before the morning report is released.
-							</p>
-							<Disclaimer variant="info" className="mt-3">
-								AI-generated. Does not constitute a risk decision.
-							</Disclaimer>
-						</AnalysisSection>
+						/>
 
-						{/* ─── QUALIFYING KPIs ─────────────────────────────────── */}
-						<div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-							<Card>
-								<CardHeader>
-									<CardDescription className="text-xs">Meridian exposure</CardDescription>
-									<CardTitle className="text-xl text-danger">17.4%</CardTitle>
-									<p className="text-xs text-text-muted">Limit: 15.0%</p>
-								</CardHeader>
-							</Card>
-							<Card>
-								<CardHeader className="pb-2">
-									<CardDescription className="text-xs">Portfolio VaR (99%)</CardDescription>
-									<CardTitle className="text-xl text-warning">$2.8M</CardTitle>
-									<p className="text-xs text-text-muted">Limit: $2.5M</p>
-								</CardHeader>
-							</Card>
-							<Card>
-								<CardHeader className="pb-2">
-									<CardDescription className="text-xs">Model coverage</CardDescription>
-									<CardTitle className="text-xl">95%</CardTitle>
-									<p className="text-xs text-text-muted">1 position unscored</p>
-								</CardHeader>
-							</Card>
-							<Card>
-								<CardHeader className="pb-2">
-									<CardDescription className="text-xs">Flagged items</CardDescription>
-									<CardTitle className="text-xl">{flaggedItems.length}</CardTitle>
-									<p className="text-xs text-text-muted">{needsReview} awaiting review</p>
-								</CardHeader>
-							</Card>
-						</div>
-
-						{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
-						<Card>
-							<CardHeader>
-								<div className="flex items-center justify-between">
-									<CardTitle className="text-base">Meridian Capital — 7 day exposure</CardTitle>
-									<ConfidenceIndicator level="medium" score={68} />
-								</div>
-							</CardHeader>
-							<CardContent>
-								<ConfidenceChart
-									data={exposureTrend}
-									title="Meridian Capital counterparty exposure"
-									bandLabel="95% confidence interval"
-									height={240}
-									showTable
-									formatValue={(v) => `${v.toFixed(1)}%`}
-								/>
-							</CardContent>
-						</Card>
-
-						{/* ─── FLAGGED ITEMS ───────────────────────────────────── */}
-						<div>
-							<h2 className="mb-3 text-lg font-semibold text-text">Flagged items</h2>
-							<DataTable
-								columns={flaggedColumns}
-								data={flaggedItems}
-								getRowKey={(row) => row.id}
-								caption="Items requiring review"
+						<div className="grid grid-cols-2 gap-3">
+							<MetricCard
+								label="Meridian exposure"
+								value="17.4%"
+								context="Limit: 15.0%"
+								variant="danger"
+							/>
+							<MetricCard
+								label="Portfolio VaR (99%)"
+								value="$2.8M"
+								context="Limit: $2.5M"
+								variant="warning"
+							/>
+							<MetricCard label="Model coverage" value="95%" context="1 position unscored" />
+							<MetricCard
+								label="Flagged items"
+								value={flaggedItems.length}
+								context={`${needsReview} awaiting review`}
 							/>
 						</div>
+					</div>
 
-						{/* ─── AUDIT TRAIL ─────────────────────────────────────── */}
-						<div>
-							<h3 className="mb-2 text-sm font-medium text-text-muted">Audit trail</h3>
-							<AuditTrail entries={auditEntries} />
-						</div>
-
-						{/* ─── DATA SOURCES (secondary) ────────────────────────── */}
-						<details className="text-sm">
-							<summary className="cursor-pointer text-xs font-medium text-text-muted hover:text-text">
-								Data sources ({dataSources.length})
-							</summary>
-							<div className="mt-2">
-								<DataProvenance sources={dataSources} />
+					{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
+					<Card>
+						<CardHeader>
+							<div className="flex items-center justify-between">
+								<CardTitle className="text-base">Meridian Capital — 7 day exposure</CardTitle>
+								<ConfidenceIndicator level="medium" score={68} />
 							</div>
-						</details>
+						</CardHeader>
+						<CardContent>
+							<ConfidenceChart
+								data={exposureTrend}
+								title="Meridian Capital counterparty exposure"
+								bandLabel="95% confidence interval"
+								height={240}
+								showTable
+								formatValue={(v) => `${v.toFixed(1)}%`}
+							/>
+						</CardContent>
+					</Card>
 
-						{/* ─── REGULATORY (quiet) ──────────────────────────────── */}
-						<div className="opacity-60">
-							<RegulatoryNotice framework="FCA" reference="FRN-123456">
-								Authorised and regulated by the FCA. AI outputs reviewed before release.
-							</RegulatoryNotice>
+					{/* ─── FLAGGED ITEMS ───────────────────────────────────── */}
+					<div>
+						<h2 className="mb-3 text-lg font-semibold text-text">Flagged items</h2>
+						<DataTable
+							columns={flaggedColumns}
+							data={flaggedItems}
+							getRowKey={(row) => row.id}
+							caption="Items requiring review"
+						/>
+					</div>
+
+					{/* ─── AUDIT TRAIL ─────────────────────────────────────── */}
+					<div>
+						<h3 className="mb-2 text-sm font-medium text-text-muted">Audit trail</h3>
+						<AuditTrail entries={auditEntries} />
+					</div>
+
+					{/* ─── DATA SOURCES (secondary) ────────────────────────── */}
+					<details className="text-sm">
+						<summary className="cursor-pointer text-xs font-medium text-text-muted hover:text-text">
+							Data sources ({dataSources.length})
+						</summary>
+						<div className="mt-2">
+							<DataProvenance sources={dataSources} />
 						</div>
-					</Stack>
+					</details>
+
+					{/* ─── REGULATORY (quiet) ──────────────────────────────── */}
+					<div className="opacity-60">
+						<RegulatoryNotice framework="FCA" reference="FRN-123456">
+							Authorised and regulated by the FCA. AI outputs reviewed before release.
+						</RegulatoryNotice>
+					</div>
 				</div>
 			</SidebarInset>
 		</SidebarProvider>

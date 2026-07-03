@@ -1,4 +1,4 @@
-import { ComplianceBanner, Stack } from "@gykmi/ui";
+import { ComplianceBanner } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -45,7 +45,7 @@ export const Critical: Story = {
 
 export const AllSeverities: Story = {
 	render: () => (
-		<Stack gap="3">
+		<div className="flex flex-col gap-3">
 			<ComplianceBanner severity="info" title="Information">
 				Standard operational notice.
 			</ComplianceBanner>
@@ -55,6 +55,6 @@ export const AllSeverities: Story = {
 			<ComplianceBanner severity="critical" title="Critical">
 				Immediate attention required.
 			</ComplianceBanner>
-		</Stack>
+		</div>
 	),
 };

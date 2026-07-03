@@ -1,7 +1,9 @@
 "use client";
 
+import { Shield } from "lucide-react";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../../lib/cn";
+import { Badge } from "../badge";
 
 export interface RegulatoryNoticeProps extends ComponentPropsWithRef<"footer"> {
 	/** The regulatory body or framework (e.g. "FCA", "MiFID II", "SOX") */
@@ -23,9 +25,14 @@ export const RegulatoryNotice = forwardRef<HTMLElement, RegulatoryNoticeProps>(
 				{...props}
 			>
 				{(framework || reference) && (
-					<div className="mb-1 flex items-center gap-2 font-medium text-text">
-						{framework && <span>{framework}</span>}
-						{reference && <span className="text-text-muted">Ref: {reference}</span>}
+					<div className="mb-1 flex items-center gap-2">
+						<Shield size={12} className="text-text-muted" aria-hidden="true" />
+						{framework && <span className="font-medium text-text">{framework}</span>}
+						{reference && (
+							<Badge variant="default" className="text-[10px] px-1.5 py-0">
+								{reference}
+							</Badge>
+						)}
 					</div>
 				)}
 				{children}

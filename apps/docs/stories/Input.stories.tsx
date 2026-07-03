@@ -1,4 +1,4 @@
-import { Input, Label, Stack } from "@gykmi/ui";
+import { Input, Label } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -20,22 +20,22 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
 	render: () => (
-		<Stack gap="2" style={{ maxWidth: 300 }}>
+		<div className="flex flex-col gap-2" style={{ maxWidth: 300 }}>
 			<Label htmlFor="email">Email</Label>
 			<Input id="email" type="email" placeholder="you@example.com" />
-		</Stack>
+		</div>
 	),
 };
 
 export const ErrorState: Story = {
 	render: () => (
-		<Stack gap="2" style={{ maxWidth: 300 }}>
+		<div className="flex flex-col gap-2" style={{ maxWidth: 300 }}>
 			<Label htmlFor="email-error">Email</Label>
 			<Input id="email-error" error placeholder="you@example.com" />
 			<p style={{ color: "var(--danger-default)", fontSize: "0.875rem" }}>
 				Please enter a valid email address.
 			</p>
-		</Stack>
+		</div>
 	),
 };
 

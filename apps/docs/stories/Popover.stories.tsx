@@ -1,4 +1,4 @@
-import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger, Stack } from "@gykmi/ui";
+import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -17,16 +17,16 @@ export const Default: Story = {
 				<Button variant="secondary">Open Popover</Button>
 			</PopoverTrigger>
 			<PopoverContent>
-				<Stack gap="4">
-					<Stack gap="2">
+				<div className="flex flex-col gap-4">
+					<div className="flex flex-col gap-2">
 						<h4 className="font-medium leading-none">Dimensions</h4>
 						<p className="text-sm text-text-muted">Set the dimensions for the layer.</p>
-					</Stack>
-					<Stack gap="2">
+					</div>
+					<div className="flex flex-col gap-2">
 						<Label htmlFor="width">Width</Label>
 						<Input id="width" defaultValue="100%" />
-					</Stack>
-				</Stack>
+					</div>
+				</div>
 			</PopoverContent>
 		</Popover>
 	),

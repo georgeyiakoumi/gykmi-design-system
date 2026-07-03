@@ -6,13 +6,7 @@ import { cn } from "../lib/cn";
 export interface CardProps extends ComponentPropsWithRef<"div"> {}
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => {
-	return (
-		<div
-			ref={ref}
-			className={cn("rounded-lg border border-border bg-surface shadow-sm", className)}
-			{...props}
-		/>
-	);
+	return <div ref={ref} className={cn("rounded-lg bg-surface-raised", className)} {...props} />;
 });
 
 Card.displayName = "Card";
@@ -21,7 +15,13 @@ export interface CardHeaderProps extends ComponentPropsWithRef<"div"> {}
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
 	({ className, ...props }, ref) => {
-		return <div ref={ref} className={cn("flex flex-col gap-1.5 p-6", className)} {...props} />;
+		return (
+			<div
+				ref={ref}
+				className={cn("flex items-start justify-between gap-4 p-6", className)}
+				{...props}
+			/>
+		);
 	},
 );
 
@@ -53,11 +53,23 @@ export const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionP
 
 CardDescription.displayName = "CardDescription";
 
+export interface CardActionProps extends ComponentPropsWithRef<"div"> {}
+
+export const CardAction = forwardRef<HTMLDivElement, CardActionProps>(
+	({ className, ...props }, ref) => {
+		return (
+			<div ref={ref} className={cn("flex shrink-0 items-center gap-3", className)} {...props} />
+		);
+	},
+);
+
+CardAction.displayName = "CardAction";
+
 export interface CardContentProps extends ComponentPropsWithRef<"div"> {}
 
 export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
 	({ className, ...props }, ref) => {
-		return <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />;
+		return <div ref={ref} className={cn("px-6 pt-0", className)} {...props} />;
 	},
 );
 
@@ -67,7 +79,7 @@ export interface CardFooterProps extends ComponentPropsWithRef<"div"> {}
 
 export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
 	({ className, ...props }, ref) => {
-		return <div ref={ref} className={cn("flex items-center p-6 pt-0", className)} {...props} />;
+		return <div ref={ref} className={cn("flex items-center  p-6", className)} {...props} />;
 	},
 );
 

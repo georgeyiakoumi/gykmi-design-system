@@ -41,9 +41,19 @@ export type { BadgeProps, BadgeVariant } from "./components/badge";
 export { Badge } from "./components/badge";
 export type { BoxProps } from "./components/box";
 export { Box } from "./components/box";
+export {
+	Breadcrumb,
+	BreadcrumbEllipsis,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "./components/breadcrumb";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/button";
 export { Button } from "./components/button";
 export type {
+	CardActionProps,
 	CardContentProps,
 	CardDescriptionProps,
 	CardFooterProps,
@@ -53,6 +63,7 @@ export type {
 } from "./components/card";
 export {
 	Card,
+	CardAction,
 	CardContent,
 	CardDescription,
 	CardFooter,
@@ -206,6 +217,8 @@ export type { DataTableColumn, DataTableProps, SortDirection } from "./component
 export { DataTable } from "./components/pov/data-table";
 export type { DisclaimerProps, DisclaimerVariant } from "./components/pov/disclaimer";
 export { Disclaimer } from "./components/pov/disclaimer";
+export type { MetricCardProps } from "./components/pov/metric-card";
+export { MetricCard } from "./components/pov/metric-card";
 export type { ModelErrorKind, ModelErrorProps } from "./components/pov/model-error";
 export { ModelError } from "./components/pov/model-error";
 export type { RegulatoryNoticeProps } from "./components/pov/regulatory-notice";
@@ -271,8 +284,6 @@ export type { SkeletonProps } from "./components/skeleton";
 export { Skeleton } from "./components/skeleton";
 export type { SliderProps } from "./components/slider";
 export { Slider } from "./components/slider";
-export type { StackAlign, StackDirection, StackProps } from "./components/stack";
-export { Stack } from "./components/stack";
 export type { SwitchProps } from "./components/switch";
 export { Switch } from "./components/switch";
 export type { TabsContentProps, TabsListProps, TabsTriggerProps } from "./components/tabs";

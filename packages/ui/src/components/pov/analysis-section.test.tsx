@@ -9,12 +9,17 @@ afterEach(() => {
 
 describe("AnalysisSection", () => {
 	it("renders with title", () => {
-		render(<AnalysisSection title="Risk Summary">Content here</AnalysisSection>);
+		render(<AnalysisSection title="Risk Summary" summary="Content here" />);
 		expect(screen.getByText("Risk Summary")).toBeInTheDocument();
 	});
 
+	it("renders summary text", () => {
+		render(<AnalysisSection title="Findings" summary="Analysis details" />);
+		expect(screen.getByText("Analysis details")).toBeInTheDocument();
+	});
+
 	it("sets aria-label from title", () => {
-		render(<AnalysisSection title="Findings">Details</AnalysisSection>);
+		render(<AnalysisSection title="Findings" summary="Details" />);
 		const section = screen.getByRole("region", { name: "Findings" });
 		expect(section).toHaveAttribute("aria-label", "Findings");
 	});
@@ -23,9 +28,12 @@ describe("AnalysisSection", () => {
 describe("AnalysisSection a11y", () => {
 	it("has no axe violations", async () => {
 		const { container } = render(
-			<AnalysisSection title="Test Section" confidence="high" confidenceScore={90}>
-				Sample analysis content.
-			</AnalysisSection>,
+			<AnalysisSection
+				title="Test Section"
+				summary="Sample analysis content."
+				confidence="high"
+				confidenceScore={90}
+			/>,
 		);
 		const results = await axe(container);
 		expect(results.violations).toEqual([]);

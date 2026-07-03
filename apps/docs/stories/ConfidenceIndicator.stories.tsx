@@ -1,4 +1,4 @@
-import { ConfidenceIndicator, Stack } from "@gykmi/ui";
+import { ConfidenceIndicator } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -22,11 +22,11 @@ export const Uncertain: Story = { args: { level: "uncertain" } };
 
 export const AllLevels: Story = {
 	render: () => (
-		<Stack gap="3">
+		<div className="flex flex-col gap-3">
 			<ConfidenceIndicator level="high" score={95} />
 			<ConfidenceIndicator level="medium" score={62} />
 			<ConfidenceIndicator level="low" score={28} />
 			<ConfidenceIndicator level="uncertain" />
-		</Stack>
+		</div>
 	),
 };

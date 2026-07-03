@@ -1,5 +1,6 @@
 "use client";
 
+import { AlertTriangle, Info, Scale } from "lucide-react";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../../lib/cn";
 
@@ -12,38 +13,33 @@ export interface DisclaimerProps extends ComponentPropsWithRef<"aside"> {
 	title?: string;
 }
 
-const variantStyles: Record<DisclaimerVariant, string> = {
-	info: "border-border bg-surface-raised text-text-muted",
-	warning: "border-warning bg-warning/5 text-text",
-	regulatory: "border-action/30 bg-action/5 text-text",
-};
-
-const variantIcons: Record<DisclaimerVariant, string> = {
-	info: "ℹ",
-	warning: "⚠",
-	regulatory: "§",
+const variantConfig: Record<DisclaimerVariant, { style: string; icon: typeof Info }> = {
+	info: { style: "border-border bg-surface-raised text-text-muted", icon: Info },
+	warning: { style: "border-warning bg-warning/5 text-text", icon: AlertTriangle },
+	regulatory: { style: "border-action/30 bg-action/5 text-text", icon: Scale },
 };
 
 export const Disclaimer = forwardRef<HTMLElement, DisclaimerProps>(
 	({ variant = "info", title, className, children, ...props }, ref) => {
+		const config = variantConfig[variant];
+		const Icon = config.icon;
+
 		return (
 			<aside
 				ref={ref}
 				role="note"
 				className={cn(
-					"rounded-md border px-4 py-3 text-xs leading-relaxed",
-					variantStyles[variant],
+					"flex gap-2.5 rounded-md border px-4 py-3 text-xs leading-relaxed",
+					config.style,
 					className,
 				)}
 				{...props}
 			>
-				{title && (
-					<p className="mb-1 font-semibold">
-						<span aria-hidden="true">{variantIcons[variant]} </span>
-						{title}
-					</p>
-				)}
-				{children}
+				<Icon size={14} className="mt-0.5 shrink-0 opacity-60" aria-hidden="true" />
+				<div>
+					{title && <p className="mb-1 font-semibold">{title}</p>}
+					{children}
+				</div>
 			</aside>
 		);
 	},

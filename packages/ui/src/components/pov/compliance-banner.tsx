@@ -1,7 +1,9 @@
 "use client";
 
-import { type ComponentPropsWithRef, forwardRef } from "react";
+import { AlertTriangle, Info, ShieldAlert, X } from "lucide-react";
+import { type ComponentPropsWithRef, forwardRef, useState } from "react";
 import { cn } from "../../lib/cn";
+import { Button } from "../button";
 
 export type ComplianceSeverity = "info" | "warning" | "critical";
 
@@ -16,23 +18,30 @@ export interface ComplianceBannerProps extends ComponentPropsWithRef<"div"> {
 	onDismiss?: () => void;
 }
 
-const severityStyles: Record<ComplianceSeverity, string> = {
-	info: "border-action/30 bg-action/5",
-	warning: "border-warning bg-warning/5",
-	critical: "border-danger bg-danger/5",
+const severityConfig: Record<ComplianceSeverity, { style: string; icon: typeof Info }> = {
+	info: { style: "border-action/30 bg-action/5", icon: Info },
+	warning: { style: "border-warning bg-warning/5", icon: AlertTriangle },
+	critical: { style: "border-danger bg-danger/5", icon: ShieldAlert },
 };
 
 export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps>(
 	({ severity = "info", title, dismissible, onDismiss, className, children, ...props }, ref) => {
+		const [dismissed, setDismissed] = useState(false);
+		const config = severityConfig[severity];
+		const Icon = config.icon;
+
+		if (dismissed) return null;
+
 		return (
 			<div
 				ref={ref}
 				role="alert"
 				aria-live={severity === "critical" ? "assertive" : "polite"}
-				className={cn("relative rounded-lg border px-4 py-3", severityStyles[severity], className)}
+				className={cn("relative rounded-lg border px-4 py-3", config.style, className)}
 				{...props}
 			>
 				<div className="flex items-start gap-3">
+					<Icon size={16} className="mt-0.5 shrink-0 text-text-muted" aria-hidden="true" />
 					<div className="flex-1">
 						<p className="text-sm font-semibold text-text">{title}</p>
 						{children && (
@@ -40,22 +49,18 @@ export const ComplianceBanner = forwardRef<HTMLDivElement, ComplianceBannerProps
 						)}
 					</div>
 					{dismissible && (
-						<button
-							type="button"
-							onClick={onDismiss}
-							className="shrink-0 rounded-md p-1 text-text-muted transition-colors hover:text-text"
+						<Button
+							variant="ghost"
+							size="sm"
+							className="h-6 w-6 shrink-0 p-0"
+							onClick={() => {
+								setDismissed(true);
+								onDismiss?.();
+							}}
 							aria-label="Dismiss"
 						>
-							<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-								<title>close</title>
-								<path
-									d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
-									stroke="currentColor"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-								/>
-							</svg>
-						</button>
+							<X size={14} />
+						</Button>
 					)}
 				</div>
 			</div>

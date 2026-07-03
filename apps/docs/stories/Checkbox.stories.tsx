@@ -1,4 +1,4 @@
-import { Checkbox, Label, Stack } from "@gykmi/ui";
+import { Checkbox, Label } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
@@ -14,10 +14,10 @@ export const Default: Story = {};
 
 export const WithLabel: Story = {
 	render: () => (
-		<Stack direction="row" gap="2" align="center">
+		<div className="flex flex-row gap-2 items-center">
 			<Checkbox id="terms" />
 			<Label htmlFor="terms">Accept terms and conditions</Label>
-		</Stack>
+		</div>
 	),
 };
 
