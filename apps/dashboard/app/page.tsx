@@ -1,13 +1,10 @@
 "use client";
 
-import { MoreHorizontal, Plus } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import type { DataTableColumn } from "@gykmi/ui";
 import {
 	AnalysisSection,
 	AuditTrail,
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
 	Badge,
 	Breadcrumb,
 	BreadcrumbItem,
@@ -32,31 +29,18 @@ import {
 	DropdownMenuTrigger,
 	ScrollArea,
 	MetricCard,
-	Sidebar,
-	SidebarContent,
-	SidebarFooter,
-	SidebarGroup,
-	SidebarGroupContent,
-	SidebarGroupLabel,
-	SidebarHeader,
-	SidebarInset,
-	SidebarMenu,
-	SidebarMenuBadge,
-	SidebarMenuButton,
-	SidebarMenuItem,
-	SidebarProvider,
-	SidebarSeparator,
 	SidebarTrigger,
 	Text,
-	ThemeToggle,
 } from "@gykmi/ui";
+import { Plus } from "lucide-react";
+import { DashboardShell } from "./components/dashboard-shell";
 
 // ─── DATA NARRATIVE ─────────────────────────────────────────────────────────
 // Nadia is a risk & compliance analyst. She opens this first thing each morning.
 // Her question: "What needs my attention today, and how far can I trust the
 // machine's read on it?"
 //
-// The story: counterparty exposure to Meridian Capital has drifted up over 3
+// The story: counterparty exposure to Hawkstone Partners has drifted up over 3
 // days. The AI flags it at medium confidence. One position has a model-uncertain
 // valuation that needs human sign-off. The trend chart shows the drift is real,
 // not a blip. The flagged table drills into the specifics.
@@ -88,7 +72,7 @@ interface FlaggedItem {
 const flaggedItems: FlaggedItem[] = [
 	{
 		id: "FLAG-001",
-		description: "Meridian Capital exposure exceeds single-counterparty limit",
+		description: "Hawkstone Partners exposure exceeds single-counterparty limit",
 		metric: "Counterparty concentration",
 		value: "17.4%",
 		threshold: "15.0%",
@@ -198,7 +182,7 @@ const auditEntries = [
 		actor: "System",
 		action: "Counterparty exposure alert triggered",
 		detail:
-			"Meridian Capital concentration at 17.4%, above 15% threshold. 3-day upward drift detected.",
+			"Hawkstone Partners concentration at 17.4%, above 15% threshold. 3-day upward drift detected.",
 	},
 	{
 		id: "3",
@@ -243,7 +227,7 @@ const auditEntries = [
 		timestamp: "2026-07-01T09:12:00Z",
 		actor: "System",
 		action: "Limit breach warning",
-		detail: "Meridian Capital approaching 15% threshold — currently at 14.8%.",
+		detail: "Hawkstone Partners approaching 15% threshold — currently at 14.8%.",
 	},
 ];
 
@@ -272,87 +256,10 @@ export default function DashboardPage() {
 	).length;
 
 	return (
-		<SidebarProvider>
-			{/* ─── SIDEBAR ────────────────────────────────────────── */}
-			<Sidebar collapsible="icon">
-				<SidebarHeader className="p-4">
-					<div className="flex items-center">
-						<span className="text-sm font-semibold group-data-[collapsible=icon]:hidden">Risk</span>
-					</div>
-				</SidebarHeader>
-				<SidebarSeparator />
-				<SidebarContent>
-					<SidebarGroup>
-						<SidebarGroupLabel>Overview</SidebarGroupLabel>
-						<SidebarGroupContent>
-							<SidebarMenu>
-								<SidebarMenuItem>
-									<SidebarMenuButton isActive tooltip="Morning review">
-										<span>📋</span>
-										<span>Morning review</span>
-									</SidebarMenuButton>
-									<SidebarMenuBadge>{needsReview}</SidebarMenuBadge>
-								</SidebarMenuItem>
-								<SidebarMenuItem>
-									<SidebarMenuButton tooltip="Portfolios">
-										<span>📊</span>
-										<span>Portfolios</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-								<SidebarMenuItem>
-									<SidebarMenuButton tooltip="Counterparties">
-										<span>🏦</span>
-										<span>Counterparties</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							</SidebarMenu>
-						</SidebarGroupContent>
-					</SidebarGroup>
-					<SidebarGroup>
-						<SidebarGroupLabel>Compliance</SidebarGroupLabel>
-						<SidebarGroupContent>
-							<SidebarMenu>
-								<SidebarMenuItem>
-									<SidebarMenuButton tooltip="Audit trail">
-										<span>📜</span>
-										<span>Audit trail</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-								<SidebarMenuItem>
-									<SidebarMenuButton tooltip="Reports">
-										<span>📄</span>
-										<span>Reports</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-								<SidebarMenuItem>
-									<SidebarMenuButton tooltip="Regulatory">
-										<span>⚖️</span>
-										<span>Regulatory</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							</SidebarMenu>
-						</SidebarGroupContent>
-					</SidebarGroup>
-				</SidebarContent>
-				<SidebarSeparator />
-				<SidebarFooter className="p-4">
-					<div className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
-						<Avatar className="h-7 w-7">
-							<AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face" alt="Nadia K." />
-							<AvatarFallback>NK</AvatarFallback>
-						</Avatar>
-						<div className="text-xs group-data-[collapsible=icon]:hidden">
-							<p className="font-medium text-text">Nadia K.</p>
-							<p className="text-text-muted">Risk analyst</p>
-						</div>
-					</div>
-				</SidebarFooter>
-			</Sidebar>
-
-			{/* ─── MAIN CONTENT ────────────────────────────────────── */}
-			<SidebarInset>
-				{/* ─── BREADCRUMB ──────────────────────────────────────── */}
-				<div className="sticky top-0 z-1 flex items-center justify-between bg-surface border-b border-border pl-6 pr-2 py-2">
+		<DashboardShell>
+			{/* ─── BREADCRUMB ──────────────────────────────────────── */}
+			<div className="sticky top-0 z-1 flex items-center justify-between bg-surface border-b border-border pl-6 pr-4 py-2">
+				<div className="flex items-center gap-2">
 					<SidebarTrigger className="md:hidden" />
 					<Breadcrumb>
 						<BreadcrumbList>
@@ -365,165 +272,162 @@ export default function DashboardPage() {
 							</BreadcrumbItem>
 						</BreadcrumbList>
 					</Breadcrumb>
-					<ThemeToggle />
 				</div>
+				<Button variant="secondary" size="sm">Export report</Button>
+			</div>
 
-				<div className="flex flex-col space-y-6 p-6">
-					{/* ─── HEADER ─────────────────────────────────────────── */}
-					<div className="flex flex-col items-start gap-4">
-						<div className="flex w-full items-center justify-between">
-							<Text as="h1" variant="heading-2xl">
-								Morning review
-							</Text>
-							<Button variant="secondary" size="sm">Export report</Button>
-						</div>
-						<div className="flex items-center gap-2">
+			<div className="flex flex-col space-y-8 p-6">
+				{/* ─── HEADER ─────────────────────────────────────────── */}
+				<div className="flex flex-col items-start gap-4">
+					<Text as="h1" variant="heading-2xl">
+						Morning review
+					</Text>
+					<div className="flex items-center gap-2">
+						<a href="#flagged-items" className="no-underline">
+							<Badge
+								variant="warning"
+								label="Review required"
+								count={needsReview}
+								className="cursor-pointer hover:opacity-80"
+								style={{ transition: `opacity var(--duration-normal) var(--easing-default)` }}
+							/>
+						</a>
+						{highPriority > 0 && (
 							<a href="#flagged-items" className="no-underline">
 								<Badge
-									variant="warning"
-									label="Review required"
-									count={needsReview}
+									variant="default"
+									label="Sign-off required"
+									count={highPriority}
 									className="cursor-pointer hover:opacity-80"
 									style={{ transition: `opacity var(--duration-normal) var(--easing-default)` }}
 								/>
 							</a>
-							{highPriority > 0 && (
-								<a href="#flagged-items" className="no-underline">
-									<Badge
-										variant="default"
-										label="Sign-off required"
-										count={highPriority}
-										className="cursor-pointer hover:opacity-80"
-										style={{ transition: `opacity var(--duration-normal) var(--easing-default)` }}
-									/>
-								</a>
-							)}
-						</div>
+						)}
 					</div>
-
-					{/* ─── AI SUMMARY + KPIs (single scan line) ───────────── */}
-					<div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1fr]">
-						<AnalysisSection
-							title="Risk summary"
-							summary="Meridian Capital exposure has risen to 17.4% (limit: 15%), sustained over three trading days. One structured credit position (est. $4.2M) has a model-uncertain valuation requiring sign-off before the morning report is released."
-							confidence="medium"
-							confidenceScore={68}
-							status="complete"
-							generatedAt="2026-07-02T07:45:00Z"
-						/>
-
-						<Card>
-							<CardHeader>
-								<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Key metrics</CardTitle>
-							</CardHeader>
-							<CardContent className="flex flex-col gap-1 pb-4 divide-y divide-border">
-								<MetricCard
-									label="Meridian exposure"
-									value="17.4%"
-									context="Limit: 15.0%"
-									variant="danger"
-								/>
-								<MetricCard
-									label="Portfolio VaR (99%)"
-									value="$2.8M"
-									context="Limit: $2.5M"
-									variant="warning"
-								/>
-								<MetricCard label="Model coverage" value="95%" context="1 position unscored" />
-							</CardContent>
-						</Card>
-					</div>
-
-					{/* ─── FLAGGED ITEMS ───────────────────────────────────── */}
-					<div id="flagged-items" className="flex flex-col gap-4">
-						<Text as="h2" variant="heading-xl">
-							Flagged items
-						</Text>
-						<DataTable
-							columns={flaggedColumns}
-							data={flaggedItems}
-							getRowKey={(row) => row.id}
-							caption="Items requiring review"
-						/>
-					</div>
-
-					{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
-					<div className="flex flex-col gap-4">
-						<Text as="h2" variant="heading-xl">
-							Exposure trend
-						</Text>
-						<Card>
-							<CardHeader>
-								<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Meridian Capital — 7 day</CardTitle>
-								<CardAction>
-									<ConfidenceIndicator level="medium" label="Model confidence" score={68} />
-								</CardAction>
-							</CardHeader>
-							<CardContent className="[&_.mt-2.flex.items-center.gap-4]:hidden">
-								<ConfidenceChart
-									data={exposureTrend}
-									title="Meridian Capital counterparty exposure"
-									bandLabel="95% confidence interval"
-									height={240}
-									showTable
-									formatValue={(v) => `${v.toFixed(1)}%`}
-								/>
-							</CardContent>
-							<CardFooter className="justify-between">
-								<div className="flex gap-4 text-xs text-text-muted">
-									<span className="flex items-center gap-1">
-										<span className="inline-block h-0.5 w-4 bg-action" />
-										Actual
-									</span>
-									<span className="flex items-center gap-1">
-										<span className="inline-block h-0.5 w-4 border-t border-dashed border-action" />
-										Estimated
-									</span>
-									<span className="flex items-center gap-1">
-										<span className="inline-block h-3 w-4 rounded-sm bg-action/15" />
-										95% confidence
-									</span>
-								</div>
-								<div className="flex gap-2">
-									<Button variant="secondary" size="sm">Set alert</Button>
-									<Button variant="secondary" size="sm">View positions</Button>
-									<Button variant="default" size="sm">Escalate</Button>
-								</div>
-							</CardFooter>
-						</Card>
-					</div>
-
-					{/* ─── ACTIVITY ───────────────────────────────────────── */}
-					<div className="grid lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr] gap-4">
-						<Text as="h2" variant="heading-xl" className="col-span-full">Activity</Text>
-						
-							<Card className="min-w-0 h-64">
-								<CardHeader>
-									<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Recent activity</CardTitle>
-								</CardHeader>
-								<CardContent className="pb-6">
-									<AuditTrail entries={auditEntries} />
-								</CardContent>
-							</Card>
-							<Card className="flex flex-col overflow-hidden h-64">
-								<CardHeader>
-									<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Data sources</CardTitle>
-									<CardAction>
-										<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source">
-											<Plus size={14} />
-										</Button>
-									</CardAction>
-								</CardHeader>
-								<CardContent className="flex-1 overflow-hidden pb-6">
-									<ScrollArea type="always" className="h-full" viewportClassName="scroll-fade">
-										<DataProvenance sources={sortedDataSources} />
-									</ScrollArea>
-								</CardContent>
-							</Card>
-					</div>
-
 				</div>
-			</SidebarInset>
-		</SidebarProvider>
+
+				{/* ─── AI SUMMARY + KPIs (single scan line) ───────────── */}
+				<div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1fr]">
+					<AnalysisSection
+						title="Risk summary"
+						summary="Hawkstone Partners exposure has risen to 17.4% (limit: 15%), sustained over three trading days. One structured credit position (est. $4.2M) has a model-uncertain valuation requiring sign-off before the morning report is released."
+						confidence="medium"
+						confidenceScore={68}
+						status="complete"
+						generatedAt="2026-07-02T07:45:00Z"
+					/>
+
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Key metrics</CardTitle>
+						</CardHeader>
+						<CardContent className="flex flex-col gap-1 pb-4 divide-y divide-border">
+							<MetricCard
+								label="Hawkstone exposure"
+								value="17.4%"
+								context="Limit: 15.0%"
+								variant="danger"
+							/>
+							<MetricCard
+								label="Portfolio VaR (99%)"
+								value="$2.8M"
+								context="Limit: $2.5M"
+								variant="warning"
+							/>
+							<MetricCard label="Model coverage" value="95%" context="1 position unscored" />
+						</CardContent>
+					</Card>
+				</div>
+
+				{/* ─── FLAGGED ITEMS ───────────────────────────────────── */}
+				<div id="flagged-items" className="flex flex-col gap-4">
+					<Text as="h2" variant="heading-xl">
+						Flagged items
+					</Text>
+					<DataTable
+						columns={flaggedColumns}
+						data={flaggedItems}
+						getRowKey={(row) => row.id}
+						caption="Items requiring review"
+					/>
+				</div>
+
+				{/* ─── EXPOSURE TREND ──────────────────────────────────── */}
+				<div className="flex flex-col gap-4">
+					<Text as="h2" variant="heading-xl">
+						Exposure trend
+					</Text>
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Hawkstone Partners — 7 day</CardTitle>
+							<CardAction>
+								<ConfidenceIndicator level="medium" label="Model confidence" score={68} />
+							</CardAction>
+						</CardHeader>
+						<CardContent className="[&_.mt-2.flex.items-center.gap-4]:hidden">
+							<ConfidenceChart
+								data={exposureTrend}
+								title="Hawkstone Partners counterparty exposure"
+								bandLabel="95% confidence interval"
+								height={240}
+								showTable
+								formatValue={(v) => `${v.toFixed(1)}%`}
+							/>
+						</CardContent>
+						<CardFooter className="justify-between">
+							<div className="flex gap-4 text-xs text-text-muted">
+								<span className="flex items-center gap-1">
+									<span className="inline-block h-0.5 w-4 bg-action" />
+									Actual
+								</span>
+								<span className="flex items-center gap-1">
+									<span className="inline-block h-0.5 w-4 border-t border-dashed border-action" />
+									Estimated
+								</span>
+								<span className="flex items-center gap-1">
+									<span className="inline-block h-3 w-4 rounded-sm bg-action/15" />
+									95% confidence
+								</span>
+							</div>
+							<div className="flex gap-2">
+								<Button variant="secondary" size="sm">Set alert</Button>
+								<Button variant="secondary" size="sm">View positions</Button>
+								<Button variant="default" size="sm">Escalate</Button>
+							</div>
+						</CardFooter>
+					</Card>
+				</div>
+
+				{/* ─── ACTIVITY ───────────────────────────────────────── */}
+				<div className="grid lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr] gap-4">
+					<Text as="h2" variant="heading-xl" className="col-span-full">Activity</Text>
+
+					<Card className="min-w-0 h-64">
+						<CardHeader>
+							<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Recent activity</CardTitle>
+						</CardHeader>
+						<CardContent className="pb-6">
+							<AuditTrail entries={auditEntries} />
+						</CardContent>
+					</Card>
+					<Card className="flex flex-col overflow-hidden h-64">
+						<CardHeader>
+							<CardTitle className="text-xs text-text-muted uppercase tracking-wider">Data sources</CardTitle>
+							<CardAction>
+								<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source">
+									<Plus size={14} />
+								</Button>
+							</CardAction>
+						</CardHeader>
+						<CardContent className="flex-1 overflow-hidden pb-6">
+							<ScrollArea type="always" className="h-full" viewportClassName="scroll-fade">
+								<DataProvenance sources={sortedDataSources} />
+							</ScrollArea>
+						</CardContent>
+					</Card>
+				</div>
+
+			</div>
+		</DashboardShell>
 	);
 }

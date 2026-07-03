@@ -29,9 +29,16 @@ function applyTheme(theme: Theme) {
 	document.documentElement.setAttribute("data-theme", resolved);
 }
 
+function getStoredTheme(fallback: Theme): Theme {
+	if (typeof window === "undefined") return fallback;
+	const stored = localStorage.getItem("theme");
+	if (stored === "system" || stored === "light" || stored === "dark") return stored;
+	return fallback;
+}
+
 export const ThemeToggle = forwardRef<HTMLDivElement, ThemeToggleProps>(
 	({ defaultTheme = "system", onChange, className, ...props }, ref) => {
-		const [active, setActive] = useState<Theme>(defaultTheme);
+		const [active, setActive] = useState<Theme>(() => getStoredTheme(defaultTheme));
 
 		useEffect(() => {
 			applyTheme(active);
@@ -52,6 +59,7 @@ export const ThemeToggle = forwardRef<HTMLDivElement, ThemeToggleProps>(
 					onValueChange={(value) => {
 						const theme = value as Theme;
 						setActive(theme);
+						localStorage.setItem("theme", theme);
 						onChange?.(theme);
 					}}
 				>

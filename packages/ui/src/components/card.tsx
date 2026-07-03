@@ -69,7 +69,7 @@ export interface CardContentProps extends ComponentPropsWithRef<"div"> {}
 
 export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
 	({ className, ...props }, ref) => {
-		return <div ref={ref} className={cn("px-6 pt-0", className)} {...props} />;
+		return <div ref={ref} className={cn("px-6 pt-0 last:pb-6", className)} {...props} />;
 	},
 );
 
