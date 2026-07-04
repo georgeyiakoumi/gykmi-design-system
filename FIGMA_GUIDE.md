@@ -224,20 +224,33 @@ titleText.fills = [mutedFill];
 
 ## Component descriptions
 
-Every component must have a description with:
+Every component must have:
 
-1. What it does (one line)
-2. Link to the live Storybook page
+1. **Description** — single line, what it does
+2. **Documentation link** — Storybook URL set via `documentationLinks` (not in the description text)
 
-Format:
+### Description format
 
 ```
 Status badge with label and optional count.
-
-📖 https://gykmi-ds-storybook.netlify.app/?path=/docs/badge--docs
 ```
 
-The Storybook URL pattern is `https://gykmi-ds-storybook.netlify.app/?path=/docs/{story-name}--docs` where `{story-name}` is the lowercase story filename without the `.stories.tsx` extension.
+Keep it to one line. No import statements, no usage examples — Storybook covers that.
+
+### Documentation link
+
+Use the `documentationLinks` property on the component (not the description field):
+
+```js
+comp.documentationLinks = [{ uri: "https://gykmi-ds-storybook.netlify.app/?path=/docs/components-badge--docs" }];
+```
+
+The Storybook URL pattern is `https://gykmi-ds-storybook.netlify.app/?path=/docs/{category}-{name}--docs` where:
+- Primitives use `components-{name}` (e.g. `components-accordion`, `components-button`)
+- POV components use `pov-{name}` (e.g. `pov-analysissection`, `pov-datatable`)
+- Charts use `charts-{name}` (e.g. `charts-barchart`)
+
+The name is the lowercase story filename without the `.stories.tsx` extension.
 
 ---
 
