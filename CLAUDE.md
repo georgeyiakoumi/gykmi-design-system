@@ -135,6 +135,7 @@ Before raising a PR:
 - Token sync is repeatable via `use_figma` MCP tool
 - Code Connect requires Org/Enterprise plan — using component descriptions as workaround
 - Figma file key: `tqcsSSGM38hdEU4Yaqsmdn`
+- **Read `FIGMA_GUIDE.md` before any Figma write operation** — it defines the atomic composition rules, variable bindings, state matrix, and component set layout conventions
 
 ## After /compact — re-read this file
 If the conversation has been compacted, re-read this entire file before continuing.
