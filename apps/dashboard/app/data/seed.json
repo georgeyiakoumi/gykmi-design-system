@@ -24,8 +24,8 @@
 				"id": "FLAG-002",
 				"description": "Structured credit position — model-uncertain valuation",
 				"metric": "Mark-to-model confidence",
-				"value": "Estimated $4.2M",
-				"threshold": "Requires human sign-off",
+				"value": "$4.2M",
+				"threshold": "—",
 				"confidence": "uncertain",
 				"source": "Pricing Engine v2.8",
 				"status": "needs-review"

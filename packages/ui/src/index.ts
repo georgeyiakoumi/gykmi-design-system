@@ -312,6 +312,9 @@ export {
 	ToastTitle,
 	ToastViewport,
 } from "./components/toast";
+export { Toaster } from "./components/toaster";
+export type { ToastMessage } from "./lib/use-toast";
+export { useToast } from "./lib/use-toast";
 export type { ToggleProps, ToggleSize, ToggleVariant } from "./components/toggle";
 export { Toggle } from "./components/toggle";
 export type { ToggleGroupItemProps, ToggleGroupProps } from "./components/toggle-group";

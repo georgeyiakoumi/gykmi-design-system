@@ -36,8 +36,10 @@ export function PageHeader({ breadcrumbs, action }: PageHeaderProps) {
 								<BreadcrumbItem key={crumb.label}>
 									{isLast ? (
 										<BreadcrumbPage>{crumb.label}</BreadcrumbPage>
+									) : crumb.href ? (
+										<BreadcrumbLink href={crumb.href}>{crumb.label}</BreadcrumbLink>
 									) : (
-										<BreadcrumbLink href={crumb.href ?? "#"}>{crumb.label}</BreadcrumbLink>
+										<span className="text-sm text-text-muted">{crumb.label}</span>
 									)}
 								</BreadcrumbItem>,
 							);
