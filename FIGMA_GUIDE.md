@@ -46,6 +46,46 @@ AlertDialog
 
 The buttons are **instances** of the `Button` component, not frames styled to look like buttons.
 
+### CSS Grid for structured layouts
+
+When a component has a structured layout (e.g. CardHeader with title/description on the left and action on the right), use Figma's CSS Grid (`layoutMode = "GRID"`) instead of nested auto-layout frames.
+
+**Example: CardHeader**
+
+```
+Grid: 2 columns, 2 rows
+├── Col 1 (FLEX 1): title content
+│   ├── Row 1: CardTitle instance
+│   └── Row 2: CardDescription instance
+├── Col 2 (FLEX 0.75): action
+│   └── Row 1–2: CardAction instance (gridRowSpan: 2)
+```
+
+```js
+cardHeader.layoutMode = "GRID";
+cardHeader.gridColumnCount = 2;
+cardHeader.gridRowCount = 2;
+cardHeader.gridColumnSizes = [
+  { type: "FLEX", value: 1 },     // col 1: 1fr
+  { type: "FLEX", value: 0.75 }   // col 2: proportional for action area
+];
+cardHeader.gridRowSizes = [
+  { type: "HUG", value: 1 },  // row 1: hug content
+  { type: "HUG", value: 1 }   // row 2: hug content
+];
+cardHeader.gridItemsPositioning = "MANUAL";
+
+// Position children using child.setGridChildPosition(rowIndex, columnIndex)
+titleInst.setGridChildPosition(0, 0);
+descInst.setGridChildPosition(1, 0);
+actionInst.setGridChildPosition(0, 1);
+actionInst.gridRowSpan = 2;  // span both rows
+```
+
+**Grid sizing types:** `FLEX` (fractional, like CSS `fr`), `FIXED` (pixel), `HUG` (fit content).
+
+**Positioning:** Set `gridItemsPositioning = "MANUAL"`, then use `child.setGridChildPosition(rowIndex, columnIndex)` on each child. Use `gridRowSpan` / `gridColumnSpan` for spanning.
+
 ### Slot containers
 
 During the audit, identify which subcomponents are **containers** — designed to wrap arbitrary children. These need a Figma **Slot** element inside them so designers know content goes there.
@@ -127,7 +167,7 @@ Use `spacing/*` variables for all padding, gap, and size values:
 ### Typography variables
 
 - Font sizes: `fontSize/xs` through `fontSize/4xl`
-- Line heights: `lineHeight/{size}-{tightness}` (e.g. `lineHeight/sm-tight`, `lineHeight/2xl-normal`)
+- Line heights: `lineHeight/{size}-paired` — the default line-height for each `text-*` class. e.g. `lineHeight/sm-paired` (20px), `lineHeight/base-paired` (24px), `lineHeight/lg-paired` (28px). `leading-none` → use Figma's AUTO (`{ unit: "AUTO" }`). No multiplier-based variables (Figma only supports pixel values for line height)
 - Font weights: `fontWeight/normal` (400) · `fontWeight/medium` (500) · `fontWeight/semibold` (600) · `fontWeight/bold` (700)
 - Letter spacing: `letterSpacing/normal` · `letterSpacing/tight` · `letterSpacing/wide` · `letterSpacing/wider` · `letterSpacing/widest`
 
@@ -153,6 +193,30 @@ node.setBoundVariable("itemSpacing", spacingVar);
 node.setBoundVariable("paddingTop", spacingVar);
 node.setBoundVariable("topLeftRadius", radiusVar);
 ```
+
+### Typography binding rules
+
+When translating Tailwind classes to Figma, **always bind to variables** — never use literal values:
+
+| Tailwind class | Figma binding | NOT this |
+|---|---|---|
+| `text-lg` | `setBoundVariable("fontSize", getFloat("fontSize/lg"))` | `fontSize = 18` |
+| `font-semibold` | `fontName = { family: "Inter", style: "Semi Bold" }` AND `setBoundVariable("fontWeight", getFloat("fontWeight/semibold"))` | Setting only fontName without binding the variable |
+| `leading-none` | `text.lineHeight = { unit: "AUTO" }` | `lineHeight = { unit: "PIXELS", value: 1 }` |
+| `text-sm` (no explicit leading) | `setBoundVariable("lineHeight", getFloat("lineHeight/sm-paired"))` | Hardcoding `20` or using a multiplier variable |
+| `tracking-tight` | `setBoundVariable("letterSpacing", getFloat("letterSpacing/tight"))` | `letterSpacing = { unit: "PIXELS", value: -0.4 }` |
+
+**Line height decision tree:**
+1. Code has `leading-none` → use Figma AUTO: `text.lineHeight = { unit: "AUTO" }`
+2. Code has `text-sm` (or any `text-*`) with NO explicit `leading-*` → bind to the paired variable: `lineHeight/sm-paired` (20px)
+3. Code has `text-sm leading-tight` → calculate: font size × multiplier (14 × 1.25 = 17.5px), create a specific variable if it doesn't exist
+4. Figma does NOT support multiplier-based line heights — every line height must resolve to a pixel value via a variable
+
+**Critical:** Never hardcode numeric values for typography properties when a variable exists. Check the Primitives collection first.
+
+**Critical:** If a variable is missing, **add it**. Never approximate with a "close enough" variable. Accuracy is a strict condition — every Tailwind class must map to an exact variable. If the code uses `leading-none` and no `lineHeight/{size}-none` variable exists, create it before proceeding.
+
+**Critical:** Font weight requires BOTH steps: set `fontName` to the correct style string (e.g. `"Semi Bold"`) AND bind the `fontWeight` variable (e.g. `setBoundVariable("fontWeight", semiboldVar)`). Setting only `fontName` makes it visually correct but the variable isn't bound, which breaks token consistency. Every text node must have all five typography variables bound: `fontSize`, `lineHeight`, `letterSpacing`, `fontWeight`, and `fills` (colour).
 
 ---
 
