@@ -7,8 +7,54 @@ import { cn } from "../lib/cn";
 export const AlertDialog = AlertDialogPrimitive.Root;
 export const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 export const AlertDialogPortal = AlertDialogPrimitive.Portal;
-export const AlertDialogCancel = AlertDialogPrimitive.Cancel;
-export const AlertDialogAction = AlertDialogPrimitive.Action;
+
+export interface AlertDialogCancelProps
+	extends ComponentPropsWithRef<typeof AlertDialogPrimitive.Cancel> {}
+
+export const AlertDialogCancel = forwardRef<
+	React.ComponentRef<typeof AlertDialogPrimitive.Cancel>,
+	AlertDialogCancelProps
+>(({ className, ...props }, ref) => {
+	return (
+		<AlertDialogPrimitive.Cancel
+			ref={ref}
+			className={cn(
+				"inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium",
+				"bg-surface-raised text-text border border-border",
+				"hover:bg-surface-overlay hover:border-border-strong",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2",
+				className,
+			)}
+			{...props}
+		/>
+	);
+});
+
+AlertDialogCancel.displayName = "AlertDialogCancel";
+
+export interface AlertDialogActionProps
+	extends ComponentPropsWithRef<typeof AlertDialogPrimitive.Action> {}
+
+export const AlertDialogAction = forwardRef<
+	React.ComponentRef<typeof AlertDialogPrimitive.Action>,
+	AlertDialogActionProps
+>(({ className, ...props }, ref) => {
+	return (
+		<AlertDialogPrimitive.Action
+			ref={ref}
+			className={cn(
+				"inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium",
+				"bg-action text-action-text",
+				"hover:bg-action-hover",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2",
+				className,
+			)}
+			{...props}
+		/>
+	);
+});
+
+AlertDialogAction.displayName = "AlertDialogAction";
 
 export interface AlertDialogOverlayProps
 	extends ComponentPropsWithRef<typeof AlertDialogPrimitive.Overlay> {}
@@ -47,7 +93,7 @@ export const AlertDialogContent = forwardRef<
 				ref={ref}
 				className={cn(
 					"fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2",
-					"rounded-lg border border-border bg-surface p-6 shadow-lg",
+					"rounded-lg border border-border bg-surface p-6 space-y-8 shadow-lg",
 					"data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
 					"data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
 					className,

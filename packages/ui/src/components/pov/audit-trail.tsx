@@ -85,30 +85,35 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 					<p className="py-4 text-center text-sm text-text-muted">No audit entries recorded.</p>
 				)}
 
-				{/* Mobile: vertical timeline (no scroll container) */}
-				<div className="flex flex-col lg:hidden">
-					{chronological.map((entry, index) => (
-						<div key={entry.id} className="flex gap-3">
-							<div className="flex flex-col items-center">
-								<ActorNode entry={entry} />
-								{index < chronological.length - 1 && (
-									<span className="w-px flex-1 bg-border" aria-hidden="true" />
-								)}
-							</div>
-							<div className="flex flex-col gap-1 pb-4">
+				{/* Mobile: horizontal scrollable timeline */}
+				<div className="lg:hidden overflow-x-auto scroll-fade-x snap-x snap-mandatory">
+					<div className="flex w-max">
+						{chronological.map((entry, index) => (
+							<div
+								key={entry.id}
+								className="flex flex-col items-start min-w-48 max-w-56 snap-start"
+							>
+								<div className="flex items-center w-full">
+									<ActorNode entry={entry} />
+									{index < chronological.length - 1 && (
+										<span className="h-px flex-1 bg-border" aria-hidden="true" />
+									)}
+								</div>
 								<time
 									dateTime={entry.timestamp}
-									className="text-[10px] text-text-muted tabular-nums"
+									className="mt-2 text-[10px] text-text-muted tabular-nums"
 								>
 									{formatTime(entry.timestamp)}
 								</time>
-								<p className="text-xs font-medium text-text">{entry.action}</p>
-								{entry.detail && (
-									<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
-								)}
+								<div className="mt-1.5 pr-4 flex flex-col gap-1">
+									<p className="text-xs font-medium text-text">{entry.action}</p>
+									{entry.detail && (
+										<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
+									)}
+								</div>
 							</div>
-						</div>
-					))}
+						))}
+					</div>
 				</div>
 
 				{/* Desktop: horizontal timeline */}

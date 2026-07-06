@@ -25,25 +25,25 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarProvider,
-	SidebarSeparator,
-	ThemeToggle,
+	Toaster,
+	useToast,
 } from "@gykmi/ui";
 import {
-	Bell,
 	Building2,
 	ChevronsUpDown,
 	ClipboardCheck,
 	FileText,
 	History,
 	LogOut,
-	Moon,
 	Scale,
-	Sun,
 	UserCircle,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { useState } from "react";
+import { ExportDialog } from "./export-dialog";
 import { PageHeader } from "./page-header";
+import { SettingsSheet } from "./settings-sheet";
 
 interface NavItem {
 	label: string;
@@ -87,6 +87,9 @@ export function DashboardShell({
 	badges?: StatusBadge[];
 }) {
 	const pathname = usePathname();
+	const { toasts, toast, dismiss } = useToast();
+	const [showExport, setShowExport] = useState(false);
+	const [showSettings, setShowSettings] = useState(false);
 
 	// Derive breadcrumbs from pathname
 	const pageLabel = ROUTE_LABELS[pathname] ?? "Overview";
@@ -105,7 +108,6 @@ export function DashboardShell({
 						</div>
 					</div>
 				</SidebarHeader>
-				<SidebarSeparator />
 				<SidebarContent>
 					{Object.entries(NAV_ITEMS).map(([group, items]) => (
 						<SidebarGroup key={group}>
@@ -126,7 +128,7 @@ export function DashboardShell({
 													</a>
 												</SidebarMenuButton>
 											) : (
-												<SidebarMenuButton tooltip={item.label}>
+												<SidebarMenuButton tooltip={item.label} disabled>
 													<item.icon size={16} />
 													<span>{item.label}</span>
 												</SidebarMenuButton>
@@ -144,7 +146,6 @@ export function DashboardShell({
 						</SidebarGroup>
 					))}
 				</SidebarContent>
-				<SidebarSeparator />
 				<SidebarFooter>
 					<SidebarMenu>
 						<SidebarMenuItem>
@@ -188,26 +189,9 @@ export function DashboardShell({
 									</DropdownMenuLabel>
 									<DropdownMenuSeparator />
 									<DropdownMenuGroup>
-										<DropdownMenuItem>
+										<DropdownMenuItem onSelect={() => setShowSettings(true)}>
 											<UserCircle className="mr-2 size-4" />
-											Account
-										</DropdownMenuItem>
-										<DropdownMenuItem>
-											<Bell className="mr-2 size-4" />
-											Notifications
-										</DropdownMenuItem>
-									</DropdownMenuGroup>
-									<DropdownMenuSeparator />
-									<DropdownMenuGroup>
-										<DropdownMenuItem className="p-0" onSelect={(e) => e.preventDefault()}>
-											<div className="flex w-full items-center justify-between px-2 py-1.5">
-												<div className="flex items-center gap-2">
-													<Sun className="size-4 dark:hidden" />
-													<Moon className="hidden size-4 dark:block" />
-													<span>Theme</span>
-												</div>
-												<ThemeToggle />
-											</div>
+											Settings
 										</DropdownMenuItem>
 									</DropdownMenuGroup>
 									<DropdownMenuSeparator />
@@ -226,7 +210,7 @@ export function DashboardShell({
 				<PageHeader
 					breadcrumbs={breadcrumbs}
 					action={
-						<Button variant="secondary" size="sm">
+						<Button variant="secondary" size="sm" onClick={() => setShowExport(true)}>
 							Export report
 						</Button>
 					}
@@ -246,6 +230,28 @@ export function DashboardShell({
 					.
 				</footer>
 			</SidebarInset>
+
+			{/* Settings sheet */}
+			<SettingsSheet
+				open={showSettings}
+				onOpenChange={setShowSettings}
+				onSave={({ title, description }) => toast({ title, description, variant: "success" })}
+			/>
+
+			{/* Export report dialog */}
+			<ExportDialog
+				open={showExport}
+				onOpenChange={setShowExport}
+				onExport={(format, sections) => {
+					toast({
+						title: "Report exported",
+						description: `${sections.length} section${sections.length !== 1 ? "s" : ""} exported as ${format.toUpperCase()}.`,
+						variant: "success",
+					});
+				}}
+			/>
+
+			<Toaster toasts={toasts} onDismiss={dismiss} />
 		</SidebarProvider>
 	);
 }

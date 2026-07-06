@@ -30,8 +30,8 @@ ToastViewport.displayName = "ToastViewport";
 
 const toastVariantStyles: Record<ToastVariant, string> = {
 	default: "border-border bg-surface text-text",
-	success: "border-success bg-success text-success-text",
-	danger: "border-danger bg-danger text-danger-text",
+	success: "border-success bg-success-subtle text-success-text",
+	danger: "border-danger bg-danger-subtle text-danger-text",
 };
 
 export interface ToastProps extends ComponentPropsWithRef<typeof ToastPrimitive.Root> {
@@ -44,7 +44,7 @@ export const Toast = forwardRef<React.ComponentRef<typeof ToastPrimitive.Root>, 
 			<ToastPrimitive.Root
 				ref={ref}
 				className={cn(
-					"group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg",
+					"group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-xl border p-4 pr-8 shadow-lg",
 					"transition-all duration-150",
 					"data-[swipe=cancel]:translate-x-0",
 					"data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)]",

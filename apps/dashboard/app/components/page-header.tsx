@@ -23,7 +23,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ breadcrumbs, action }: PageHeaderProps) {
 	return (
-		<div className="sticky top-0 z-1 flex items-center justify-between bg-surface border-b border-border pl-6 pr-4 py-2">
+		<div className="sticky top-0 z-20 flex items-center justify-between bg-surface border-b border-border pl-6 pr-4 py-2">
 			<div className="flex items-center gap-2">
 				<SidebarTrigger className="md:hidden" />
 				<Breadcrumb>
@@ -36,8 +36,10 @@ export function PageHeader({ breadcrumbs, action }: PageHeaderProps) {
 								<BreadcrumbItem key={crumb.label}>
 									{isLast ? (
 										<BreadcrumbPage>{crumb.label}</BreadcrumbPage>
+									) : crumb.href ? (
+										<BreadcrumbLink href={crumb.href}>{crumb.label}</BreadcrumbLink>
 									) : (
-										<BreadcrumbLink href={crumb.href ?? "#"}>{crumb.label}</BreadcrumbLink>
+										<span className="text-sm text-text-muted">{crumb.label}</span>
 									)}
 								</BreadcrumbItem>,
 							);

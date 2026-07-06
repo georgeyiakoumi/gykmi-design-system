@@ -111,6 +111,10 @@ function BarChartInner({
 					scale={xScale}
 					stroke={chartColors.grid}
 					tickStroke={chartColors.grid}
+					tickFormat={(label) => {
+						const maxChars = Math.max(4, Math.floor(xScale.bandwidth() / 6));
+						return label.length > maxChars ? `${label.slice(0, maxChars - 1)}…` : label;
+					}}
 					tickLabelProps={{
 						fill: chartColors.textMuted,
 						fontSize: chartFont.size.tick,

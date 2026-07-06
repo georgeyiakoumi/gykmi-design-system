@@ -157,16 +157,11 @@ function DataTableInner<T>(
 			)}
 
 			{/* Table */}
-			<div className="overflow-auto rounded-md border border-border">
+			<div className="overflow-auto ">
 				<table className="w-full border-collapse text-sm">
 					{caption && <caption className="sr-only">{caption}</caption>}
 					<thead>
-						<tr
-							className={cn(
-								"border-b border-border bg-surface-raised",
-								stickyHeader && "sticky top-0 z-10",
-							)}
-						>
+						<tr className={cn(stickyHeader && "sticky top-0 z-10")}>
 							{visibleColumns.map((col) => (
 								<th
 									key={col.key}

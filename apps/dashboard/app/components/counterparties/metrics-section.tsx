@@ -43,7 +43,7 @@ export function MetricsSection({
 		counterparties.reduce((s, c) => s + c.utilisation, 0) / counterparties.length;
 
 	return (
-		<div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+		<div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
 			<Card>
 				<CardHeader>
 					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
