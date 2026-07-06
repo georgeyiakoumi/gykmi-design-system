@@ -1,7 +1,7 @@
 [build]
   command = "cd ../.. && npx turbo run build --filter=@gykmi/docs"
   publish = "storybook-static"
-  ignore = "git diff --quiet $CACHED_COMMIT_REF HEAD -- apps/docs/ packages/ui/ packages/tokens/"
+  ignore = "cd ../.. && git diff --quiet $CACHED_COMMIT_REF HEAD -- apps/docs/ packages/ui/ packages/tokens/"
 
 [build.environment]
   NODE_VERSION = "22"
