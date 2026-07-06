@@ -229,6 +229,8 @@ export type { StreamingStatus, StreamingTextProps } from "./components/pov/strea
 export { StreamingText } from "./components/pov/streaming-text";
 export type { ProgressProps } from "./components/progress";
 export { Progress } from "./components/progress";
+export type { RadioCardsItemProps, RadioCardsProps } from "./components/radio-cards";
+export { RadioCards, RadioCardsItem } from "./components/radio-cards";
 export type { RadioGroupItemProps, RadioGroupProps } from "./components/radio-group";
 export { RadioGroup, RadioGroupItem } from "./components/radio-group";
 export type { ScrollAreaProps, ScrollBarProps } from "./components/scroll-area";
