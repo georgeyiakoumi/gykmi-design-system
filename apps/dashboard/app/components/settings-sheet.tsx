@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
 	Button,
 	Checkbox,
@@ -19,6 +18,7 @@ import {
 	TabsTrigger,
 	ThemeToggle,
 } from "@gykmi/ui";
+import { useState } from "react";
 
 const notificationOptions = [
 	{

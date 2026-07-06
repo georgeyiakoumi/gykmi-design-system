@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
 	Button,
 	Checkbox,
@@ -15,6 +14,7 @@ import {
 	Separator,
 } from "@gykmi/ui";
 import { Code, FileText, Table } from "lucide-react";
+import { useState } from "react";
 
 interface ExportDialogProps {
 	open: boolean;
@@ -58,42 +58,42 @@ export function ExportDialog({ open, onOpenChange, onExport }: ExportDialogProps
 						Choose a format and select which sections to include in the export.
 					</DialogDescription>
 				</DialogHeader>
-				
-					<div className="flex flex-col gap-3">
-						<Label className="text-sm font-medium">Format</Label>
-						<RadioCards value={format} onValueChange={setFormat} className="grid-cols-3">
-							{formats.map((f) => (
-								<RadioCardsItem
-									key={f.value}
-									value={f.value}
-									icon={<f.icon size={20} />}
-									label={f.label}
-									description={f.description}
-								/>
-							))}
-						</RadioCards>
-					</div>
-					<div className="flex flex-col gap-3">
-						<Label className="text-sm font-medium">Sections</Label>
-						{sections.map((section) => (
-							<div key={section.key} className="flex items-center gap-2">
-								<Checkbox
-									id={`export-${section.key}`}
-									checked={selected[section.key]}
-									onCheckedChange={(checked) =>
-										setSelected((prev) => ({ ...prev, [section.key]: !!checked }))
-									}
-								/>
-								<Label
-									htmlFor={`export-${section.key}`}
-									className="text-sm font-normal cursor-pointer"
-								>
-									{section.label}
-								</Label>
-							</div>
+
+				<div className="flex flex-col gap-3">
+					<Label className="text-sm font-medium">Format</Label>
+					<RadioCards value={format} onValueChange={setFormat} className="grid-cols-3">
+						{formats.map((f) => (
+							<RadioCardsItem
+								key={f.value}
+								value={f.value}
+								icon={<f.icon size={20} />}
+								label={f.label}
+								description={f.description}
+							/>
 						))}
-					</div>
-				
+					</RadioCards>
+				</div>
+				<div className="flex flex-col gap-3">
+					<Label className="text-sm font-medium">Sections</Label>
+					{sections.map((section) => (
+						<div key={section.key} className="flex items-center gap-2">
+							<Checkbox
+								id={`export-${section.key}`}
+								checked={selected[section.key]}
+								onCheckedChange={(checked) =>
+									setSelected((prev) => ({ ...prev, [section.key]: !!checked }))
+								}
+							/>
+							<Label
+								htmlFor={`export-${section.key}`}
+								className="text-sm font-normal cursor-pointer"
+							>
+								{section.label}
+							</Label>
+						</div>
+					))}
+				</div>
+
 				<div className="mt-6 flex justify-end gap-2">
 					<Button variant="secondary" onClick={() => onOpenChange(false)}>
 						Cancel

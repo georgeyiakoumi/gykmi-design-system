@@ -1,7 +1,7 @@
 "use client";
 
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { type ComponentPropsWithRef, type ReactNode, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 export interface RadioCardsProps extends ComponentPropsWithRef<typeof RadioGroupPrimitive.Root> {}
@@ -10,13 +10,7 @@ export const RadioCards = forwardRef<
 	React.ComponentRef<typeof RadioGroupPrimitive.Root>,
 	RadioCardsProps
 >(({ className, ...props }, ref) => {
-	return (
-		<RadioGroupPrimitive.Root
-			ref={ref}
-			className={cn("grid gap-3", className)}
-			{...props}
-		/>
-	);
+	return <RadioGroupPrimitive.Root ref={ref} className={cn("grid gap-3", className)} {...props} />;
 });
 
 RadioCards.displayName = "RadioCards";
