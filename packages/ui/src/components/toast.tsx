@@ -30,8 +30,8 @@ ToastViewport.displayName = "ToastViewport";
 
 const toastVariantStyles: Record<ToastVariant, string> = {
 	default: "border-border bg-surface text-text",
-	success: "border-success bg-success text-success-text",
-	danger: "border-danger bg-danger text-danger-text",
+	success: "border-success bg-success-subtle text-success-text",
+	danger: "border-danger bg-danger-subtle text-danger-text",
 };
 
 export interface ToastProps extends ComponentPropsWithRef<typeof ToastPrimitive.Root> {
