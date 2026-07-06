@@ -25,7 +25,6 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarProvider,
-	SidebarSeparator,
 	Toaster,
 	useToast,
 } from "@gykmi/ui";
@@ -109,7 +108,6 @@ export function DashboardShell({
 						</div>
 					</div>
 				</SidebarHeader>
-				<SidebarSeparator />
 				<SidebarContent>
 					{Object.entries(NAV_ITEMS).map(([group, items]) => (
 						<SidebarGroup key={group}>
@@ -148,7 +146,6 @@ export function DashboardShell({
 						</SidebarGroup>
 					))}
 				</SidebarContent>
-				<SidebarSeparator />
 				<SidebarFooter>
 					<SidebarMenu>
 						<SidebarMenuItem>

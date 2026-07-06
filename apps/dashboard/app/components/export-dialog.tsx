@@ -51,15 +51,15 @@ export function ExportDialog({ open, onOpenChange, onExport }: ExportDialogProps
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent>
+			<DialogContent className="space-y-8">
 				<DialogHeader>
 					<DialogTitle>Export report</DialogTitle>
 					<DialogDescription>
 						Choose a format and select which sections to include in the export.
 					</DialogDescription>
 				</DialogHeader>
-				<div className="mt-4 space-y-6">
-					<div className="space-y-3">
+				
+					<div className="flex flex-col gap-3">
 						<Label className="text-sm font-medium">Format</Label>
 						<RadioCards value={format} onValueChange={setFormat} className="grid-cols-3">
 							{formats.map((f) => (
@@ -73,8 +73,7 @@ export function ExportDialog({ open, onOpenChange, onExport }: ExportDialogProps
 							))}
 						</RadioCards>
 					</div>
-					<Separator />
-					<div className="space-y-3">
+					<div className="flex flex-col gap-3">
 						<Label className="text-sm font-medium">Sections</Label>
 						{sections.map((section) => (
 							<div key={section.key} className="flex items-center gap-2">
@@ -94,7 +93,7 @@ export function ExportDialog({ open, onOpenChange, onExport }: ExportDialogProps
 							</div>
 						))}
 					</div>
-				</div>
+				
 				<div className="mt-6 flex justify-end gap-2">
 					<Button variant="secondary" onClick={() => onOpenChange(false)}>
 						Cancel
