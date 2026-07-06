@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { ConfidencePoint } from "@gykmi/ui";
 import {
 	AlertDialog,
@@ -29,6 +28,7 @@ import {
 	Toaster,
 	useToast,
 } from "@gykmi/ui";
+import { useState } from "react";
 
 interface ExposureTrendSectionProps {
 	data: ConfidencePoint[];
@@ -123,7 +123,9 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 								<span className="text-text">{pos.instrument}</span>
 								<div className="flex items-center gap-4">
 									<span className="text-text-muted">{pos.notional}</span>
-									<span className="font-medium text-text tabular-nums w-12 text-right">{pos.pct}</span>
+									<span className="font-medium text-text tabular-nums w-12 text-right">
+										{pos.pct}
+									</span>
 								</div>
 							</div>
 						))}
@@ -144,8 +146,8 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 					<AlertDialogHeader>
 						<AlertDialogTitle>Escalate Hawkstone exposure?</AlertDialogTitle>
 						<AlertDialogDescription>
-							This will notify the risk committee about the sustained concentration breach at
-							17.4% (limit: 15%). An escalation record will be created.
+							This will notify the risk committee about the sustained concentration breach at 17.4%
+							(limit: 15%). An escalation record will be created.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

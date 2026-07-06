@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { DataTableColumn } from "@gykmi/ui";
 import {
 	AlertDialog,
@@ -28,6 +27,7 @@ import {
 	useToast,
 } from "@gykmi/ui";
 import { MoreHorizontal } from "lucide-react";
+import { useState } from "react";
 
 export interface FlaggedItem {
 	id: string;
@@ -59,7 +59,10 @@ function StatusBadge({ status }: { status: FlaggedItem["status"] }) {
 function ActionsMenu({
 	item,
 	onAction,
-}: { item: FlaggedItem; onAction: (action: string, item: FlaggedItem) => void }) {
+}: {
+	item: FlaggedItem;
+	onAction: (action: string, item: FlaggedItem) => void;
+}) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -79,9 +82,7 @@ function ActionsMenu({
 					</>
 				)}
 				{item.confidence === "uncertain" && (
-					<DropdownMenuItem onSelect={() => onAction("sign-off", item)}>
-						Sign off
-					</DropdownMenuItem>
+					<DropdownMenuItem onSelect={() => onAction("sign-off", item)}>Sign off</DropdownMenuItem>
 				)}
 			</DropdownMenuContent>
 		</DropdownMenu>
@@ -93,7 +94,10 @@ function ActionsMenu({
 function FlaggedItemCard({
 	item,
 	onAction,
-}: { item: FlaggedItem; onAction: (action: string, item: FlaggedItem) => void }) {
+}: {
+	item: FlaggedItem;
+	onAction: (action: string, item: FlaggedItem) => void;
+}) {
 	return (
 		<Card>
 			<CardHeader>
@@ -153,7 +157,10 @@ const confirmContent: Record<string, { title: string; description: string; actio
 	},
 };
 
-const toastContent: Record<string, { title: string; description: string; variant?: "default" | "success" | "danger" }> = {
+const toastContent: Record<
+	string,
+	{ title: string; description: string; variant?: "default" | "success" | "danger" }
+> = {
 	acknowledge: {
 		title: "Flag acknowledged",
 		description: "Recorded in the audit trail.",
@@ -240,11 +247,15 @@ export function FlaggedItemsSection({ items }: FlaggedItemsSectionProps) {
 				Flagged items
 			</Text>
 
-			{/* Mobile: cards */}
-			<div className="flex flex-col gap-3 lg:hidden">
-				{items.map((item) => (
-					<FlaggedItemCard key={item.id} item={item} onAction={handleAction} />
-				))}
+			{/* Mobile: horizontal carousel */}
+			<div className="lg:hidden overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6">
+				<div className="flex gap-3 w-max">
+					{items.map((item) => (
+						<div key={item.id} className="w-[80vw] max-w-xs snap-start shrink-0">
+							<FlaggedItemCard item={item} onAction={handleAction} />
+						</div>
+					))}
+				</div>
 			</div>
 
 			{/* Desktop: table */}

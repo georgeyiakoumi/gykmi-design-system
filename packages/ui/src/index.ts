@@ -313,8 +313,6 @@ export {
 	ToastViewport,
 } from "./components/toast";
 export { Toaster } from "./components/toaster";
-export type { ToastMessage } from "./lib/use-toast";
-export { useToast } from "./lib/use-toast";
 export type { ToggleProps, ToggleSize, ToggleVariant } from "./components/toggle";
 export { Toggle } from "./components/toggle";
 export type { ToggleGroupItemProps, ToggleGroupProps } from "./components/toggle-group";
@@ -331,7 +329,6 @@ export {
 export type { TooltipContentProps } from "./components/tooltip";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/tooltip";
 export { VisuallyHidden } from "./components/visually-hidden";
-
 // Chart tokens (for consumers building custom charts)
 export {
 	type ChartDataPoint,
@@ -341,3 +338,5 @@ export {
 	chartSpacing,
 	type TimeSeriesPoint,
 } from "./lib/chart-tokens";
+export type { ToastMessage } from "./lib/use-toast";
+export { useToast } from "./lib/use-toast";

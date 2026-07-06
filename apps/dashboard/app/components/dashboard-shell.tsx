@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
 	Avatar,
 	AvatarFallback,
@@ -64,6 +63,7 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { PageHeader } from "./page-header";
 
 interface NavItem {
@@ -276,8 +276,12 @@ export function DashboardShell({
 					</SheetHeader>
 					<Tabs defaultValue="account" className="mt-6">
 						<TabsList className="w-full">
-							<TabsTrigger value="account" className="flex-1">Account</TabsTrigger>
-							<TabsTrigger value="notifications" className="flex-1">Notifications</TabsTrigger>
+							<TabsTrigger value="account" className="flex-1">
+								Account
+							</TabsTrigger>
+							<TabsTrigger value="notifications" className="flex-1">
+								Notifications
+							</TabsTrigger>
 						</TabsList>
 						<TabsContent value="account" className="mt-4 space-y-4">
 							<div className="space-y-2">
@@ -314,10 +318,26 @@ export function DashboardShell({
 						</TabsContent>
 						<TabsContent value="notifications" className="mt-4 space-y-4">
 							{[
-								{ key: "limitBreach" as const, label: "Limit breach alerts", desc: "When a counterparty exceeds its exposure limit" },
-								{ key: "dailySummary" as const, label: "Daily summary", desc: "Morning risk summary delivered at 08:00" },
-								{ key: "modelDrift" as const, label: "Model drift warnings", desc: "When model confidence drops below threshold" },
-								{ key: "dataStale" as const, label: "Stale data alerts", desc: "When a data source hasn't refreshed in 24h" },
+								{
+									key: "limitBreach" as const,
+									label: "Limit breach alerts",
+									desc: "When a counterparty exceeds its exposure limit",
+								},
+								{
+									key: "dailySummary" as const,
+									label: "Daily summary",
+									desc: "Morning risk summary delivered at 08:00",
+								},
+								{
+									key: "modelDrift" as const,
+									label: "Model drift warnings",
+									desc: "When model confidence drops below threshold",
+								},
+								{
+									key: "dataStale" as const,
+									label: "Stale data alerts",
+									desc: "When a data source hasn't refreshed in 24h",
+								},
 							].map((item) => (
 								<div key={item.key} className="flex items-center justify-between gap-4">
 									<div className="space-y-0.5">
@@ -364,7 +384,11 @@ export function DashboardShell({
 					<div className="mt-4 space-y-6">
 						<div className="space-y-3">
 							<Label className="text-sm font-medium">Format</Label>
-							<RadioGroup value={exportFormat} onValueChange={setExportFormat} className="flex gap-4">
+							<RadioGroup
+								value={exportFormat}
+								onValueChange={setExportFormat}
+								className="flex gap-4"
+							>
 								{[
 									{ value: "pdf", label: "PDF" },
 									{ value: "csv", label: "CSV" },
@@ -372,7 +396,10 @@ export function DashboardShell({
 								].map((opt) => (
 									<div key={opt.value} className="flex items-center gap-2">
 										<RadioGroupItem value={opt.value} id={`format-${opt.value}`} />
-										<Label htmlFor={`format-${opt.value}`} className="text-sm font-normal cursor-pointer">
+										<Label
+											htmlFor={`format-${opt.value}`}
+											className="text-sm font-normal cursor-pointer"
+										>
 											{opt.label}
 										</Label>
 									</div>
@@ -396,7 +423,10 @@ export function DashboardShell({
 											setExportSections((prev) => ({ ...prev, [section.key]: !!checked }))
 										}
 									/>
-									<Label htmlFor={`section-${section.key}`} className="text-sm font-normal cursor-pointer">
+									<Label
+										htmlFor={`section-${section.key}`}
+										className="text-sm font-normal cursor-pointer"
+									>
 										{section.label}
 									</Label>
 								</div>

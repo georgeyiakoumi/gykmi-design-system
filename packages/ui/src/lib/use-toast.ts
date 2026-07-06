@@ -13,13 +13,10 @@ export interface ToastMessage {
 export function useToast() {
 	const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
-	const toast = useCallback(
-		(message: Omit<ToastMessage, "id">) => {
-			const id = crypto.randomUUID();
-			setToasts((prev) => [...prev, { ...message, id }]);
-		},
-		[],
-	);
+	const toast = useCallback((message: Omit<ToastMessage, "id">) => {
+		const id = crypto.randomUUID();
+		setToasts((prev) => [...prev, { ...message, id }]);
+	}, []);
 
 	const dismiss = useCallback((id: string) => {
 		setToasts((prev) => prev.filter((t) => t.id !== id));

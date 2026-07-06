@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { DataTableColumn } from "@gykmi/ui";
 import {
 	AlertDialog,
@@ -35,6 +34,7 @@ import {
 	useToast,
 } from "@gykmi/ui";
 import { MoreHorizontal } from "lucide-react";
+import { useState } from "react";
 
 interface Counterparty {
 	id: string;
@@ -70,7 +70,10 @@ function utilisationColor(utilisation: number) {
 
 // ─── DUMMY POSITIONS ─────────────────────────────────────────────────────────
 
-const positionsByCounterparty: Record<string, { instrument: string; notional: string; pct: string }[]> = {
+const positionsByCounterparty: Record<
+	string,
+	{ instrument: string; notional: string; pct: string }[]
+> = {
 	"Hawkstone Partners": [
 		{ instrument: "Corp Bond 2028", notional: "$2.1M", pct: "5.2%" },
 		{ instrument: "Credit Default Swap", notional: "$1.8M", pct: "4.5%" },
@@ -95,7 +98,10 @@ const defaultPositions = [
 function ActionsMenu({
 	item,
 	onAction,
-}: { item: Counterparty; onAction: (action: string, item: Counterparty) => void }) {
+}: {
+	item: Counterparty;
+	onAction: (action: string, item: Counterparty) => void;
+}) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -111,9 +117,7 @@ function ActionsMenu({
 					Adjust limit
 				</DropdownMenuItem>
 				{item.status === "breached" && (
-					<DropdownMenuItem onSelect={() => onAction("escalate", item)}>
-						Escalate
-					</DropdownMenuItem>
+					<DropdownMenuItem onSelect={() => onAction("escalate", item)}>Escalate</DropdownMenuItem>
 				)}
 			</DropdownMenuContent>
 		</DropdownMenu>
@@ -125,7 +129,10 @@ function ActionsMenu({
 function CounterpartyCard({
 	item,
 	onAction,
-}: { item: Counterparty; onAction: (action: string, item: Counterparty) => void }) {
+}: {
+	item: Counterparty;
+	onAction: (action: string, item: Counterparty) => void;
+}) {
 	return (
 		<Card>
 			<CardHeader>
@@ -326,7 +333,7 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 	];
 
 	const positions = positionsDialog
-		? positionsByCounterparty[positionsDialog.name] ?? defaultPositions
+		? (positionsByCounterparty[positionsDialog.name] ?? defaultPositions)
 		: [];
 
 	return (
@@ -335,11 +342,15 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 				All counterparties
 			</Text>
 
-			{/* Mobile: cards */}
-			<div className="flex flex-col gap-3 lg:hidden">
-				{data.map((item) => (
-					<CounterpartyCard key={item.id} item={item} onAction={handleAction} />
-				))}
+			{/* Mobile: horizontal carousel */}
+			<div className="lg:hidden overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6">
+				<div className="flex gap-3 w-max">
+					{data.map((item) => (
+						<div key={item.id} className="w-[80vw] max-w-xs snap-start shrink-0">
+							<CounterpartyCard item={item} onAction={handleAction} />
+						</div>
+					))}
+				</div>
 			</div>
 
 			{/* Desktop: table */}
@@ -358,8 +369,8 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 					<DialogHeader>
 						<DialogTitle>{positionsDialog?.name} — Position breakdown</DialogTitle>
 						<DialogDescription>
-							Positions contributing to the ${positionsDialog?.exposure.toFixed(1)}M exposure
-							({positionsDialog?.utilisation.toFixed(1)}% utilisation).
+							Positions contributing to the ${positionsDialog?.exposure.toFixed(1)}M exposure (
+							{positionsDialog?.utilisation.toFixed(1)}% utilisation).
 						</DialogDescription>
 					</DialogHeader>
 					<div className="mt-4 space-y-3">
@@ -397,14 +408,18 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 			/>
 
 			{/* Escalate confirmation */}
-			<AlertDialog open={!!escalateDialog} onOpenChange={(open) => !open && setEscalateDialog(null)}>
+			<AlertDialog
+				open={!!escalateDialog}
+				onOpenChange={(open) => !open && setEscalateDialog(null)}
+			>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Escalate {escalateDialog?.name}?</AlertDialogTitle>
 						<AlertDialogDescription>
 							This will notify the risk committee about the limit breach at{" "}
-							{escalateDialog?.utilisation.toFixed(1)}% utilisation (${escalateDialog?.exposure.toFixed(1)}M
-							/ ${escalateDialog?.limit.toFixed(1)}M). An escalation record will be created.
+							{escalateDialog?.utilisation.toFixed(1)}% utilisation ($
+							{escalateDialog?.exposure.toFixed(1)}M / ${escalateDialog?.limit.toFixed(1)}M). An
+							escalation record will be created.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

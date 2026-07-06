@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { ChartDataPoint } from "@gykmi/ui";
 import {
 	Accordion,
@@ -25,6 +24,7 @@ import {
 	Toaster,
 	useToast,
 } from "@gykmi/ui";
+import { useState } from "react";
 
 interface TopExposuresSectionProps {
 	data: ChartDataPoint[];
@@ -74,7 +74,8 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 							onClick={() =>
 								toast({
 									title: "Alerts configured",
-									description: "You will be notified when any top-5 counterparty exceeds 90% utilisation.",
+									description:
+										"You will be notified when any top-5 counterparty exceeds 90% utilisation.",
 									variant: "success",
 								})
 							}
