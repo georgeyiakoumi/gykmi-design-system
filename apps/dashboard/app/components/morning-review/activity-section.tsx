@@ -11,42 +11,53 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
+	Carousel,
+	CarouselItem,
 	DataProvenance,
 	ScrollArea,
 	Text,
+	Toaster,
+	useToast,
 } from "@gykmi/ui";
-import { Plus, X } from "lucide-react";
+import { Eye, Plus, RefreshCw, X } from "lucide-react";
+import { useState } from "react";
+import { AddSourceDialog } from "./add-source-dialog";
 
 function DataSourceCard({ source }: { source: DataSource }) {
 	const isStale = source.verified === false;
 	return (
 		<Card className="flex flex-col h-full">
 			<CardHeader>
-				<div className="flex flex-col gap-2">
-					<div className="flex items-center gap-1.5">
-						{source.version && <Badge variant="default" label={`v${source.version}`} />}
-						{isStale && <Badge variant="warning" label="Stale" />}
-					</div>
-					<CardTitle className="text-sm">{source.name}</CardTitle>
+				<div className="flex items-center gap-1.5">
+					{isStale ? (
+						<Badge variant="warning" label="Stale" />
+					) : (
+						<Badge variant="default" label="Connected" />
+					)}
 				</div>
 				<CardAction>
-					<Button
-						variant="ghost"
-						size="sm"
-						className="h-5 w-5 p-0"
-						aria-label={`Remove ${source.name}`}
-					>
-						<X size={12} />
-					</Button>
+					<span className="text-xs text-text-muted">
+						{source.version ? `v${source.version}` : ""}
+					</span>
 				</CardAction>
 			</CardHeader>
-			<CardContent className="flex-1" />
-			<CardFooter className="justify-between">
-				<Button variant="secondary" size="sm">
+			<CardContent className="flex-1 flex flex-col gap-1">
+				<p className="text-sm font-medium text-text">{source.name}</p>
+			</CardContent>
+			<CardFooter className="flex-col gap-2">
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<Eye size={14} />}>
 					View
 				</Button>
-				<Button variant="secondary" size="sm">
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<RefreshCw size={14} />}>
 					Refresh
+				</Button>
+				<Button
+					variant="ghost"
+					size="sm"
+					className="w-full text-text-muted"
+					iconLeft={<X size={14} />}
+				>
+					Remove
 				</Button>
 			</CardFooter>
 		</Card>
@@ -59,6 +70,9 @@ interface ActivitySectionProps {
 }
 
 export function ActivitySection({ auditEntries, dataSources }: ActivitySectionProps) {
+	const { toasts, toast, dismiss } = useToast();
+	const [showAddSource, setShowAddSource] = useState(false);
+
 	return (
 		<div className="flex flex-col gap-4">
 			<Text as="h2" variant="heading-xl">
@@ -73,7 +87,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<Text
 							as="h3"
 							variant="label-xs"
-							className="text-text-muted uppercase tracking-wider mb-2"
+							className="text-text-muted uppercase tracking-wider mb-4"
 						>
 							Audit log
 						</Text>
@@ -97,19 +111,23 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<Text as="h3" variant="label-xs" className="text-text-muted uppercase tracking-wider">
 							Data sources
 						</Text>
-						<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source">
+						<Button
+							variant="ghost"
+							size="sm"
+							className="h-5 w-5 p-0"
+							aria-label="Add data source"
+							onClick={() => setShowAddSource(true)}
+						>
 							<Plus size={14} />
 						</Button>
 					</div>
-					<div className="overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6">
-						<div className="flex gap-3 w-max">
-							{dataSources.map((source) => (
-								<div key={source.name} className="w-[60vw] max-w-[200px] snap-start shrink-0">
-									<DataSourceCard source={source} />
-								</div>
-							))}
-						</div>
-					</div>
+					<Carousel>
+						{dataSources.map((source) => (
+							<CarouselItem key={source.name} width="60vw" maxWidth="max-w-[200px]">
+								<DataSourceCard source={source} />
+							</CarouselItem>
+						))}
+					</Carousel>
 				</div>
 
 				{/* Desktop: data sources card */}
@@ -120,12 +138,12 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						</CardTitle>
 						<CardAction>
 							<Button
-								variant="ghost"
+								variant="secondary"
 								size="sm"
-								className="h-5 w-5 p-0"
 								aria-label="Add data source"
+								onClick={() => setShowAddSource(true)}
 							>
-								<Plus size={14} />
+								<Plus size={12} />
 							</Button>
 						</CardAction>
 					</CardHeader>
@@ -136,6 +154,19 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 					</CardContent>
 				</Card>
 			</div>
+
+			<AddSourceDialog
+				open={showAddSource}
+				onOpenChange={setShowAddSource}
+				onAdd={(source) =>
+					toast({
+						title: "Source connected",
+						description: `${source.name} (${source.type.toUpperCase()}) added with ${source.refresh} refresh.`,
+						variant: "success",
+					})
+				}
+			/>
+			<Toaster toasts={toasts} onDismiss={dismiss} />
 		</div>
 	);
 }

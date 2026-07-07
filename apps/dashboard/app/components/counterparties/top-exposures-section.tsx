@@ -24,6 +24,7 @@ import {
 	Toaster,
 	useToast,
 } from "@gykmi/ui";
+import { Bell, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 
 interface TopExposuresSectionProps {
@@ -71,6 +72,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
+							iconLeft={<Bell size={14} />}
 							onClick={() =>
 								toast({
 									title: "Alerts configured",
@@ -82,7 +84,12 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						>
 							Set alerts
 						</Button>
-						<Button variant="secondary" size="sm" onClick={() => setShowLimits(true)}>
+						<Button
+							variant="secondary"
+							size="sm"
+							iconLeft={<SlidersHorizontal size={14} />}
+							onClick={() => setShowLimits(true)}
+						>
 							Adjust limits
 						</Button>
 					</div>

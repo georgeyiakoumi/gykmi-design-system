@@ -1,7 +1,7 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
-import { type ComponentPropsWithRef, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 export type ButtonVariant = "default" | "secondary" | "danger" | "ghost";
@@ -16,20 +16,29 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 	asChild?: boolean;
 	/** Show loading state */
 	loading?: boolean;
+	/** Icon rendered before the label */
+	iconLeft?: ReactNode;
+	/** Icon rendered after the label */
+	iconRight?: ReactNode;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-	default: ["bg-action text-action-text", "hover:bg-action-hover", "active:bg-action-active"].join(
-		" ",
-	),
-	secondary: [
-		"bg-surface-raised text-text border border-border",
-		"hover:bg-surface-overlay hover:border-border-strong",
-		"active:bg-surface",
+	default: [
+		"bg-gradient-to-b from-action to-action-hover text-action-text",
+		"shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15)]",
+		"hover:from-action-hover hover:to-action-active",
+		"active:from-action-active active:to-action-active active:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.2)]",
 	].join(" "),
-	danger: ["bg-danger text-danger-text", "hover:bg-danger-hover", "active:bg-danger-active"].join(
-		" ",
-	),
+	secondary: [
+		"text-text border border-border",
+		"hover:from-surface-overlay hover:to-surface-raised-to hover:border-border-strong",
+		"active:from-surface-raised-to active:to-surface-raised-to",
+	].join(" "),
+	danger: [
+		"bg-gradient-to-b from-danger to-danger-hover text-action-text",
+		"hover:from-danger-hover hover:to-danger-active",
+		"active:from-danger-active active:to-danger-active",
+	].join(" "),
 	ghost: ["bg-transparent text-text", "hover:bg-surface-raised", "active:bg-surface-overlay"].join(
 		" ",
 	),
@@ -41,13 +50,31 @@ const sizeStyles: Record<ButtonSize, string> = {
 	lg: "h-12 px-6 text-lg rounded-lg gap-2.5",
 };
 
+const iconSizeStyles: Record<ButtonSize, string> = {
+	sm: "size-3.5",
+	md: "size-4",
+	lg: "size-5",
+};
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
-		{ variant = "default", size = "md", asChild, loading, disabled, className, children, ...props },
+		{
+			variant = "default",
+			size = "md",
+			asChild,
+			loading,
+			disabled,
+			iconLeft,
+			iconRight,
+			className,
+			children,
+			...props
+		},
 		ref,
 	) => {
 		const Comp = asChild ? Slot : "button";
 		const isDisabled = disabled || loading;
+		const iconClass = iconSizeStyles[size];
 
 		return (
 			<Comp
@@ -81,7 +108,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 						<span>{children}</span>
 					</>
 				) : (
-					children
+					<>
+						{iconLeft && (
+							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+								{iconLeft}
+							</span>
+						)}
+						{children}
+						{iconRight && (
+							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+								{iconRight}
+							</span>
+						)}
+					</>
 				)}
 			</Comp>
 		);

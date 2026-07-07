@@ -9,6 +9,7 @@ import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
+	SheetFooter,
 	SheetHeader,
 	SheetTitle,
 	Switch,
@@ -18,6 +19,7 @@ import {
 	TabsTrigger,
 	ThemeToggle,
 } from "@gykmi/ui";
+import { Save } from "lucide-react";
 import { useState } from "react";
 
 const notificationOptions = [
@@ -61,12 +63,12 @@ export function SettingsSheet({ open, onOpenChange, onSave }: SettingsSheetProps
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
-			<SheetContent side="right">
+			<SheetContent side="right" className="flex flex-col">
 				<SheetHeader>
 					<SheetTitle>Settings</SheetTitle>
 					<SheetDescription>Manage your account and notification preferences.</SheetDescription>
 				</SheetHeader>
-				<Tabs defaultValue="account" className="mt-6">
+				<Tabs defaultValue="account" className="mt-6 flex flex-1 flex-col">
 					<TabsList className="w-full">
 						<TabsTrigger value="account" className="flex-1">
 							Account
@@ -93,19 +95,6 @@ export function SettingsSheet({ open, onOpenChange, onSave }: SettingsSheetProps
 							<Label className="text-sm font-medium">Theme</Label>
 							<ThemeToggle />
 						</div>
-						<Separator />
-						<Button
-							className="w-full"
-							onClick={() => {
-								onSave({
-									title: "Profile updated",
-									description: "Your account details have been saved.",
-								});
-								onOpenChange(false);
-							}}
-						>
-							Save changes
-						</Button>
 					</TabsContent>
 					<TabsContent value="notifications" className="mt-4 space-y-4">
 						{notificationOptions.map((item) => (
@@ -122,22 +111,24 @@ export function SettingsSheet({ open, onOpenChange, onSave }: SettingsSheetProps
 								/>
 							</div>
 						))}
-						<Separator />
-						<Button
-							className="w-full"
-							onClick={() => {
-								const enabled = Object.values(notifications).filter(Boolean).length;
-								onSave({
-									title: "Notifications updated",
-									description: `${enabled} alert type${enabled !== 1 ? "s" : ""} enabled.`,
-								});
-								onOpenChange(false);
-							}}
-						>
-							Save preferences
-						</Button>
 					</TabsContent>
 				</Tabs>
+				<SheetFooter>
+					<Button
+						className="w-full"
+						iconLeft={<Save size={16} />}
+						onClick={() => {
+							const enabled = Object.values(notifications).filter(Boolean).length;
+							onSave({
+								title: "Settings saved",
+								description: "Your preferences have been updated.",
+							});
+							onOpenChange(false);
+						}}
+					>
+						Save
+					</Button>
+				</SheetFooter>
 			</SheetContent>
 		</Sheet>
 	);

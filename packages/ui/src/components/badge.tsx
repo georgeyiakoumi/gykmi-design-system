@@ -14,42 +14,27 @@ export interface BadgeProps extends Omit<ComponentPropsWithRef<"span">, "childre
 	count?: number;
 }
 
-const variantStyles: Record<BadgeVariant, { badge: string; count: string }> = {
-	default: {
-		badge: "bg-surface-raised text-text border border-border",
-		count: "bg-text/10 text-text",
-	},
-	success: {
-		badge: "bg-success-subtle text-success-text",
-		count: "bg-success/10 text-success-text",
-	},
-	danger: {
-		badge: "bg-danger-subtle text-danger-text",
-		count: "bg-danger/10 text-danger-text",
-	},
-	warning: {
-		badge: "bg-warning-subtle text-warning-text",
-		count: "bg-warning/10 text-warning-text",
-	},
+const variantStyles: Record<BadgeVariant, string> = {
+	default: "bg-surface-raised text-text border border-border",
+	success: "bg-success-subtle text-success-text",
+	danger: "bg-danger-subtle text-danger-text",
+	warning: "bg-warning-subtle text-warning-text",
 };
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 	({ variant = "default", label, count, className, ...props }, ref) => {
-		const styles = variantStyles[variant];
 		return (
 			<span
 				ref={ref}
 				className={cn(
-					"inline-flex items-center gap-1.5 rounded-full py-0.5 text-xs font-medium",
-					"has-data-[slot=badge-count]:pl-2.5 has-data-[slot=badge-count]:pr-0.5",
-					"not-has-data-[slot=badge-count]:px-2.5",
-					styles.badge,
+					"inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium",
+					variantStyles[variant],
 					className,
 				)}
 				{...props}
 			>
 				{label}
-				{count !== undefined && <BadgeCount count={count} className={styles.count} />}
+				{count !== undefined && <BadgeCount count={count} />}
 			</span>
 		);
 	},
@@ -68,10 +53,7 @@ export const BadgeCount = forwardRef<HTMLSpanElement, BadgeCountProps>(
 			<span
 				ref={ref}
 				data-slot="badge-count"
-				className={cn(
-					"inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1 text-xs font-bold tabular-nums",
-					className,
-				)}
+				className={cn("text-xs font-bold tabular-nums", className)}
 				{...props}
 			>
 				{count}

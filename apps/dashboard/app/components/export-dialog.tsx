@@ -13,7 +13,7 @@ import {
 	RadioCardsItem,
 	Separator,
 } from "@gykmi/ui";
-import { Code, FileText, Table } from "lucide-react";
+import { Code, Download, FileText, Table } from "lucide-react";
 import { useState } from "react";
 
 interface ExportDialogProps {
@@ -98,7 +98,9 @@ export function ExportDialog({ open, onOpenChange, onExport }: ExportDialogProps
 					<Button variant="secondary" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>
-					<Button onClick={handleExport}>Export</Button>
+					<Button onClick={handleExport} iconLeft={<Download size={16} />}>
+						Export
+					</Button>
 				</div>
 			</DialogContent>
 		</Dialog>

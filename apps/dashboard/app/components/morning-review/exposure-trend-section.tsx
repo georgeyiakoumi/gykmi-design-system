@@ -28,6 +28,7 @@ import {
 	Toaster,
 	useToast,
 } from "@gykmi/ui";
+import { ArrowUpRight, Bell, Eye } from "lucide-react";
 import { useState } from "react";
 
 interface ExposureTrendSectionProps {
@@ -82,6 +83,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
+							iconLeft={<Bell size={14} />}
 							onClick={() =>
 								toast({
 									title: "Alert configured",
@@ -92,10 +94,20 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						>
 							Set alert
 						</Button>
-						<Button variant="secondary" size="sm" onClick={() => setShowPositions(true)}>
+						<Button
+							variant="secondary"
+							size="sm"
+							iconLeft={<Eye size={14} />}
+							onClick={() => setShowPositions(true)}
+						>
 							View positions
 						</Button>
-						<Button variant="default" size="sm" onClick={() => setShowEscalate(true)}>
+						<Button
+							variant="default"
+							size="sm"
+							iconLeft={<ArrowUpRight size={14} />}
+							onClick={() => setShowEscalate(true)}
+						>
 							Escalate
 						</Button>
 					</div>

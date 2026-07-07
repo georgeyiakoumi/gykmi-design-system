@@ -72,6 +72,8 @@ export {
 	CardHeader,
 	CardTitle,
 } from "./components/card";
+export type { CarouselItemProps, CarouselProps } from "./components/carousel";
+export { Carousel, CarouselItem } from "./components/carousel";
 // Charts (visx)
 export type { BarChartProps } from "./components/charts/bar-chart";
 export { BarChart } from "./components/charts/bar-chart";
@@ -125,6 +127,28 @@ export {
 	ContextMenuSub,
 	ContextMenuTrigger,
 } from "./components/context-menu";
+// POV: AI output states
+export type { AnalysisSectionProps, AnalysisStatus } from "./components/dashboard/analysis-section";
+export { AnalysisSection } from "./components/dashboard/analysis-section";
+// POV: Audit & disclosure
+export type { AuditEntry, AuditTrailProps } from "./components/dashboard/audit-trail";
+export { AuditTrail } from "./components/dashboard/audit-trail";
+export type {
+	ConfidenceIndicatorProps,
+	ConfidenceLevel,
+} from "./components/dashboard/confidence-indicator";
+export { ConfidenceIndicator } from "./components/dashboard/confidence-indicator";
+export type { DataProvenanceProps, DataSource } from "./components/dashboard/data-provenance";
+export { DataProvenance } from "./components/dashboard/data-provenance";
+// POV: Dense data table
+export type {
+	DataTableColumn,
+	DataTableProps,
+	SortDirection,
+} from "./components/dashboard/data-table";
+export { DataTable } from "./components/dashboard/data-table";
+export type { MetricCardProps } from "./components/dashboard/metric-card";
+export { MetricCard } from "./components/dashboard/metric-card";
 export type {
 	DialogContentProps,
 	DialogDescriptionProps,
@@ -199,34 +223,6 @@ export {
 } from "./components/navigation-menu";
 export type { PopoverContentProps } from "./components/popover";
 export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "./components/popover";
-// POV: AI output states
-export type { AnalysisSectionProps } from "./components/pov/analysis-section";
-export { AnalysisSection } from "./components/pov/analysis-section";
-// POV: Audit & disclosure
-export type { AuditEntry, AuditTrailProps } from "./components/pov/audit-trail";
-export { AuditTrail } from "./components/pov/audit-trail";
-export type { ComplianceBannerProps, ComplianceSeverity } from "./components/pov/compliance-banner";
-export { ComplianceBanner } from "./components/pov/compliance-banner";
-export type {
-	ConfidenceIndicatorProps,
-	ConfidenceLevel,
-} from "./components/pov/confidence-indicator";
-export { ConfidenceIndicator } from "./components/pov/confidence-indicator";
-export type { DataProvenanceProps, DataSource } from "./components/pov/data-provenance";
-export { DataProvenance } from "./components/pov/data-provenance";
-// POV: Dense data table
-export type { DataTableColumn, DataTableProps, SortDirection } from "./components/pov/data-table";
-export { DataTable } from "./components/pov/data-table";
-export type { DisclaimerProps, DisclaimerVariant } from "./components/pov/disclaimer";
-export { Disclaimer } from "./components/pov/disclaimer";
-export type { MetricCardProps } from "./components/pov/metric-card";
-export { MetricCard } from "./components/pov/metric-card";
-export type { ModelErrorKind, ModelErrorProps } from "./components/pov/model-error";
-export { ModelError } from "./components/pov/model-error";
-export type { RegulatoryNoticeProps } from "./components/pov/regulatory-notice";
-export { RegulatoryNotice } from "./components/pov/regulatory-notice";
-export type { StreamingStatus, StreamingTextProps } from "./components/pov/streaming-text";
-export { StreamingText } from "./components/pov/streaming-text";
 export type { ProgressProps } from "./components/progress";
 export { Progress } from "./components/progress";
 export type { RadioCardsItemProps, RadioCardsProps } from "./components/radio-cards";
@@ -246,12 +242,18 @@ export {
 } from "./components/select";
 export type { SeparatorProps } from "./components/separator";
 export { Separator } from "./components/separator";
-export type { SheetContentProps, SheetHeaderProps, SheetOverlayProps } from "./components/sheet";
+export type {
+	SheetContentProps,
+	SheetFooterProps,
+	SheetHeaderProps,
+	SheetOverlayProps,
+} from "./components/sheet";
 export {
 	Sheet,
 	SheetClose,
 	SheetContent,
 	SheetDescription,
+	SheetFooter,
 	SheetHeader,
 	SheetOverlay,
 	SheetPortal,

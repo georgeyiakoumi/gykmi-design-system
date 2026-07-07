@@ -6,7 +6,7 @@ import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from
 import { Skeleton } from "../skeleton";
 import type { ConfidenceLevel } from "./confidence-indicator";
 import { ConfidenceIndicator } from "./confidence-indicator";
-import type { StreamingStatus } from "./streaming-text";
+export type AnalysisStatus = "idle" | "streaming" | "complete" | "error";
 
 export interface AnalysisSectionProps
 	extends Omit<ComponentPropsWithRef<"div">, "title" | "children"> {
@@ -18,8 +18,8 @@ export interface AnalysisSectionProps
 	confidence?: ConfidenceLevel;
 	/** Confidence score (0-100) */
 	confidenceScore?: number;
-	/** Streaming status of this section */
-	status?: StreamingStatus;
+	/** Status of this section */
+	status?: AnalysisStatus;
 	/** Timestamp of when the analysis was generated */
 	generatedAt?: string;
 }

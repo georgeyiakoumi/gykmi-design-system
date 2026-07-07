@@ -3,6 +3,8 @@
 	"surface": {
 		"default": { "$value": "{color.neutral.900}", "$type": "color" },
 		"raised": { "$value": "{color.neutral.800}", "$type": "color" },
+		"raised-from": { "$value": "{color.neutral.700}", "$type": "color" },
+		"raised-to": { "$value": "{color.neutral.800}", "$type": "color" },
 		"overlay": { "$value": "{color.neutral.700}", "$type": "color" }
 	},
 	"text": {
@@ -12,7 +14,9 @@
 	},
 	"border": {
 		"default": { "$value": "{color.neutral.700}", "$type": "color" },
-		"strong": { "$value": "{color.neutral.500}", "$type": "color" }
+		"strong": { "$value": "{color.neutral.500}", "$type": "color" },
+		"raised-from": { "$value": "{color.neutral.800}", "$type": "color" },
+		"raised-to": { "$value": "{color.neutral.700}", "$type": "color" }
 	},
 	"action": {
 		"default": { "$value": "{color.blue.500}", "$type": "color" },

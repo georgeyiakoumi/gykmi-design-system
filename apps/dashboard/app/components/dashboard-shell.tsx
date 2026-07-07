@@ -32,6 +32,7 @@ import {
 	Building2,
 	ChevronsUpDown,
 	ClipboardCheck,
+	Download,
 	FileText,
 	History,
 	LogOut,
@@ -210,7 +211,12 @@ export function DashboardShell({
 				<PageHeader
 					breadcrumbs={breadcrumbs}
 					action={
-						<Button variant="secondary" size="sm" onClick={() => setShowExport(true)}>
+						<Button
+							variant="secondary"
+							size="sm"
+							onClick={() => setShowExport(true)}
+							iconLeft={<Download size={16} />}
+						>
 							Export report
 						</Button>
 					}
