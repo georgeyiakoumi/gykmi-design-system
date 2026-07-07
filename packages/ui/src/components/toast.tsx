@@ -4,8 +4,6 @@ import * as ToastPrimitive from "@radix-ui/react-toast";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../lib/cn";
 
-export type ToastVariant = "default" | "success" | "danger";
-
 export const ToastProvider = ToastPrimitive.Provider;
 
 export interface ToastViewportProps extends ComponentPropsWithRef<typeof ToastPrimitive.Viewport> {}
@@ -28,30 +26,21 @@ export const ToastViewport = forwardRef<
 
 ToastViewport.displayName = "ToastViewport";
 
-const toastVariantStyles: Record<ToastVariant, string> = {
-	default: "border-border-weak bg-surface-base text-text-strong",
-	success: "border-success bg-fill-success-weak text-text-success",
-	danger: "border-danger bg-fill-error-weak text-text-error",
-};
-
-export interface ToastProps extends ComponentPropsWithRef<typeof ToastPrimitive.Root> {
-	variant?: ToastVariant;
-}
+export interface ToastProps extends ComponentPropsWithRef<typeof ToastPrimitive.Root> {}
 
 export const Toast = forwardRef<React.ComponentRef<typeof ToastPrimitive.Root>, ToastProps>(
-	({ className, variant = "default", ...props }, ref) => {
+	({ className, ...props }, ref) => {
 		return (
 			<ToastPrimitive.Root
 				ref={ref}
 				className={cn(
-					"group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-xl border p-4 pr-8 shadow-lg",
+					"group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-xl border border-border-weak bg-surface-overlay p-4 pr-8 shadow-lg",
 					"transition-all duration-150",
 					"data-[swipe=cancel]:translate-x-0",
 					"data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)]",
 					"data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]",
 					"data-[state=open]:animate-in data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full",
 					"data-[state=closed]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full",
-					toastVariantStyles[variant],
 					className,
 				)}
 				{...props}
@@ -104,7 +93,7 @@ export const ToastAction = forwardRef<
 			ref={ref}
 			className={cn(
 				"inline-flex h-8 shrink-0 items-center justify-center rounded-md border border-border-weak bg-transparent px-3 text-sm font-medium",
-				"hover:bg-surface-raised",
+				"hover:bg-fill-hover",
 				"focus:outline-none focus:ring-2 focus:ring-border-focus focus:ring-offset-2",
 				"disabled:pointer-events-none disabled:opacity-50",
 				className,

@@ -1,6 +1,6 @@
 "use client";
 
-import { type ComponentPropsWithRef, type ReactNode, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 export type BadgeVariant = "default" | "success" | "danger" | "warning" | "brand" | "info";
@@ -29,8 +29,16 @@ const variantStyles: Record<BadgeVariant, string> = {
 };
 
 const sizeStyles: Record<BadgeSize, { badge: string; icon: string; count: string }> = {
-	default: { badge: "gap-1.5 px-2.5 py-0.5 text-xs", icon: "size-3 [&>svg]:size-3", count: "text-xs" },
-	sm: { badge: "gap-1 px-2 py-px text-[10px]", icon: "size-2.5 [&>svg]:size-2.5", count: "text-[10px]" },
+	default: {
+		badge: "gap-1.5 px-2.5 py-0.5 text-xs",
+		icon: "size-3 [&>svg]:size-3",
+		count: "text-xs",
+	},
+	sm: {
+		badge: "gap-1 px-2 py-px text-[10px]",
+		icon: "size-2.5 [&>svg]:size-2.5",
+		count: "text-[10px]",
+	},
 };
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
@@ -47,7 +55,11 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 				)}
 				{...props}
 			>
-				{icon && <span className={cn("shrink-0", s.icon)} aria-hidden="true">{icon}</span>}
+				{icon && (
+					<span className={cn("shrink-0", s.icon)} aria-hidden="true">
+						{icon}
+					</span>
+				)}
 				{label}
 				{count !== undefined && <BadgeCount count={count} className={s.count} />}
 			</span>

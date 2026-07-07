@@ -52,7 +52,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 			<Text as="h2" variant="heading-xl">
 				Top exposures
 			</Text>
-			<Card>
+			<Card variant="sunken">
 				<CardHeader>
 					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Exposure by counterparty ($M)
@@ -78,7 +78,6 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 									title: "Alerts configured",
 									description:
 										"You will be notified when any top-5 counterparty exceeds 90% utilisation.",
-									variant: "success",
 								})
 							}
 						>
@@ -158,7 +157,6 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 										changed.length > 0
 											? `${changed.length} counterparty limit${changed.length !== 1 ? "s" : ""} adjusted. Pending risk committee approval.`
 											: "No limits were changed.",
-									variant: changed.length > 0 ? "success" : "default",
 								});
 								setShowLimits(false);
 							}}

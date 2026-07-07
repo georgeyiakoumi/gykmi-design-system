@@ -32,7 +32,7 @@ export const ToolbarButton = forwardRef<
 			ref={ref}
 			className={cn(
 				"inline-flex items-center justify-center rounded-sm px-2 py-1.5 text-sm font-medium text-text-strong",
-				"hover:bg-surface-raised",
+				"hover:bg-fill-hover",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus",
 				"disabled:pointer-events-none disabled:opacity-50",
 				className,
@@ -69,9 +69,9 @@ export const ToolbarToggleItem = forwardRef<
 			ref={ref}
 			className={cn(
 				"inline-flex items-center justify-center rounded-sm px-2 py-1.5 text-sm font-medium text-text-weak",
-				"hover:bg-surface-raised hover:text-text-strong",
+				"hover:bg-fill-hover hover:text-text-strong",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus",
-				"data-[state=on]:bg-surface-raised data-[state=on]:text-text-strong",
+				"data-[state=on]:bg-fill-press data-[state=on]:text-text-strong",
 				"disabled:pointer-events-none disabled:opacity-50",
 				className,
 			)}

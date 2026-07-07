@@ -14,7 +14,7 @@ export function HeatmapSection({ data, columnLabels }: HeatmapSectionProps) {
 			<Text as="h2" variant="heading-xl">
 				Exposure by asset class
 			</Text>
-			<Card>
+			<Card variant="sunken">
 				<CardHeader>
 					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Counterparty vs asset class ($M)

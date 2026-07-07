@@ -35,7 +35,7 @@ export const RadioCardsItem = forwardRef<
 			className={cn(
 				"relative flex flex-col items-start gap-2 rounded-lg border border-border-weak bg-surface-base p-4 text-left",
 				"transition-colors",
-				"hover:bg-surface-raised",
+				"hover:bg-fill-hover",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2",
 				"data-[state=checked]:border-border-selected data-[state=checked]:ring-1 data-[state=checked]:ring-action",
 				"disabled:cursor-not-allowed disabled:opacity-50",
@@ -45,9 +45,7 @@ export const RadioCardsItem = forwardRef<
 		>
 			{icon && <span className="text-text-weak">{icon}</span>}
 			<span className="text-sm font-medium text-text-strong">{label}</span>
-			{description && (
-				<span className="text-xs text-text-weak leading-relaxed">{description}</span>
-			)}
+			{description && <span className="text-xs text-text-weak leading-relaxed">{description}</span>}
 		</RadioGroupPrimitive.Item>
 	);
 });

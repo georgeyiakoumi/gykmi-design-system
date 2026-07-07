@@ -40,18 +40,21 @@ export const AnalysisSection = forwardRef<HTMLDivElement, AnalysisSectionProps>(
 	) => {
 		return (
 			<Card
+				variant="sunken"
 				ref={ref}
 				role="region"
 				aria-label={title}
 				aria-busy={status === "streaming" || undefined}
 				data-status={status}
-				className={cn("flex flex-col", status === "streaming" && "border-border-brand-weak", className)}
+				className={cn(
+					"flex flex-col",
+					status === "streaming" && "border-border-brand-weak",
+					className,
+				)}
 				{...props}
 			>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
-						{title}
-					</CardTitle>
+					<CardTitle>{title}</CardTitle>
 					<CardAction>
 						{confidence && <ConfidenceIndicator level={confidence} score={confidenceScore} />}
 						{generatedAt && (

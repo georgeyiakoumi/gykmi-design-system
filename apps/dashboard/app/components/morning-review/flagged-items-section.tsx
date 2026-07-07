@@ -101,7 +101,7 @@ function FlaggedItemCard({
 	onAction: (action: string, item: FlaggedItem) => void;
 }) {
 	return (
-		<Card>
+		<Card variant="sunken">
 			<CardHeader>
 				<StatusBadge status={item.status} />
 				<CardAction>
@@ -174,24 +174,18 @@ const confirmContent: Record<string, { title: string; description: string; actio
 	},
 };
 
-const toastContent: Record<
-	string,
-	{ title: string; description: string; variant?: "default" | "success" | "danger" }
-> = {
+const toastContent: Record<string, { title: string; description: string }> = {
 	acknowledge: {
 		title: "Flag acknowledged",
 		description: "Recorded in the audit trail.",
-		variant: "success",
 	},
 	escalate: {
 		title: "Escalation sent",
 		description: "The risk committee has been notified.",
-		variant: "success",
 	},
 	"sign-off": {
 		title: "Valuation signed off",
 		description: "Your approval has been recorded.",
-		variant: "success",
 	},
 };
 
@@ -219,7 +213,6 @@ export function FlaggedItemsSection({ items }: FlaggedItemsSectionProps) {
 			toast({
 				title: content.title,
 				description: `${confirmDialog.item.description} — ${content.description}`,
-				variant: content.variant,
 			});
 		}
 		setConfirmDialog(null);

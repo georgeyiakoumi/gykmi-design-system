@@ -26,7 +26,7 @@ import { AddSourceDialog } from "./add-source-dialog";
 function DataSourceCard({ source }: { source: DataSource }) {
 	const isStale = source.verified === false;
 	return (
-		<Card className="flex flex-col h-full">
+		<Card variant="sunken" className="flex flex-col h-full">
 			<CardHeader>
 				<div className="flex items-center gap-1.5">
 					{isStale ? (
@@ -79,7 +79,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 				Activity
 			</Text>
 
-			<div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr]">
+			<div className="grid grid-cols-1 gap-12 lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr]">
 				{/* Audit log — no card on mobile, card on desktop */}
 				<div className="flex flex-col gap-2 lg:col-span-1 lg:row-span-1 min-w-0">
 					{/* Mobile: label + bare timeline */}
@@ -94,7 +94,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<AuditTrail entries={auditEntries} />
 					</div>
 					{/* Desktop: card with label inside */}
-					<Card className="hidden lg:flex flex-col min-w-0 h-64 overflow-hidden">
+					<Card variant="sunken" className="hidden lg:flex flex-col min-w-0 h-64 overflow-hidden">
 						<CardHeader>
 							<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 								Audit log
@@ -131,7 +131,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 				</div>
 
 				{/* Desktop: data sources card */}
-				<Card className="hidden lg:flex flex-col overflow-hidden lg:h-64">
+				<Card variant="sunken" className="hidden lg:flex flex-col overflow-hidden lg:h-64">
 					<CardHeader>
 						<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 							Data sources
@@ -162,7 +162,6 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 					toast({
 						title: "Source connected",
 						description: `${source.name} (${source.type.toUpperCase()}) added with ${source.refresh} refresh.`,
-						variant: "success",
 					})
 				}
 			/>

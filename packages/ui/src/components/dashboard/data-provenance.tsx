@@ -42,7 +42,7 @@ function DataSourceItem({
 	const isStale = source.verified === false;
 
 	return (
-		<li className="group/item flex items-center gap-2 rounded-sm pl-3 pr-1 py-1 text-xs transition-colors hover:bg-surface-base">
+		<li className="group/item flex items-center gap-2 rounded-sm pl-3 pr-1 py-1 text-xs transition-colors hover:bg-fill-hover">
 			<div className="flex-1 min-w-0">
 				<span className="font-medium text-text-strong truncate">{source.name}</span>
 				{source.version && <span className="ml-1.5 text-text-weak">v{source.version}</span>}

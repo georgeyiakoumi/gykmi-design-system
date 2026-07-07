@@ -367,7 +367,7 @@ function SidebarGroupAction({
 			data-slot="sidebar-group-action"
 			data-sidebar="group-action"
 			className={cn(
-				"absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-surface-raised hover:text-text-strong",
+				"absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-fill-hover hover:text-text-strong",
 				"after:absolute after:-inset-2 md:after:hidden",
 				"group-data-[collapsible=icon]:hidden",
 				className,
@@ -445,11 +445,11 @@ function SidebarMenuButton({
 			className={cn(
 				"peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left transition-[width,height,padding]",
 				"group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2",
-				"hover:bg-surface-raised hover:text-text-strong",
+				"hover:bg-fill-hover hover:text-text-strong",
 				"active:bg-surface-raised",
 				"disabled:pointer-events-none disabled:opacity-50",
-				"data-[active=true]:bg-surface-raised data-[active=true]:font-medium data-[active=true]:text-text-strong",
-				variant === "outline" && "border border-border-weak shadow-sm hover:bg-surface-raised",
+				"data-[active=true]:bg-fill-press data-[active=true]:font-medium data-[active=true]:text-text-strong",
+				variant === "outline" && "border border-border-weak shadow-sm hover:bg-fill-hover",
 				sizeClasses,
 				"[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
 				className,
@@ -488,7 +488,7 @@ function SidebarMenuAction({
 			data-slot="sidebar-menu-action"
 			data-sidebar="menu-action"
 			className={cn(
-				"absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-surface-raised hover:text-text-strong",
+				"absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-fill-hover hover:text-text-strong",
 				"after:absolute after:-inset-2 md:after:hidden",
 				"group-data-[collapsible=icon]:hidden",
 				showOnHover &&
@@ -578,9 +578,9 @@ function SidebarMenuSubButton({
 			data-size={size}
 			data-active={isActive}
 			className={cn(
-				"flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 hover:bg-surface-raised hover:text-text-strong",
+				"flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 hover:bg-fill-hover hover:text-text-strong",
 				"disabled:pointer-events-none disabled:opacity-50",
-				"data-[active=true]:bg-surface-raised data-[active=true]:text-text-strong",
+				"data-[active=true]:bg-fill-press data-[active=true]:text-text-strong",
 				size === "sm" && "text-xs",
 				size === "md" && "text-sm",
 				"group-data-[collapsible=icon]:hidden",

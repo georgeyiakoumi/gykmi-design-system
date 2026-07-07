@@ -19,7 +19,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function ToastDemo({ variant }: { variant?: "default" | "success" | "danger" }) {
+function ToastDemo() {
 	const [open, setOpen] = useState(false);
 	return (
 		<ToastProvider>
@@ -32,7 +32,7 @@ function ToastDemo({ variant }: { variant?: "default" | "success" | "danger" }) 
 			>
 				Show Toast
 			</Button>
-			<Toast open={open} onOpenChange={setOpen} variant={variant}>
+			<Toast open={open} onOpenChange={setOpen}>
 				<div className="grid gap-1">
 					<ToastTitle>Notification</ToastTitle>
 					<ToastDescription>Something happened.</ToastDescription>
@@ -46,12 +46,4 @@ function ToastDemo({ variant }: { variant?: "default" | "success" | "danger" }) 
 
 export const Default: Story = {
 	render: () => <ToastDemo />,
-};
-
-export const Success: Story = {
-	render: () => <ToastDemo variant="success" />,
-};
-
-export const Danger: Story = {
-	render: () => <ToastDemo variant="danger" />,
 };

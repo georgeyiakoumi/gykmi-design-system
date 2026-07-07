@@ -45,7 +45,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 			<Text as="h2" variant="heading-xl">
 				Exposure trend
 			</Text>
-			<Card>
+			<Card variant="sunken">
 				<CardHeader>
 					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Hawkstone Partners — 7 day
@@ -88,7 +88,6 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 								toast({
 									title: "Alert configured",
 									description: "You will be notified if Hawkstone exposure exceeds 18%.",
-									variant: "success",
 								})
 							}
 						>
@@ -170,7 +169,6 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 									title: "Escalation sent",
 									description:
 										"Hawkstone Partners concentration breach escalated to the risk committee.",
-									variant: "success",
 								})
 							}
 						>

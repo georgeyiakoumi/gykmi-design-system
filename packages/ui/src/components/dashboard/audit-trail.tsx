@@ -96,7 +96,7 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 								<div className="flex items-center w-full">
 									<ActorNode entry={entry} />
 									{index < chronological.length - 1 && (
-										<span className="h-px flex-1 bg-border" aria-hidden="true" />
+										<span className="h-px flex-1 bg-border-weak" aria-hidden="true" />
 									)}
 								</div>
 								<time
@@ -126,7 +126,7 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 									<div className="flex items-center w-full">
 										<ActorWithTooltip entry={entry} />
 										{index < chronological.length - 1 && (
-											<span className="h-px flex-1 bg-border" aria-hidden="true" />
+											<span className="h-px flex-1 bg-border-weak" aria-hidden="true" />
 										)}
 									</div>
 

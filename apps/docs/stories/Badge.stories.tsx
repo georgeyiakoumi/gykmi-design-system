@@ -1,14 +1,7 @@
-import { Badge } from "@gykmi/ui";
 import type { BadgeProps } from "@gykmi/ui";
-import {
-	AlertTriangle,
-	CheckCircle,
-	Circle,
-	Info,
-	Sparkles,
-	XCircle,
-} from "lucide-react";
+import { Badge } from "@gykmi/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { AlertTriangle, CheckCircle, Circle, Info, Sparkles, XCircle } from "lucide-react";
 
 type BadgeStoryArgs = BadgeProps & { showIcon?: boolean };
 
@@ -38,7 +31,9 @@ type Story = StoryObj<BadgeStoryArgs>;
 export const Default: Story = { args: { variant: "default" } };
 export const Success: Story = {
 	args: { variant: "success", label: "Active" },
-	render: ({ showIcon, ...args }) => <Badge {...args} icon={showIcon ? <CheckCircle /> : undefined} />,
+	render: ({ showIcon, ...args }) => (
+		<Badge {...args} icon={showIcon ? <CheckCircle /> : undefined} />
+	),
 };
 export const Danger: Story = {
 	args: { variant: "danger", label: "Error" },
@@ -46,7 +41,9 @@ export const Danger: Story = {
 };
 export const Warning: Story = {
 	args: { variant: "warning", label: "Pending" },
-	render: ({ showIcon, ...args }) => <Badge {...args} icon={showIcon ? <AlertTriangle /> : undefined} />,
+	render: ({ showIcon, ...args }) => (
+		<Badge {...args} icon={showIcon ? <AlertTriangle /> : undefined} />
+	),
 };
 export const Brand: Story = {
 	args: { variant: "brand", label: "New" },

@@ -34,7 +34,7 @@ const variantColors: Record<NonNullable<MetricCardProps["variant"]>, string> = {
 export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
 	({ label, value, context, variant = "default", trend, className, ...props }, ref) => {
 		return (
-			<div ref={ref} className={cn("flex items-center gap-3 px-4 py-3", className)} {...props}>
+			<div ref={ref} className={cn("flex items-center gap-3 px-0 py-3", className)} {...props}>
 				<span className={cn("text-xl font-bold tabular-nums", variantStyles[variant])}>
 					{value}
 				</span>

@@ -34,12 +34,7 @@ export default function CounterpartiesPage() {
 	const nearLimit = typedCounterparties.filter((c) => c.status === "near-limit").length;
 
 	return (
-		<DashboardShell
-			badges={[
-				{ label: "Limit breached", count: breached, variant: "danger" },
-				{ label: "Near limit", count: nearLimit, variant: "warning" },
-			]}
-		>
+		<DashboardShell badges={[{ label: "Near limit", count: nearLimit, variant: "warning" }]}>
 			<MetricsSection
 				counterparties={typedCounterparties}
 				concentration={concentration}

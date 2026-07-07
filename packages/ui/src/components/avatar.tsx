@@ -26,7 +26,11 @@ export const Avatar = forwardRef<React.ComponentRef<typeof AvatarPrimitive.Root>
 			<AvatarSizeContext.Provider value={size}>
 				<AvatarPrimitive.Root
 					ref={ref}
-					className={cn("relative flex shrink-0 overflow-hidden rounded-full border border-border-weak", sizeStyles[size].root, className)}
+					className={cn(
+						"relative flex shrink-0 overflow-hidden rounded-full border border-border-weak",
+						sizeStyles[size].root,
+						className,
+					)}
 					{...props}
 				/>
 			</AvatarSizeContext.Provider>

@@ -19,7 +19,7 @@ export function Toaster({ toasts, onDismiss }: ToasterProps) {
 	return (
 		<ToastProvider>
 			{toasts.map((t) => (
-				<Toast key={t.id} variant={t.variant} onOpenChange={(open) => !open && onDismiss(t.id)}>
+				<Toast key={t.id} onOpenChange={(open) => !open && onDismiss(t.id)}>
 					<div className="flex flex-col gap-1">
 						<ToastTitle>{t.title}</ToastTitle>
 						{t.description && <ToastDescription>{t.description}</ToastDescription>}

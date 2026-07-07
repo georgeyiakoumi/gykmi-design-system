@@ -228,7 +228,7 @@ function DataTableInner<T>(
 							paginatedData.map((row) => (
 								<tr
 									key={getRowKey(row)}
-									className="border-b border-border-weak transition-colors hover:bg-surface-raised"
+									className="border-b border-border-weak transition-colors hover:bg-fill-hover"
 								>
 									{visibleColumns.map((col) => (
 										<td
@@ -256,7 +256,7 @@ function DataTableInner<T>(
 							type="button"
 							disabled={currentPage === 0}
 							onClick={() => setCurrentPage((p) => p - 1)}
-							className="rounded-md border border-border-weak px-2.5 py-1 transition-colors hover:bg-surface-raised disabled:opacity-50 disabled:pointer-events-none"
+							className="rounded-md border border-border-weak px-2.5 py-1 transition-colors hover:bg-fill-hover disabled:opacity-50 disabled:pointer-events-none"
 						>
 							Previous
 						</button>
@@ -264,7 +264,7 @@ function DataTableInner<T>(
 							type="button"
 							disabled={currentPage >= totalPages - 1}
 							onClick={() => setCurrentPage((p) => p + 1)}
-							className="rounded-md border border-border-weak px-2.5 py-1 transition-colors hover:bg-surface-raised disabled:opacity-50 disabled:pointer-events-none"
+							className="rounded-md border border-border-weak px-2.5 py-1 transition-colors hover:bg-fill-hover disabled:opacity-50 disabled:pointer-events-none"
 						>
 							Next
 						</button>

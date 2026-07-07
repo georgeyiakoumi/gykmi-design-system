@@ -221,7 +221,7 @@ export function DashboardShell({
 						</Button>
 					}
 				/>
-				<div className="flex flex-col space-y-8 p-6">
+				<div className="flex flex-col space-y-12 p-12">
 					<PageTitle title={pageLabel} badges={badges} />
 					{children}
 				</div>
@@ -241,7 +241,7 @@ export function DashboardShell({
 			<SettingsSheet
 				open={showSettings}
 				onOpenChange={setShowSettings}
-				onSave={({ title, description }) => toast({ title, description, variant: "success" })}
+				onSave={({ title, description }) => toast({ title, description })}
 			/>
 
 			{/* Export report dialog */}
@@ -252,7 +252,6 @@ export function DashboardShell({
 					toast({
 						title: "Report exported",
 						description: `${sections.length} section${sections.length !== 1 ? "s" : ""} exported as ${format.toUpperCase()}.`,
-						variant: "success",
 					});
 				}}
 			/>

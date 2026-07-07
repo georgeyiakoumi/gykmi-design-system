@@ -34,7 +34,7 @@ export default function DashboardPage() {
 				{
 					label: "Sign-off required",
 					count: highPriority,
-					variant: "default",
+					variant: "danger",
 					href: "#flagged-items",
 				},
 			]}

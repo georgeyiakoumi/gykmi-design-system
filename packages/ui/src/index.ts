@@ -37,7 +37,13 @@ export {
 	AlertDialogTrigger,
 } from "./components/alert-dialog";
 export { AspectRatio } from "./components/aspect-ratio";
-export type { AvatarFallbackProps, AvatarIconProps, AvatarImageProps, AvatarProps, AvatarSize } from "./components/avatar";
+export type {
+	AvatarFallbackProps,
+	AvatarIconProps,
+	AvatarImageProps,
+	AvatarProps,
+	AvatarSize,
+} from "./components/avatar";
 export { Avatar, AvatarFallback, AvatarIcon, AvatarImage } from "./components/avatar";
 export type { BadgeProps, BadgeVariant } from "./components/badge";
 export { Badge } from "./components/badge";
@@ -62,6 +68,7 @@ export type {
 	CardHeaderProps,
 	CardProps,
 	CardTitleProps,
+	CardVariant,
 } from "./components/card";
 export {
 	Card,
@@ -304,7 +311,6 @@ export type {
 	ToastDescriptionProps,
 	ToastProps,
 	ToastTitleProps,
-	ToastVariant,
 	ToastViewportProps,
 } from "./components/toast";
 export {

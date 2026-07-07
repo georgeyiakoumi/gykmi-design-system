@@ -136,7 +136,7 @@ function CounterpartyCard({
 	onAction: (action: string, item: Counterparty) => void;
 }) {
 	return (
-		<Card>
+		<Card variant="sunken">
 			<CardHeader>
 				<div className="flex items-center gap-2">
 					<StatusBadge status={item.status} />
@@ -417,7 +417,6 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 					toast({
 						title: "Limit updated",
 						description: `${name} limit set to $${newLimit.toFixed(1)}M. Pending risk committee approval.`,
-						variant: "success",
 					})
 				}
 			/>
@@ -444,7 +443,6 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 								toast({
 									title: "Escalation sent",
 									description: `${escalateDialog?.name} limit breach escalated to the risk committee.`,
-									variant: "success",
 								})
 							}
 						>

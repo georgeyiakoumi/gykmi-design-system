@@ -38,9 +38,11 @@ const variantStyles: Record<ButtonVariant, string> = {
 		"hover:opacity-90",
 		"active:opacity-80",
 	].join(" "),
-	ghost: ["bg-transparent text-text-strong", "hover:bg-surface-raised", "active:bg-surface-overlay"].join(
-		" ",
-	),
+	ghost: [
+		"bg-transparent text-text-strong",
+		"hover:bg-fill-hover",
+		"active:bg-surface-overlay",
+	].join(" "),
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

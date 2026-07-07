@@ -19,7 +19,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 					"placeholder:text-text-weak",
 					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2",
 					"disabled:cursor-not-allowed disabled:opacity-50",
-					error ? "border-danger" : "border-border",
+					error ? "border-border-error-strong" : "border-border-weak",
 					className,
 				)}
 				{...props}
