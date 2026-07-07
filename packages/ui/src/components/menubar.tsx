@@ -39,8 +39,8 @@ export const MenubarTrigger = forwardRef<
 			ref={ref}
 			className={cn(
 				"flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium text-text-strong outline-none",
-				"focus:bg-surface-raised focus:text-text",
-				"data-[state=open]:bg-surface-raised data-[state=open]:text-text",
+				"focus:bg-surface-raised focus:text-text-strong",
+				"data-[state=open]:bg-surface-raised data-[state=open]:text-text-strong",
 				className,
 			)}
 			{...props}
@@ -91,7 +91,7 @@ export const MenubarItem = forwardRef<
 			ref={ref}
 			className={cn(
 				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text-strong outline-none",
-				"focus:bg-surface-raised focus:text-text",
+				"focus:bg-surface-raised focus:text-text-strong",
 				"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 				inset && "pl-8",
 				className,

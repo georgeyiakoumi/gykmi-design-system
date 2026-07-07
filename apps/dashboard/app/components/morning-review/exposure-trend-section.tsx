@@ -132,7 +132,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 							{ instrument: "Interest Rate Swap", notional: "$0.7M", pct: "1.8%" },
 						].map((pos) => (
 							<div key={pos.instrument} className="flex items-center justify-between text-sm">
-								<span className="text-text">{pos.instrument}</span>
+								<span className="text-text-strong">{pos.instrument}</span>
 								<div className="flex items-center gap-4">
 									<span className="text-text-weak">{pos.notional}</span>
 									<span className="font-medium text-text-strong tabular-nums w-12 text-right">
@@ -141,8 +141,8 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 								</div>
 							</div>
 						))}
-						<div className="flex items-center justify-between text-sm font-semibold border-t border-border-weak-weak pt-3">
-							<span className="text-text">Total exposure</span>
+						<div className="flex items-center justify-between text-sm font-semibold border-t border-border-weak pt-3">
+							<span className="text-text-strong">Total exposure</span>
 							<div className="flex items-center gap-4">
 								<span className="text-text-weak">$7.0M</span>
 								<span className="text-text-error tabular-nums w-12 text-right">17.4%</span>

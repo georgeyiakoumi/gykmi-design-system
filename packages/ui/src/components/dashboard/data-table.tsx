@@ -170,7 +170,7 @@ function DataTableInner<T>(
 										"px-4 py-3 text-xs font-semibold uppercase tracking-wider text-text-weak",
 										alignClass(col.align),
 										col.width,
-										col.sortable && "cursor-pointer select-none hover:text-text",
+										col.sortable && "cursor-pointer select-none hover:text-text-strong",
 									)}
 									onClick={col.sortable ? () => handleSort(col.key) : undefined}
 									aria-sort={
@@ -206,7 +206,7 @@ function DataTableInner<T>(
 					<tbody>
 						{loading &&
 							Array.from({ length: skeletonRows }).map((_, i) => (
-								<tr key={`skeleton-${i.toString()}`} className="border-b border-border-weak-weak">
+								<tr key={`skeleton-${i.toString()}`} className="border-b border-border-weak">
 									{visibleColumns.map((col) => (
 										<td key={col.key} className={cn("px-4 py-3", alignClass(col.align))}>
 											<div className="h-4 animate-pulse rounded bg-surface-raised" />
@@ -228,7 +228,7 @@ function DataTableInner<T>(
 							paginatedData.map((row) => (
 								<tr
 									key={getRowKey(row)}
-									className="border-b border-border-weak-weak transition-colors hover:bg-surface-raised"
+									className="border-b border-border-weak transition-colors hover:bg-surface-raised"
 								>
 									{visibleColumns.map((col) => (
 										<td

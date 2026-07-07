@@ -225,11 +225,11 @@ export function DashboardShell({
 					<PageTitle title={pageLabel} badges={badges} />
 					{children}
 				</div>
-				<footer className="border-t border-border-weak-weak px-6 py-3 text-xs text-text-weak">
+				<footer className="border-t border-border-weak px-6 py-3 text-xs text-text-weak">
 					Demo only — fictional data, no real financial instruments or counterparties. Part of the{" "}
 					<a
 						href="https://github.com/georgeyiakoumi/gykmi-design-system"
-						className="underline hover:text-text"
+						className="underline hover:text-text-strong"
 					>
 						GYKMI Design System
 					</a>

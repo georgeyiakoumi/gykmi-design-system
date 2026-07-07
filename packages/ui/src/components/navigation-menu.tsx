@@ -52,8 +52,8 @@ export const NavigationMenuTrigger = forwardRef<
 			className={cn(
 				"group inline-flex h-10 w-max items-center justify-center rounded-md bg-surface-base px-4 py-2 text-sm font-medium text-text-strong",
 				"transition-colors duration-150",
-				"hover:bg-surface-raised hover:text-text",
-				"focus:bg-surface-raised focus:text-text focus:outline-none",
+				"hover:bg-surface-raised hover:text-text-strong",
+				"focus:bg-surface-raised focus:text-text-strong focus:outline-none",
 				"disabled:pointer-events-none disabled:opacity-50",
 				"data-[state=open]:bg-surface-raised",
 				className,

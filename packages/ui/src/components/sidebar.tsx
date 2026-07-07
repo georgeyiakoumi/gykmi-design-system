@@ -134,7 +134,7 @@ function Sidebar({
 			<div
 				data-slot="sidebar"
 				className={cn(
-					"flex h-full w-[var(--sidebar-width)] flex-col border-r border-border-weak-weak bg-surface-base text-text-strong",
+					"flex h-full w-[var(--sidebar-width)] flex-col border-r border-border-weak bg-surface-base text-text-strong",
 					className,
 				)}
 				{...props}
@@ -194,7 +194,7 @@ function Sidebar({
 						: "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
 					variant === "floating" || variant === "inset"
 						? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+16px+2px)]"
-						: "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)] group-data-[side=left]:border-r group-data-[side=right]:border-l border-border-weak-weak",
+						: "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)] group-data-[side=left]:border-r group-data-[side=right]:border-l border-border-weak",
 					className,
 				)}
 				{...props}
@@ -367,7 +367,7 @@ function SidebarGroupAction({
 			data-slot="sidebar-group-action"
 			data-sidebar="group-action"
 			className={cn(
-				"absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-surface-raised hover:text-text",
+				"absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-surface-raised hover:text-text-strong",
 				"after:absolute after:-inset-2 md:after:hidden",
 				"group-data-[collapsible=icon]:hidden",
 				className,
@@ -445,10 +445,10 @@ function SidebarMenuButton({
 			className={cn(
 				"peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left transition-[width,height,padding]",
 				"group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2",
-				"hover:bg-surface-raised hover:text-text",
+				"hover:bg-surface-raised hover:text-text-strong",
 				"active:bg-surface-raised",
 				"disabled:pointer-events-none disabled:opacity-50",
-				"data-[active=true]:bg-surface-raised data-[active=true]:font-medium data-[active=true]:text-text",
+				"data-[active=true]:bg-surface-raised data-[active=true]:font-medium data-[active=true]:text-text-strong",
 				variant === "outline" && "border border-border-weak shadow-sm hover:bg-surface-raised",
 				sizeClasses,
 				"[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
@@ -488,7 +488,7 @@ function SidebarMenuAction({
 			data-slot="sidebar-menu-action"
 			data-sidebar="menu-action"
 			className={cn(
-				"absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-surface-raised hover:text-text",
+				"absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-text-weak hover:bg-surface-raised hover:text-text-strong",
 				"after:absolute after:-inset-2 md:after:hidden",
 				"group-data-[collapsible=icon]:hidden",
 				showOnHover &&
@@ -543,7 +543,7 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
 			data-slot="sidebar-menu-sub"
 			data-sidebar="menu-sub"
 			className={cn(
-				"mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-border-weak-weak px-2.5 py-0.5",
+				"mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-border-weak px-2.5 py-0.5",
 				"group-data-[collapsible=icon]:hidden",
 				className,
 			)}
@@ -578,9 +578,9 @@ function SidebarMenuSubButton({
 			data-size={size}
 			data-active={isActive}
 			className={cn(
-				"flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 hover:bg-surface-raised hover:text-text",
+				"flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 hover:bg-surface-raised hover:text-text-strong",
 				"disabled:pointer-events-none disabled:opacity-50",
-				"data-[active=true]:bg-surface-raised data-[active=true]:text-text",
+				"data-[active=true]:bg-surface-raised data-[active=true]:text-text-strong",
 				size === "sm" && "text-xs",
 				size === "md" && "text-sm",
 				"group-data-[collapsible=icon]:hidden",

@@ -23,7 +23,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ breadcrumbs, action }: PageHeaderProps) {
 	return (
-		<div className="sticky top-0 z-20 flex items-center justify-between bg-surface-base border-b border-border-weak-weak pl-6 pr-4 py-2">
+		<div className="sticky top-0 z-20 flex items-center justify-between bg-surface-base border-b border-border-weak pl-6 pr-4 py-2">
 			<div className="flex items-center gap-2">
 				<SidebarTrigger className="md:hidden" />
 				<Breadcrumb>

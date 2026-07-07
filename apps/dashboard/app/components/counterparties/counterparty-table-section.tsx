@@ -67,7 +67,7 @@ function sparklineColor(status: Counterparty["status"]) {
 }
 
 function utilisationColor(utilisation: number) {
-	return utilisation > 100 ? "text-danger" : utilisation > 85 ? "text-warning" : "text-text";
+	return utilisation > 100 ? "text-danger" : utilisation > 85 ? "text-warning" : "text-text-strong";
 }
 
 // ─── DUMMY POSITIONS ─────────────────────────────────────────────────────────
@@ -391,7 +391,7 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 					<div className="mt-4 space-y-3">
 						{positions.map((pos) => (
 							<div key={pos.instrument} className="flex items-center justify-between text-sm">
-								<span className="text-text">{pos.instrument}</span>
+								<span className="text-text-strong">{pos.instrument}</span>
 								<div className="flex items-center gap-4">
 									<span className="text-text-weak">{pos.notional}</span>
 									<span className="font-medium text-text-strong tabular-nums w-12 text-right">
@@ -400,8 +400,8 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 								</div>
 							</div>
 						))}
-						<div className="flex items-center justify-between text-sm font-semibold border-t border-border-weak-weak pt-3">
-							<span className="text-text">Total exposure</span>
+						<div className="flex items-center justify-between text-sm font-semibold border-t border-border-weak pt-3">
+							<span className="text-text-strong">Total exposure</span>
 							<span className="tabular-nums">${positionsDialog?.exposure.toFixed(1)}M</span>
 						</div>
 					</div>

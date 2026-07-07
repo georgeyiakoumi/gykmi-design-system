@@ -31,10 +31,10 @@ export const Toggle = forwardRef<React.ComponentRef<typeof TogglePrimitive.Root>
 				className={cn(
 					"inline-flex items-center justify-center rounded-md text-sm font-medium text-text-weak",
 					"ring-offset-surface-base transition-colors duration-150",
-					"hover:bg-surface-raised hover:text-text",
+					"hover:bg-surface-raised hover:text-text-strong",
 					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2",
 					"disabled:pointer-events-none disabled:opacity-50",
-					"data-[state=on]:bg-surface-raised data-[state=on]:text-text",
+					"data-[state=on]:bg-surface-raised data-[state=on]:text-text-strong",
 					variantStyles[variant],
 					sizeStyles[size],
 					className,

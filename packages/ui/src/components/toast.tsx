@@ -127,7 +127,7 @@ export const ToastClose = forwardRef<
 			ref={ref}
 			className={cn(
 				"absolute right-2 top-2 rounded-md p-1 opacity-0 transition-opacity",
-				"hover:text-text",
+				"hover:text-text-strong",
 				"focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-border-focus",
 				"group-hover:opacity-100",
 				className,
