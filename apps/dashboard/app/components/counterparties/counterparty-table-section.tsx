@@ -13,11 +13,11 @@ import {
 	Badge,
 	Button,
 	Card,
-	Carousel,
-	CarouselItem,
 	CardAction,
 	CardContent,
 	CardHeader,
+	Carousel,
+	CarouselItem,
 	DataTable,
 	Dialog,
 	DialogContent,
@@ -170,14 +170,29 @@ function CounterpartyCard({
 					</div>
 				</div>
 				<div className="flex flex-col gap-2 pt-1">
-					<Button variant="secondary" size="sm" iconLeft={<Eye size={14} />} onClick={() => onAction("view-positions", item)}>
+					<Button
+						variant="secondary"
+						size="sm"
+						iconLeft={<Eye size={14} />}
+						onClick={() => onAction("view-positions", item)}
+					>
 						View positions
 					</Button>
-					<Button variant="secondary" size="sm" iconLeft={<SlidersHorizontal size={14} />} onClick={() => onAction("adjust-limit", item)}>
+					<Button
+						variant="secondary"
+						size="sm"
+						iconLeft={<SlidersHorizontal size={14} />}
+						onClick={() => onAction("adjust-limit", item)}
+					>
 						Adjust limit
 					</Button>
 					{item.status === "breached" && (
-						<Button variant="default" size="sm" iconLeft={<ArrowUpRight size={14} />} onClick={() => onAction("escalate", item)}>
+						<Button
+							variant="default"
+							size="sm"
+							iconLeft={<ArrowUpRight size={14} />}
+							onClick={() => onAction("escalate", item)}
+						>
 							Escalate
 						</Button>
 					)}

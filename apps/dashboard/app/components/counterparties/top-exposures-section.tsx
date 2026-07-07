@@ -84,7 +84,12 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						>
 							Set alerts
 						</Button>
-						<Button variant="secondary" size="sm" iconLeft={<SlidersHorizontal size={14} />} onClick={() => setShowLimits(true)}>
+						<Button
+							variant="secondary"
+							size="sm"
+							iconLeft={<SlidersHorizontal size={14} />}
+							onClick={() => setShowLimits(true)}
+						>
 							Adjust limits
 						</Button>
 					</div>

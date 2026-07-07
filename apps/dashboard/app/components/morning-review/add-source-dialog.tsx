@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
 	Button,
 	Dialog,
@@ -20,6 +19,7 @@ import {
 	Separator,
 } from "@gykmi/ui";
 import { Database, FileUp, Globe, Link2, Plus } from "lucide-react";
+import { useState } from "react";
 
 interface AddSourceDialogProps {
 	open: boolean;
@@ -55,17 +55,25 @@ export function AddSourceDialog({ open, onOpenChange, onAdd }: AddSourceDialogPr
 		onOpenChange(false);
 	}
 
-	const urlLabel = type === "api" ? "Endpoint URL" : type === "database" ? "Connection string" : "File path or URL";
-	const urlPlaceholder = type === "api" ? "https://api.bloomberg.com/v1/feed" : type === "database" ? "postgresql://host:5432/db" : "/uploads/filings-2026.csv";
+	const urlLabel =
+		type === "api"
+			? "Endpoint URL"
+			: type === "database"
+				? "Connection string"
+				: "File path or URL";
+	const urlPlaceholder =
+		type === "api"
+			? "https://api.bloomberg.com/v1/feed"
+			: type === "database"
+				? "postgresql://host:5432/db"
+				: "/uploads/filings-2026.csv";
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="space-y-6">
 				<DialogHeader>
 					<DialogTitle>Add data source</DialogTitle>
-					<DialogDescription>
-						Connect a new data source to the risk platform.
-					</DialogDescription>
+					<DialogDescription>Connect a new data source to the risk platform.</DialogDescription>
 				</DialogHeader>
 
 				<div className="flex flex-col gap-3">

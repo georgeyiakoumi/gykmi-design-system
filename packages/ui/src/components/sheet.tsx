@@ -101,11 +101,7 @@ export interface SheetFooterProps extends ComponentPropsWithRef<"div"> {}
 
 export const SheetFooter = forwardRef<HTMLDivElement, SheetFooterProps>(
 	({ className, ...props }, ref) => (
-		<div
-			ref={ref}
-			className={cn("mt-auto pt-4", className)}
-			{...props}
-		/>
+		<div ref={ref} className={cn("mt-auto pt-4", className)} {...props} />
 	),
 );
 SheetFooter.displayName = "SheetFooter";

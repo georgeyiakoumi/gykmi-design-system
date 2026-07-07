@@ -6,7 +6,16 @@ import { cn } from "../lib/cn";
 export interface CardProps extends ComponentPropsWithRef<"div"> {}
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => {
-	return <div ref={ref} className={cn("rounded-lg bg-gradient-to-b from-surface-raised-from to-surface-raised-to border border-t-border-raised-from border-b-border-raised-to border-x-border-raised-from/50", className)} {...props} />;
+	return (
+		<div
+			ref={ref}
+			className={cn(
+				"rounded-lg bg-gradient-to-b from-surface-raised-from to-surface-raised-to border border-t-border-raised-from border-b-border-raised-to border-x-border-raised-from/50",
+				className,
+			)}
+			{...props}
+		/>
+	);
 });
 
 Card.displayName = "Card";

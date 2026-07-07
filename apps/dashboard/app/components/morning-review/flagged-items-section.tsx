@@ -13,11 +13,11 @@ import {
 	Badge,
 	Button,
 	Card,
-	Carousel,
-	CarouselItem,
 	CardAction,
 	CardContent,
 	CardHeader,
+	Carousel,
+	CarouselItem,
 	ConfidenceIndicator,
 	DataTable,
 	DropdownMenu,
@@ -117,16 +117,31 @@ function FlaggedItemCard({
 				<div className="flex flex-col gap-2 pt-1">
 					{item.status === "needs-review" && (
 						<>
-							<Button variant="secondary" size="sm" iconLeft={<Check size={14} />} onClick={() => onAction("acknowledge", item)}>
+							<Button
+								variant="secondary"
+								size="sm"
+								iconLeft={<Check size={14} />}
+								onClick={() => onAction("acknowledge", item)}
+							>
 								Acknowledge
 							</Button>
-							<Button variant="secondary" size="sm" iconLeft={<ArrowUpRight size={14} />} onClick={() => onAction("escalate", item)}>
+							<Button
+								variant="secondary"
+								size="sm"
+								iconLeft={<ArrowUpRight size={14} />}
+								onClick={() => onAction("escalate", item)}
+							>
 								Escalate
 							</Button>
 						</>
 					)}
 					{item.confidence === "uncertain" && (
-						<Button variant="default" size="sm" iconLeft={<PenLine size={14} />} onClick={() => onAction("sign-off", item)}>
+						<Button
+							variant="default"
+							size="sm"
+							iconLeft={<PenLine size={14} />}
+							onClick={() => onAction("sign-off", item)}
+						>
 							Sign off
 						</Button>
 					)}

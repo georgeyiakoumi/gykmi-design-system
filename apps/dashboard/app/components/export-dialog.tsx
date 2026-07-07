@@ -98,7 +98,9 @@ export function ExportDialog({ open, onOpenChange, onExport }: ExportDialogProps
 					<Button variant="secondary" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>
-					<Button onClick={handleExport} iconLeft={<Download size={16} />}>Export</Button>
+					<Button onClick={handleExport} iconLeft={<Download size={16} />}>
+						Export
+					</Button>
 				</div>
 			</DialogContent>
 		</Dialog>

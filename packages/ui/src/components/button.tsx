@@ -1,7 +1,7 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
-import { type ComponentPropsWithRef, type ReactNode, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 export type ButtonVariant = "default" | "secondary" | "danger" | "ghost";
@@ -58,7 +58,18 @@ const iconSizeStyles: Record<ButtonSize, string> = {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
-		{ variant = "default", size = "md", asChild, loading, disabled, iconLeft, iconRight, className, children, ...props },
+		{
+			variant = "default",
+			size = "md",
+			asChild,
+			loading,
+			disabled,
+			iconLeft,
+			iconRight,
+			className,
+			children,
+			...props
+		},
 		ref,
 	) => {
 		const Comp = asChild ? Slot : "button";
@@ -98,9 +109,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					</>
 				) : (
 					<>
-						{iconLeft && <span className={cn("shrink-0", iconClass)} aria-hidden="true">{iconLeft}</span>}
+						{iconLeft && (
+							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+								{iconLeft}
+							</span>
+						)}
 						{children}
-						{iconRight && <span className={cn("shrink-0", iconClass)} aria-hidden="true">{iconRight}</span>}
+						{iconRight && (
+							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+								{iconRight}
+							</span>
+						)}
 					</>
 				)}
 			</Comp>

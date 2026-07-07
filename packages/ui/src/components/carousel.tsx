@@ -1,6 +1,6 @@
 "use client";
 
-import { type ComponentPropsWithRef, type ReactNode, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 export interface CarouselProps extends ComponentPropsWithRef<"div"> {
@@ -13,16 +13,20 @@ export interface CarouselProps extends ComponentPropsWithRef<"div"> {
 }
 
 export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
-	({ itemWidth = "80vw", itemMaxWidth = "max-w-xs", gap = "gap-3", className, children, ...props }, ref) => {
+	(
+		{ itemWidth = "80vw", itemMaxWidth = "max-w-xs", gap = "gap-3", className, children, ...props },
+		ref,
+	) => {
 		return (
 			<div
 				ref={ref}
-				className={cn("overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6 pb-6 scroll-px-6", className)}
+				className={cn(
+					"overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6 pb-6 scroll-px-6",
+					className,
+				)}
 				{...props}
 			>
-				<div className={cn("flex w-max", gap)}>
-					{children}
-				</div>
+				<div className={cn("flex w-max", gap)}>{children}</div>
 			</div>
 		);
 	},

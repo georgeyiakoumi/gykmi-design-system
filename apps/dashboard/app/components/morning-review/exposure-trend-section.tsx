@@ -94,10 +94,20 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						>
 							Set alert
 						</Button>
-						<Button variant="secondary" size="sm" iconLeft={<Eye size={14} />} onClick={() => setShowPositions(true)}>
+						<Button
+							variant="secondary"
+							size="sm"
+							iconLeft={<Eye size={14} />}
+							onClick={() => setShowPositions(true)}
+						>
 							View positions
 						</Button>
-						<Button variant="default" size="sm" iconLeft={<ArrowUpRight size={14} />} onClick={() => setShowEscalate(true)}>
+						<Button
+							variant="default"
+							size="sm"
+							iconLeft={<ArrowUpRight size={14} />}
+							onClick={() => setShowEscalate(true)}
+						>
 							Escalate
 						</Button>
 					</div>

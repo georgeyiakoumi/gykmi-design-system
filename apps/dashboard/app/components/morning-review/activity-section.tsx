@@ -1,19 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import type { AuditEntry, DataSource } from "@gykmi/ui";
 import {
 	AuditTrail,
 	Badge,
 	Button,
 	Card,
-	Carousel,
-	CarouselItem,
 	CardAction,
 	CardContent,
 	CardFooter,
 	CardHeader,
 	CardTitle,
+	Carousel,
+	CarouselItem,
 	DataProvenance,
 	ScrollArea,
 	Text,
@@ -21,6 +20,7 @@ import {
 	useToast,
 } from "@gykmi/ui";
 import { Eye, Plus, RefreshCw, X } from "lucide-react";
+import { useState } from "react";
 import { AddSourceDialog } from "./add-source-dialog";
 
 function DataSourceCard({ source }: { source: DataSource }) {
@@ -29,10 +29,16 @@ function DataSourceCard({ source }: { source: DataSource }) {
 		<Card className="flex flex-col h-full">
 			<CardHeader>
 				<div className="flex items-center gap-1.5">
-					{isStale ? <Badge variant="warning" label="Stale" /> : <Badge variant="default" label="Connected" />}
+					{isStale ? (
+						<Badge variant="warning" label="Stale" />
+					) : (
+						<Badge variant="default" label="Connected" />
+					)}
 				</div>
 				<CardAction>
-					<span className="text-xs text-text-muted">{source.version ? `v${source.version}` : ""}</span>
+					<span className="text-xs text-text-muted">
+						{source.version ? `v${source.version}` : ""}
+					</span>
 				</CardAction>
 			</CardHeader>
 			<CardContent className="flex-1 flex flex-col gap-1">
@@ -45,7 +51,12 @@ function DataSourceCard({ source }: { source: DataSource }) {
 				<Button variant="secondary" size="sm" className="w-full" iconLeft={<RefreshCw size={14} />}>
 					Refresh
 				</Button>
-				<Button variant="ghost" size="sm" className="w-full text-text-muted" iconLeft={<X size={14} />}>
+				<Button
+					variant="ghost"
+					size="sm"
+					className="w-full text-text-muted"
+					iconLeft={<X size={14} />}
+				>
 					Remove
 				</Button>
 			</CardFooter>
@@ -100,7 +111,13 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<Text as="h3" variant="label-xs" className="text-text-muted uppercase tracking-wider">
 							Data sources
 						</Text>
-						<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source" onClick={() => setShowAddSource(true)}>
+						<Button
+							variant="ghost"
+							size="sm"
+							className="h-5 w-5 p-0"
+							aria-label="Add data source"
+							onClick={() => setShowAddSource(true)}
+						>
 							<Plus size={14} />
 						</Button>
 					</div>
