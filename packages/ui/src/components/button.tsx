@@ -24,20 +24,19 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 
 const variantStyles: Record<ButtonVariant, string> = {
 	default: [
-		"bg-gradient-to-b from-action to-fill-brand-strong text-text-inverse-strong",
-		"shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15)]",
-		"hover:from-fill-brand-strong hover:to-fill-brand-strong",
-		"active:from-fill-brand-strong active:to-fill-brand-strong active:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.2)]",
+		"bg-fill-brand-strong text-text-inverse-strong",
+		"hover:opacity-90",
+		"active:opacity-80",
 	].join(" "),
 	secondary: [
-		"text-text-strong border border-border-weak",
-		"hover:from-surface-overlay hover:to-surface-overlay hover:border-border-strong",
-		"active:from-surface-raised-to active:to-surface-overlay",
+		"bg-surface-raised text-text-strong border border-border-weak",
+		"hover:bg-surface-overlay hover:border-border-strong",
+		"active:bg-surface-base",
 	].join(" "),
 	danger: [
-		"bg-gradient-to-b from-danger to-fill-error-strong text-text-inverse-strong",
-		"hover:from-fill-error-strong hover:to-fill-error-strong",
-		"active:from-fill-error-strong active:to-fill-error-strong",
+		"bg-fill-error-strong text-text-inverse-strong",
+		"hover:opacity-90",
+		"active:opacity-80",
 	].join(" "),
 	ghost: ["bg-transparent text-text-strong", "hover:bg-surface-raised", "active:bg-surface-overlay"].join(
 		" ",

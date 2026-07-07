@@ -10,7 +10,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({ className, ...props
 		<div
 			ref={ref}
 			className={cn(
-				"rounded-lg bg-gradient-to-b from-surface-raised to-surface-overlay border border-t-border-weak border-b-border-weak border-x-border-weak/50",
+				"rounded-lg bg-surface-raised border border-border-weak",
 				className,
 			)}
 			{...props}
