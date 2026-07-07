@@ -91,7 +91,7 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 						{chronological.map((entry, index) => (
 							<div
 								key={entry.id}
-								className="flex flex-col items-start min-w-48 max-w-56 snap-start"
+								className="flex flex-col items-start min-w-48 max-w-64 snap-start"
 							>
 								<div className="flex items-center w-full">
 									<ActorNode entry={entry} />
@@ -101,12 +101,12 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 								</div>
 								<time
 									dateTime={entry.timestamp}
-									className="mt-2 text-[10px] text-text-muted tabular-nums"
+									className="mt-2 text-xs text-text-muted tabular-nums"
 								>
 									{formatTime(entry.timestamp)}
 								</time>
 								<div className="mt-1.5 pr-4 flex flex-col gap-1">
-									<p className="text-xs font-medium text-text">{entry.action}</p>
+									<p className="text-sm font-medium text-text">{entry.action}</p>
 									{entry.detail && (
 										<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
 									)}

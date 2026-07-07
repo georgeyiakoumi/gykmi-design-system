@@ -28,31 +28,25 @@ function DataSourceCard({ source }: { source: DataSource }) {
 	return (
 		<Card className="flex flex-col h-full">
 			<CardHeader>
-				<div className="flex flex-col gap-2">
-					<div className="flex items-center gap-1.5">
-						{source.version && <Badge variant="default" label={`v${source.version}`} />}
-						{isStale && <Badge variant="warning" label="Stale" />}
-					</div>
-					<CardTitle className="text-sm">{source.name}</CardTitle>
+				<div className="flex items-center gap-1.5">
+					{isStale ? <Badge variant="warning" label="Stale" /> : <Badge variant="default" label="Connected" />}
 				</div>
 				<CardAction>
-					<Button
-						variant="ghost"
-						size="sm"
-						className="h-5 w-5 p-0"
-						aria-label={`Remove ${source.name}`}
-					>
-						<X size={12} />
-					</Button>
+					<span className="text-xs text-text-muted">{source.version ? `v${source.version}` : ""}</span>
 				</CardAction>
 			</CardHeader>
-			<CardContent className="flex-1" />
-			<CardFooter className="justify-between">
-				<Button variant="secondary" size="sm" iconLeft={<Eye size={14} />}>
+			<CardContent className="flex-1 flex flex-col gap-1">
+				<p className="text-sm font-medium text-text">{source.name}</p>
+			</CardContent>
+			<CardFooter className="flex-col gap-2">
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<Eye size={14} />}>
 					View
 				</Button>
-				<Button variant="secondary" size="sm" iconLeft={<RefreshCw size={14} />}>
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<RefreshCw size={14} />}>
 					Refresh
+				</Button>
+				<Button variant="ghost" size="sm" className="w-full text-text-muted" iconLeft={<X size={14} />}>
+					Remove
 				</Button>
 			</CardFooter>
 		</Card>
@@ -82,7 +76,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<Text
 							as="h3"
 							variant="label-xs"
-							className="text-text-muted uppercase tracking-wider mb-2"
+							className="text-text-muted uppercase tracking-wider mb-4"
 						>
 							Audit log
 						</Text>
