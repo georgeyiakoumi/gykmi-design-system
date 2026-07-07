@@ -13,6 +13,8 @@ import {
 	Badge,
 	Button,
 	Card,
+	Carousel,
+	CarouselItem,
 	CardAction,
 	CardContent,
 	CardHeader,
@@ -343,15 +345,13 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 			</Text>
 
 			{/* Mobile: horizontal carousel */}
-			<div className="lg:hidden overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6">
-				<div className="flex gap-3 w-max">
-					{data.map((item) => (
-						<div key={item.id} className="w-[80vw] max-w-xs snap-start shrink-0">
-							<CounterpartyCard item={item} onAction={handleAction} />
-						</div>
-					))}
-				</div>
-			</div>
+			<Carousel className="lg:hidden">
+				{data.map((item) => (
+					<CarouselItem key={item.id} width="80vw" maxWidth="max-w-xs">
+						<CounterpartyCard item={item} onAction={handleAction} />
+					</CarouselItem>
+				))}
+			</Carousel>
 
 			{/* Desktop: table */}
 			<div className="hidden lg:block">

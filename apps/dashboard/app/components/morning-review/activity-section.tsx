@@ -7,6 +7,8 @@ import {
 	Badge,
 	Button,
 	Card,
+	Carousel,
+	CarouselItem,
 	CardAction,
 	CardContent,
 	CardFooter,
@@ -108,15 +110,13 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 							<Plus size={14} />
 						</Button>
 					</div>
-					<div className="overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6">
-						<div className="flex gap-3 w-max">
-							{dataSources.map((source) => (
-								<div key={source.name} className="w-[60vw] max-w-[200px] snap-start shrink-0">
-									<DataSourceCard source={source} />
-								</div>
-							))}
-						</div>
-					</div>
+					<Carousel>
+						{dataSources.map((source) => (
+							<CarouselItem key={source.name} width="60vw" maxWidth="max-w-[200px]">
+								<DataSourceCard source={source} />
+							</CarouselItem>
+						))}
+					</Carousel>
 				</div>
 
 				{/* Desktop: data sources card */}

@@ -72,6 +72,8 @@ export {
 	CardHeader,
 	CardTitle,
 } from "./components/card";
+export type { CarouselItemProps, CarouselProps } from "./components/carousel";
+export { Carousel, CarouselItem } from "./components/carousel";
 // Charts (visx)
 export type { BarChartProps } from "./components/charts/bar-chart";
 export { BarChart } from "./components/charts/bar-chart";
