@@ -1,5 +1,34 @@
 # @gykmi/dashboard
 
+## 0.3.0
+
+### Minor Changes
+
+- [#36](https://github.com/georgeyiakoumi/gykmi-design-system/pull/36) [`d6be09f`](https://github.com/georgeyiakoumi/gykmi-design-system/commit/d6be09f4479e92cd92799493e55435fd0b78a57b) Thanks [@georgeyiakoumi](https://github.com/georgeyiakoumi)! - Dashboard + component UI tweaks (part 2).
+
+  New components: Carousel, CarouselItem, RadioCards, RadioCardsItem, SheetFooter, AddSourceDialog, Toaster, useToast.
+
+  Chrome treatment: gradient cards (surface-raised-from/to tokens), gradient buttons (action, secondary, danger), bevelled card borders (border-raised-from/to tokens), inner shadow on action button.
+
+  Button: iconLeft/iconRight props with size-aware slots. All dashboard buttons have contextual Lucide icons.
+
+  Sheet: SheetContent is flex-col by default, SheetFooter (mt-auto) pins actions to bottom.
+
+  Removed unused components: AspectRatio, Box, ContextMenu, HoverCard, Menubar, NavigationMenu, Toolbar, VisuallyHidden, ComplianceBanner, Disclaimer, ModelError, RegulatoryNotice, StreamingText.
+
+  Renamed pov/ to dashboard/ folder.
+
+  Storybook: removed 7 obsolete stories, added 8 new (Alert, Breadcrumb, Carousel, MetricCard, RadioCards, Sheet, Skeleton, Text).
+
+  Mobile: Carousel component with snap, scroll-fade, scroll-padding. DataSourceCard restructured with stacked actions.
+
+  Fixes: Toast subtle backgrounds, Sheet border-border dark mode, Input bg-transparent, AlertDialog button styling, PageHeader z-20, bar chart label truncation.
+
+### Patch Changes
+
+- Updated dependencies [[`d6be09f`](https://github.com/georgeyiakoumi/gykmi-design-system/commit/d6be09f4479e92cd92799493e55435fd0b78a57b)]:
+  - @gykmi/ui@1.4.0
+
 ## 0.2.0
 
 ### Minor Changes
