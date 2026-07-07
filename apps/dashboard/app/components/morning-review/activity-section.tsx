@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { AuditEntry, DataSource } from "@gykmi/ui";
 import {
 	AuditTrail,
@@ -14,8 +15,11 @@ import {
 	DataProvenance,
 	ScrollArea,
 	Text,
+	Toaster,
+	useToast,
 } from "@gykmi/ui";
-import { Plus, X } from "lucide-react";
+import { Eye, Plus, RefreshCw, X } from "lucide-react";
+import { AddSourceDialog } from "./add-source-dialog";
 
 function DataSourceCard({ source }: { source: DataSource }) {
 	const isStale = source.verified === false;
@@ -42,10 +46,10 @@ function DataSourceCard({ source }: { source: DataSource }) {
 			</CardHeader>
 			<CardContent className="flex-1" />
 			<CardFooter className="justify-between">
-				<Button variant="secondary" size="sm">
+				<Button variant="secondary" size="sm" iconLeft={<Eye size={14} />}>
 					View
 				</Button>
-				<Button variant="secondary" size="sm">
+				<Button variant="secondary" size="sm" iconLeft={<RefreshCw size={14} />}>
 					Refresh
 				</Button>
 			</CardFooter>
@@ -59,6 +63,9 @@ interface ActivitySectionProps {
 }
 
 export function ActivitySection({ auditEntries, dataSources }: ActivitySectionProps) {
+	const { toasts, toast, dismiss } = useToast();
+	const [showAddSource, setShowAddSource] = useState(false);
+
 	return (
 		<div className="flex flex-col gap-4">
 			<Text as="h2" variant="heading-xl">
@@ -97,7 +104,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<Text as="h3" variant="label-xs" className="text-text-muted uppercase tracking-wider">
 							Data sources
 						</Text>
-						<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source">
+						<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Add data source" onClick={() => setShowAddSource(true)}>
 							<Plus size={14} />
 						</Button>
 					</div>
@@ -120,12 +127,12 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						</CardTitle>
 						<CardAction>
 							<Button
-								variant="ghost"
+								variant="secondary"
 								size="sm"
-								className="h-5 w-5 p-0"
 								aria-label="Add data source"
+								onClick={() => setShowAddSource(true)}
 							>
-								<Plus size={14} />
+								<Plus size={12} />
 							</Button>
 						</CardAction>
 					</CardHeader>
@@ -136,6 +143,19 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 					</CardContent>
 				</Card>
 			</div>
+
+			<AddSourceDialog
+				open={showAddSource}
+				onOpenChange={setShowAddSource}
+				onAdd={(source) =>
+					toast({
+						title: "Source connected",
+						description: `${source.name} (${source.type.toUpperCase()}) added with ${source.refresh} refresh.`,
+						variant: "success",
+					})
+				}
+			/>
+			<Toaster toasts={toasts} onDismiss={dismiss} />
 		</div>
 	);
 }

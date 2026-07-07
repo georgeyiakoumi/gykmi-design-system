@@ -48,7 +48,7 @@ export const SheetContent = forwardRef<
 		<DialogPrimitive.Content
 			ref={ref}
 			className={cn(
-				"fixed z-50 gap-4 bg-surface p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out",
+				"fixed z-50 flex flex-col gap-4 bg-surface p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out",
 				sheetSideClasses[side],
 				className,
 			)}
@@ -96,3 +96,16 @@ export const SheetDescription = forwardRef<
 	/>
 ));
 SheetDescription.displayName = "SheetDescription";
+
+export interface SheetFooterProps extends ComponentPropsWithRef<"div"> {}
+
+export const SheetFooter = forwardRef<HTMLDivElement, SheetFooterProps>(
+	({ className, ...props }, ref) => (
+		<div
+			ref={ref}
+			className={cn("mt-auto pt-4", className)}
+			{...props}
+		/>
+	),
+);
+SheetFooter.displayName = "SheetFooter";

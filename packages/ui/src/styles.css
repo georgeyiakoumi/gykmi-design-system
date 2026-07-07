@@ -19,6 +19,8 @@
 	/* Surface colours */
 	--color-surface: var(--surface-default);
 	--color-surface-raised: var(--surface-raised);
+	--color-surface-raised-from: var(--surface-raised-from);
+	--color-surface-raised-to: var(--surface-raised-to);
 	--color-surface-overlay: var(--surface-overlay);
 
 	/* Text colours */
@@ -29,6 +31,8 @@
 	/* Border colours */
 	--color-border: var(--border-default);
 	--color-border-strong: var(--border-strong);
+	--color-border-raised-from: var(--border-raised-from);
+	--color-border-raised-to: var(--border-raised-to);
 
 	/* Action colours */
 	--color-action: var(--action-default);

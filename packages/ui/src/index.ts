@@ -246,12 +246,13 @@ export {
 } from "./components/select";
 export type { SeparatorProps } from "./components/separator";
 export { Separator } from "./components/separator";
-export type { SheetContentProps, SheetHeaderProps, SheetOverlayProps } from "./components/sheet";
+export type { SheetContentProps, SheetFooterProps, SheetHeaderProps, SheetOverlayProps } from "./components/sheet";
 export {
 	Sheet,
 	SheetClose,
 	SheetContent,
 	SheetDescription,
+	SheetFooter,
 	SheetHeader,
 	SheetOverlay,
 	SheetPortal,

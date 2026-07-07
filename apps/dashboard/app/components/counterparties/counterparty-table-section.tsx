@@ -33,7 +33,7 @@ import {
 	Toaster,
 	useToast,
 } from "@gykmi/ui";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpRight, Eye, MoreHorizontal, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 
 interface Counterparty {
@@ -168,14 +168,14 @@ function CounterpartyCard({
 					</div>
 				</div>
 				<div className="flex flex-col gap-2 pt-1">
-					<Button variant="secondary" size="sm" onClick={() => onAction("view-positions", item)}>
+					<Button variant="secondary" size="sm" iconLeft={<Eye size={14} />} onClick={() => onAction("view-positions", item)}>
 						View positions
 					</Button>
-					<Button variant="secondary" size="sm" onClick={() => onAction("adjust-limit", item)}>
+					<Button variant="secondary" size="sm" iconLeft={<SlidersHorizontal size={14} />} onClick={() => onAction("adjust-limit", item)}>
 						Adjust limit
 					</Button>
 					{item.status === "breached" && (
-						<Button variant="default" size="sm" onClick={() => onAction("escalate", item)}>
+						<Button variant="default" size="sm" iconLeft={<ArrowUpRight size={14} />} onClick={() => onAction("escalate", item)}>
 							Escalate
 						</Button>
 					)}
