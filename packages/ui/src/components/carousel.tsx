@@ -17,7 +17,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 		return (
 			<div
 				ref={ref}
-				className={cn("overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6", className)}
+				className={cn("overflow-x-auto scroll-fade-x snap-x snap-mandatory -mx-6 px-6 scroll-px-6", className)}
 				{...props}
 			>
 				<div className={cn("flex w-max", gap)}>
