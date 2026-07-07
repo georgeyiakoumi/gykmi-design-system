@@ -12,7 +12,7 @@ export const Menubar = forwardRef<
 		<MenubarPrimitive.Root
 			ref={ref}
 			className={cn(
-				"flex h-10 items-center gap-1 rounded-md border border-border bg-surface p-1",
+				"flex h-10 items-center gap-1 rounded-md border border-border-weak bg-surface-base p-1",
 				className,
 			)}
 			{...props}
@@ -38,7 +38,7 @@ export const MenubarTrigger = forwardRef<
 		<MenubarPrimitive.Trigger
 			ref={ref}
 			className={cn(
-				"flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium text-text outline-none",
+				"flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium text-text-strong outline-none",
 				"focus:bg-surface-raised focus:text-text",
 				"data-[state=open]:bg-surface-raised data-[state=open]:text-text",
 				className,
@@ -65,7 +65,7 @@ export const MenubarContent = forwardRef<
 				alignOffset={alignOffset}
 				sideOffset={sideOffset}
 				className={cn(
-					"z-50 min-w-[12rem] overflow-hidden rounded-md border border-border bg-surface p-1 shadow-md",
+					"z-50 min-w-[12rem] overflow-hidden rounded-md border border-border-weak bg-surface-base p-1 shadow-md",
 					"data-[state=open]:animate-in data-[state=closed]:fade-out-0",
 					"data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
 					className,
@@ -90,7 +90,7 @@ export const MenubarItem = forwardRef<
 		<MenubarPrimitive.Item
 			ref={ref}
 			className={cn(
-				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text outline-none",
+				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text-strong outline-none",
 				"focus:bg-surface-raised focus:text-text",
 				"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 				inset && "pl-8",

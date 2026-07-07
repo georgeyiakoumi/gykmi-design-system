@@ -60,10 +60,10 @@ function StatusBadge({ status }: { status: Counterparty["status"] }) {
 
 function sparklineColor(status: Counterparty["status"]) {
 	return status === "breached"
-		? "var(--danger-default)"
+		? "var(--fill-error-strong)"
 		: status === "near-limit"
-			? "var(--warning-default)"
-			: "var(--action-default)";
+			? "var(--fill-warning-strong)"
+			: "var(--fill-brand-strong)";
 }
 
 function utilisationColor(utilisation: number) {
@@ -140,10 +140,10 @@ function CounterpartyCard({
 			<CardHeader>
 				<div className="flex items-center gap-2">
 					<StatusBadge status={item.status} />
-					<span className="font-medium text-sm text-text">{item.name}</span>
+					<span className="font-medium text-sm text-text-strong">{item.name}</span>
 				</div>
 				<CardAction>
-					<span className="text-xs text-text-muted">{item.rating}</span>
+					<span className="text-xs text-text-weak">{item.rating}</span>
 				</CardAction>
 			</CardHeader>
 			<CardContent className="flex flex-col gap-3 pb-4">
@@ -155,15 +155,15 @@ function CounterpartyCard({
 				/>
 				<div className="grid grid-cols-3 gap-2 text-xs">
 					<div>
-						<p className="text-text-muted">Exposure</p>
+						<p className="text-text-weak">Exposure</p>
 						<p className="font-medium tabular-nums">${item.exposure.toFixed(1)}M</p>
 					</div>
 					<div>
-						<p className="text-text-muted">Limit</p>
-						<p className="tabular-nums text-text-muted">${item.limit.toFixed(1)}M</p>
+						<p className="text-text-weak">Limit</p>
+						<p className="tabular-nums text-text-weak">${item.limit.toFixed(1)}M</p>
 					</div>
 					<div>
-						<p className="text-text-muted">Utilisation</p>
+						<p className="text-text-weak">Utilisation</p>
 						<p className={`font-medium tabular-nums ${utilisationColor(item.utilisation)}`}>
 							{item.utilisation.toFixed(1)}%
 						</p>
@@ -238,7 +238,7 @@ function AdjustLimitDialog({
 				<div className="mt-6 space-y-4">
 					<div className="flex items-center justify-between">
 						<Label>New limit</Label>
-						<span className="text-sm font-semibold tabular-nums text-text">
+						<span className="text-sm font-semibold tabular-nums text-text-strong">
 							${(value[0] ?? currentLimit).toFixed(1)}M
 						</span>
 					</div>
@@ -249,7 +249,7 @@ function AdjustLimitDialog({
 						max={30}
 						step={0.5}
 					/>
-					<div className="flex justify-between text-xs text-text-muted">
+					<div className="flex justify-between text-xs text-text-weak">
 						<span>$1.0M</span>
 						<span>$30.0M</span>
 					</div>
@@ -311,7 +311,7 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 		{
 			key: "limit",
 			header: "Limit ($M)",
-			cell: (row) => <span className="tabular-nums text-text-muted">{row.limit.toFixed(1)}</span>,
+			cell: (row) => <span className="tabular-nums text-text-weak">{row.limit.toFixed(1)}</span>,
 			sortValue: (row) => row.limit,
 		},
 		{
@@ -327,7 +327,7 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 		{
 			key: "rating",
 			header: "Rating",
-			cell: (row) => <span className="text-text-muted">{row.rating}</span>,
+			cell: (row) => <span className="text-text-weak">{row.rating}</span>,
 		},
 		{
 			key: "trend",
@@ -393,14 +393,14 @@ export function CounterpartyTableSection({ data }: CounterpartyTableSectionProps
 							<div key={pos.instrument} className="flex items-center justify-between text-sm">
 								<span className="text-text">{pos.instrument}</span>
 								<div className="flex items-center gap-4">
-									<span className="text-text-muted">{pos.notional}</span>
-									<span className="font-medium text-text tabular-nums w-12 text-right">
+									<span className="text-text-weak">{pos.notional}</span>
+									<span className="font-medium text-text-strong tabular-nums w-12 text-right">
 										{pos.pct}
 									</span>
 								</div>
 							</div>
 						))}
-						<div className="flex items-center justify-between text-sm font-semibold border-t border-border pt-3">
+						<div className="flex items-center justify-between text-sm font-semibold border-t border-border-weak-weak pt-3">
 							<span className="text-text">Total exposure</span>
 							<span className="tabular-nums">${positionsDialog?.exposure.toFixed(1)}M</span>
 						</div>

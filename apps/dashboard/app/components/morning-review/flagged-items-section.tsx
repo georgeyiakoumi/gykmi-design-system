@@ -109,10 +109,10 @@ function FlaggedItemCard({
 				</CardAction>
 			</CardHeader>
 			<CardContent className="flex flex-col gap-3 pb-4">
-				<p className="text-sm font-medium text-text">{item.description}</p>
+				<p className="text-sm font-medium text-text-strong">{item.description}</p>
 				<div className="flex items-baseline gap-2 text-xs">
-					<span className="font-medium text-text">{item.value}</span>
-					<span className="text-text-muted">/ {item.threshold}</span>
+					<span className="font-medium text-text-strong">{item.value}</span>
+					<span className="text-text-weak">/ {item.threshold}</span>
 				</div>
 				<div className="flex flex-col gap-2 pt-1">
 					{item.status === "needs-review" && (
@@ -239,7 +239,7 @@ export function FlaggedItemsSection({ items }: FlaggedItemsSectionProps) {
 			cell: (row) => (
 				<span>
 					<span className="font-medium">{row.value}</span>
-					<span className="text-text-muted"> / {row.threshold}</span>
+					<span className="text-text-weak"> / {row.threshold}</span>
 				</span>
 			),
 		},

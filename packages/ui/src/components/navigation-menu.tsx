@@ -50,7 +50,7 @@ export const NavigationMenuTrigger = forwardRef<
 		<NavigationMenuPrimitive.Trigger
 			ref={ref}
 			className={cn(
-				"group inline-flex h-10 w-max items-center justify-center rounded-md bg-surface px-4 py-2 text-sm font-medium text-text",
+				"group inline-flex h-10 w-max items-center justify-center rounded-md bg-surface-base px-4 py-2 text-sm font-medium text-text-strong",
 				"transition-colors duration-150",
 				"hover:bg-surface-raised hover:text-text",
 				"focus:bg-surface-raised focus:text-text focus:outline-none",
@@ -96,7 +96,7 @@ export const NavigationMenuViewport = forwardRef<
 			<NavigationMenuPrimitive.Viewport
 				ref={ref}
 				className={cn(
-					"origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border border-border bg-surface shadow-lg",
+					"origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border border-border-weak bg-surface-base shadow-lg",
 					"data-[state=open]:animate-in data-[state=closed]:animate-out",
 					"data-[state=open]:zoom-in-90 data-[state=closed]:zoom-out-95",
 					"md:w-[var(--radix-navigation-menu-viewport-width)]",

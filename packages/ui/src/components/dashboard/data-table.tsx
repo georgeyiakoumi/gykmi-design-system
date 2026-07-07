@@ -142,13 +142,13 @@ function DataTableInner<T>(
 					{columns.map((col) => (
 						<label
 							key={col.key}
-							className="inline-flex items-center gap-1.5 text-xs text-text-muted cursor-pointer"
+							className="inline-flex items-center gap-1.5 text-xs text-text-weak cursor-pointer"
 						>
 							<input
 								type="checkbox"
 								checked={!hiddenColumns.has(col.key)}
 								onChange={() => toggleColumn(col.key)}
-								className="h-3 w-3 rounded border-border"
+								className="h-3 w-3 rounded border-border-weak"
 							/>
 							{col.header}
 						</label>
@@ -167,7 +167,7 @@ function DataTableInner<T>(
 									key={col.key}
 									scope="col"
 									className={cn(
-										"px-4 py-3 text-xs font-semibold uppercase tracking-wider text-text-muted",
+										"px-4 py-3 text-xs font-semibold uppercase tracking-wider text-text-weak",
 										alignClass(col.align),
 										col.width,
 										col.sortable && "cursor-pointer select-none hover:text-text",
@@ -206,7 +206,7 @@ function DataTableInner<T>(
 					<tbody>
 						{loading &&
 							Array.from({ length: skeletonRows }).map((_, i) => (
-								<tr key={`skeleton-${i.toString()}`} className="border-b border-border">
+								<tr key={`skeleton-${i.toString()}`} className="border-b border-border-weak-weak">
 									{visibleColumns.map((col) => (
 										<td key={col.key} className={cn("px-4 py-3", alignClass(col.align))}>
 											<div className="h-4 animate-pulse rounded bg-surface-raised" />
@@ -218,7 +218,7 @@ function DataTableInner<T>(
 							<tr>
 								<td
 									colSpan={visibleColumns.length}
-									className="px-4 py-12 text-center text-sm text-text-muted"
+									className="px-4 py-12 text-center text-sm text-text-weak"
 								>
 									{emptyMessage}
 								</td>
@@ -228,12 +228,12 @@ function DataTableInner<T>(
 							paginatedData.map((row) => (
 								<tr
 									key={getRowKey(row)}
-									className="border-b border-border transition-colors hover:bg-surface-raised"
+									className="border-b border-border-weak-weak transition-colors hover:bg-surface-raised"
 								>
 									{visibleColumns.map((col) => (
 										<td
 											key={col.key}
-											className={cn("px-4 py-3 text-text", alignClass(col.align), col.width)}
+											className={cn("px-4 py-3 text-text-strong", alignClass(col.align), col.width)}
 										>
 											{col.cell(row)}
 										</td>
@@ -246,7 +246,7 @@ function DataTableInner<T>(
 
 			{/* Pagination */}
 			{pageSize > 0 && totalPages > 1 && (
-				<div className="mt-3 flex items-center justify-between text-xs text-text-muted">
+				<div className="mt-3 flex items-center justify-between text-xs text-text-weak">
 					<span>
 						Showing {currentPage * pageSize + 1}–
 						{Math.min((currentPage + 1) * pageSize, sortedData.length)} of {sortedData.length}
@@ -256,7 +256,7 @@ function DataTableInner<T>(
 							type="button"
 							disabled={currentPage === 0}
 							onClick={() => setCurrentPage((p) => p - 1)}
-							className="rounded-md border border-border px-2.5 py-1 transition-colors hover:bg-surface-raised disabled:opacity-50 disabled:pointer-events-none"
+							className="rounded-md border border-border-weak px-2.5 py-1 transition-colors hover:bg-surface-raised disabled:opacity-50 disabled:pointer-events-none"
 						>
 							Previous
 						</button>
@@ -264,7 +264,7 @@ function DataTableInner<T>(
 							type="button"
 							disabled={currentPage >= totalPages - 1}
 							onClick={() => setCurrentPage((p) => p + 1)}
-							className="rounded-md border border-border px-2.5 py-1 transition-colors hover:bg-surface-raised disabled:opacity-50 disabled:pointer-events-none"
+							className="rounded-md border border-border-weak px-2.5 py-1 transition-colors hover:bg-surface-raised disabled:opacity-50 disabled:pointer-events-none"
 						>
 							Next
 						</button>

@@ -20,7 +20,7 @@ describe("Badge", () => {
 
 	it("renders with danger variant", () => {
 		render(<Badge variant="danger" label="Error" />);
-		expect(screen.getByText("Error").className).toContain("bg-danger");
+		expect(screen.getByText("Error").className).toContain("bg-fill-error-weak");
 	});
 });
 

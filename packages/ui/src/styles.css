@@ -1,62 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@gykmi/tokens/css";
+@import "./theme.css";
 
 @source "./";
-
-/*
- * Map token CSS vars to Tailwind's @theme.
- *
- * @theme inline: tells Tailwind these utilities exist and map to
- * the given values, WITHOUT emitting new CSS custom properties.
- * This avoids circular references with our token vars.
- *
- * ⚠ KEEP IN SYNC WITH theme.css — both files define the same mappings
- * for different consumers (styles.css for internal, theme.css for consumers).
- */
-@theme inline {
-	/* Surface colours */
-	--color-surface: var(--surface-default);
-	--color-surface-raised: var(--surface-raised);
-	--color-surface-raised-from: var(--surface-raised-from);
-	--color-surface-raised-to: var(--surface-raised-to);
-	--color-surface-overlay: var(--surface-overlay);
-
-	/* Text colours */
-	--color-text: var(--text-default);
-	--color-text-muted: var(--text-muted);
-	--color-text-inverse: var(--text-inverse);
-
-	/* Border colours */
-	--color-border: var(--border-default);
-	--color-border-strong: var(--border-strong);
-	--color-border-raised-from: var(--border-raised-from);
-	--color-border-raised-to: var(--border-raised-to);
-
-	/* Action colours */
-	--color-action: var(--action-default);
-	--color-action-hover: var(--action-hover);
-	--color-action-active: var(--action-active);
-	--color-action-text: var(--action-text);
-
-	/* Danger colours */
-	--color-danger: var(--danger-default);
-	--color-danger-hover: var(--danger-hover);
-	--color-danger-active: var(--danger-active);
-	--color-danger-text: var(--danger-text);
-
-	/* Danger subtle */
-	--color-danger-subtle: var(--danger-subtle);
-
-	/* Success / Warning */
-	--color-success: var(--success-default);
-	--color-success-subtle: var(--success-subtle);
-	--color-success-text: var(--success-text);
-	--color-warning: var(--warning-default);
-	--color-warning-subtle: var(--warning-subtle);
-	--color-warning-text: var(--warning-text);
-
-	/* Focus */
-	--color-focus-ring: var(--focus-ring);
-}

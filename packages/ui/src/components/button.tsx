@@ -24,22 +24,22 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 
 const variantStyles: Record<ButtonVariant, string> = {
 	default: [
-		"bg-gradient-to-b from-action to-action-hover text-action-text",
+		"bg-gradient-to-b from-action to-fill-brand-strong text-text-inverse-strong",
 		"shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15)]",
-		"hover:from-action-hover hover:to-action-active",
-		"active:from-action-active active:to-action-active active:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.2)]",
+		"hover:from-fill-brand-strong hover:to-fill-brand-strong",
+		"active:from-fill-brand-strong active:to-fill-brand-strong active:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.2)]",
 	].join(" "),
 	secondary: [
-		"text-text border border-border",
-		"hover:from-surface-overlay hover:to-surface-raised-to hover:border-border-strong",
-		"active:from-surface-raised-to active:to-surface-raised-to",
+		"text-text-strong border border-border-weak",
+		"hover:from-surface-overlay hover:to-surface-overlay hover:border-border-strong",
+		"active:from-surface-raised-to active:to-surface-overlay",
 	].join(" "),
 	danger: [
-		"bg-gradient-to-b from-danger to-danger-hover text-action-text",
-		"hover:from-danger-hover hover:to-danger-active",
-		"active:from-danger-active active:to-danger-active",
+		"bg-gradient-to-b from-danger to-fill-error-strong text-text-inverse-strong",
+		"hover:from-fill-error-strong hover:to-fill-error-strong",
+		"active:from-fill-error-strong active:to-fill-error-strong",
 	].join(" "),
-	ghost: ["bg-transparent text-text", "hover:bg-surface-raised", "active:bg-surface-overlay"].join(
+	ghost: ["bg-transparent text-text-strong", "hover:bg-surface-raised", "active:bg-surface-overlay"].join(
 		" ",
 	),
 };
@@ -87,7 +87,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					"inline-flex items-center justify-center font-medium",
 					"transition-colors duration-150",
 					// Focus ring driven by token
-					"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
+					"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
 					// Disabled state
 					"disabled:pointer-events-none disabled:opacity-50",
 					// Reduced motion

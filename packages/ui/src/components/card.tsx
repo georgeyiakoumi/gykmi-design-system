@@ -10,7 +10,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({ className, ...props
 		<div
 			ref={ref}
 			className={cn(
-				"rounded-lg bg-gradient-to-b from-surface-raised-from to-surface-raised-to border border-t-border-raised-from border-b-border-raised-to border-x-border-raised-from/50",
+				"rounded-lg bg-gradient-to-b from-surface-raised to-surface-overlay border border-t-border-weak border-b-border-weak border-x-border-weak/50",
 				className,
 			)}
 			{...props}
@@ -43,7 +43,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
 		return (
 			<h3
 				ref={ref}
-				className={cn("text-lg font-semibold leading-none tracking-tight text-text", className)}
+				className={cn("text-lg font-semibold leading-none tracking-tight text-text-strong", className)}
 				{...props}
 			/>
 		);
@@ -56,7 +56,7 @@ export interface CardDescriptionProps extends ComponentPropsWithRef<"p"> {}
 
 export const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionProps>(
 	({ className, ...props }, ref) => {
-		return <p ref={ref} className={cn("text-sm text-text-muted", className)} {...props} />;
+		return <p ref={ref} className={cn("text-sm text-text-weak", className)} {...props} />;
 	},
 );
 

@@ -26,16 +26,16 @@ export const RadioGroupItem = forwardRef<
 		<RadioGroupPrimitive.Item
 			ref={ref}
 			className={cn(
-				"aspect-square h-4 w-4 rounded-full border border-border",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2",
+				"aspect-square h-4 w-4 rounded-full border border-border-weak",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-				"data-[state=checked]:border-action",
+				"data-[state=checked]:border-border-selected",
 				className,
 			)}
 			{...props}
 		>
 			<RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-				<span className="h-2.5 w-2.5 rounded-full bg-action" />
+				<span className="h-2.5 w-2.5 rounded-full bg-fill-brand-strong" />
 			</RadioGroupPrimitive.Indicator>
 		</RadioGroupPrimitive.Item>
 	);

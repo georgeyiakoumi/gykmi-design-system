@@ -46,7 +46,7 @@ export function MetricsSection({
 		<div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Key metrics
 					</CardTitle>
 				</CardHeader>
@@ -72,7 +72,7 @@ export function MetricsSection({
 
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Concentration breakdown
 					</CardTitle>
 				</CardHeader>
@@ -85,7 +85,7 @@ export function MetricsSection({
 					/>
 				</CardContent>
 				<CardFooter>
-					<div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted">
+					<div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-weak">
 						{concentration.map((item, i) => (
 							<span key={item.label} className="flex items-center gap-1.5">
 								<span
@@ -101,7 +101,7 @@ export function MetricsSection({
 
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Total exposure — 7 day
 					</CardTitle>
 				</CardHeader>

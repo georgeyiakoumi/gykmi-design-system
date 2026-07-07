@@ -44,8 +44,8 @@ function ActorNode({ entry }: { entry: AuditEntry }) {
 		);
 	}
 	return (
-		<span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-surface-raised border border-border">
-			<Terminal className="h-3.5 w-3.5 text-text-muted" />
+		<span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-surface-raised border border-border-weak">
+			<Terminal className="h-3.5 w-3.5 text-text-weak" />
 		</span>
 	);
 }
@@ -82,7 +82,7 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 		return (
 			<div ref={ref} role="log" aria-label={label} className={cn(className)} {...props}>
 				{entries.length === 0 && (
-					<p className="py-4 text-center text-sm text-text-muted">No audit entries recorded.</p>
+					<p className="py-4 text-center text-sm text-text-weak">No audit entries recorded.</p>
 				)}
 
 				{/* Mobile: horizontal scrollable timeline */}
@@ -101,14 +101,14 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 								</div>
 								<time
 									dateTime={entry.timestamp}
-									className="mt-2 text-xs text-text-muted tabular-nums"
+									className="mt-2 text-xs text-text-weak tabular-nums"
 								>
 									{formatTime(entry.timestamp)}
 								</time>
 								<div className="mt-1.5 pr-4 flex flex-col gap-1">
-									<p className="text-sm font-medium text-text">{entry.action}</p>
+									<p className="text-sm font-medium text-text-strong">{entry.action}</p>
 									{entry.detail && (
-										<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
+										<p className="text-xs text-text-weak/70 leading-relaxed">{entry.detail}</p>
 									)}
 								</div>
 							</div>
@@ -133,16 +133,16 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 									{/* Time label */}
 									<time
 										dateTime={entry.timestamp}
-										className="mt-2 text-[10px] text-text-muted tabular-nums"
+										className="mt-2 text-[10px] text-text-weak tabular-nums"
 									>
 										{formatTime(entry.timestamp)}
 									</time>
 
 									{/* Content */}
 									<div className="mt-1.5 pr-6 flex flex-col gap-1">
-										<p className="text-xs font-medium text-text">{entry.action}</p>
+										<p className="text-xs font-medium text-text-strong">{entry.action}</p>
 										{entry.detail && (
-											<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
+											<p className="text-xs text-text-weak/70 leading-relaxed">{entry.detail}</p>
 										)}
 									</div>
 								</div>

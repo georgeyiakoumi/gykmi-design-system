@@ -33,7 +33,7 @@ ToggleGroup.displayName = "ToggleGroup";
 
 const variantStyles: Record<ToggleVariant, string> = {
 	default: "bg-transparent",
-	outline: "border border-border bg-transparent hover:bg-surface-raised",
+	outline: "border border-border-weak bg-transparent hover:bg-surface-raised",
 };
 
 const sizeStyles: Record<ToggleSize, string> = {
@@ -60,10 +60,10 @@ export const ToggleGroupItem = forwardRef<
 		<ToggleGroupPrimitive.Item
 			ref={ref}
 			className={cn(
-				"inline-flex items-center justify-center rounded-md text-sm font-medium text-text-muted",
-				"ring-offset-surface transition-colors duration-150",
+				"inline-flex items-center justify-center rounded-md text-sm font-medium text-text-weak",
+				"ring-offset-surface-base transition-colors duration-150",
 				"hover:bg-surface-raised hover:text-text",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2",
 				"disabled:pointer-events-none disabled:opacity-50",
 				"data-[state=on]:bg-surface-raised data-[state=on]:text-text",
 				variantStyles[v],

@@ -33,7 +33,7 @@ export const Positive: Story = {
 	args: {
 		data: [32, 35, 38, 42, 45, 50, 58],
 		label: "Portfolio value (up)",
-		color: "var(--success-default, #22c55e)",
+		color: "var(--fill-success-strong, #22c55e)",
 	},
 };
 
@@ -41,6 +41,6 @@ export const Negative: Story = {
 	args: {
 		data: [58, 55, 50, 48, 42, 38, 34],
 		label: "Bond yield (down)",
-		color: "var(--danger-default, #dc2626)",
+		color: "var(--fill-error-strong, #dc2626)",
 	},
 };

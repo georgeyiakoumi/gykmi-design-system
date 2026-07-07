@@ -25,10 +25,10 @@ const variantStyles: Record<NonNullable<MetricCardProps["variant"]>, string> = {
 };
 
 const variantColors: Record<NonNullable<MetricCardProps["variant"]>, string> = {
-	default: "var(--action-default, #2563eb)",
-	danger: "var(--danger-default, #dc2626)",
-	warning: "var(--warning-default, #f59e0b)",
-	success: "var(--success-default, #22c55e)",
+	default: "var(--fill-brand-strong)",
+	danger: "var(--fill-error-strong)",
+	warning: "var(--fill-warning-strong)",
+	success: "var(--fill-success-strong)",
 };
 
 export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
@@ -47,8 +47,8 @@ export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
 						color={variantColors[variant]}
 					/>
 				)}
-				<span className="text-sm font-medium text-text">{label}</span>
-				{context && <span className="ml-auto text-xs text-text-muted">{context}</span>}
+				<span className="text-sm font-medium text-text-strong">{label}</span>
+				{context && <span className="ml-auto text-xs text-text-weak">{context}</span>}
 			</div>
 		);
 	},

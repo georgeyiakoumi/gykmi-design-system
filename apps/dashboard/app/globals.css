@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "../../../packages/tokens/dist/tokens.css";
 @import "../../../packages/ui/src/theme.css";
 
 @source "../../../packages/ui/src/";
@@ -18,7 +17,7 @@ html {
 }
 
 body {
-	background-color: var(--surface-default);
-	color: var(--text-default);
+	background-color: var(--bg-base);
+	color: var(--text-strong);
 	font-family: var(--font-sans, system-ui, sans-serif);
 }

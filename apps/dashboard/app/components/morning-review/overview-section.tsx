@@ -16,7 +16,7 @@ export function OverviewSection() {
 
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Key metrics
 					</CardTitle>
 				</CardHeader>

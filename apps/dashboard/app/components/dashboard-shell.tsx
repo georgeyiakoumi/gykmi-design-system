@@ -136,7 +136,7 @@ export function DashboardShell({
 											)}
 											{item.badge != null && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
 											{item.soon && (
-												<SidebarMenuBadge className="text-[10px] text-text-muted">
+												<SidebarMenuBadge className="text-[10px] text-text-weak">
 													Soon
 												</SidebarMenuBadge>
 											)}
@@ -162,7 +162,7 @@ export function DashboardShell({
 										</Avatar>
 										<div className="grid flex-1 text-left text-sm leading-tight">
 											<span className="truncate font-semibold">Nadia K.</span>
-											<span className="truncate text-xs text-text-muted">nadia@meridian.com</span>
+											<span className="truncate text-xs text-text-weak">nadia@meridian.com</span>
 										</div>
 										<ChevronsUpDown className="ml-auto size-4" />
 									</SidebarMenuButton>
@@ -184,7 +184,7 @@ export function DashboardShell({
 											</Avatar>
 											<div className="grid flex-1 text-left text-sm leading-tight">
 												<span className="truncate font-semibold">Nadia K.</span>
-												<span className="truncate text-xs text-text-muted">nadia@meridian.com</span>
+												<span className="truncate text-xs text-text-weak">nadia@meridian.com</span>
 											</div>
 										</div>
 									</DropdownMenuLabel>
@@ -225,7 +225,7 @@ export function DashboardShell({
 					<PageTitle title={pageLabel} badges={badges} />
 					{children}
 				</div>
-				<footer className="border-t border-border px-6 py-3 text-xs text-text-muted">
+				<footer className="border-t border-border-weak-weak px-6 py-3 text-xs text-text-weak">
 					Demo only — fictional data, no real financial instruments or counterparties. Part of the{" "}
 					<a
 						href="https://github.com/georgeyiakoumi/gykmi-design-system"

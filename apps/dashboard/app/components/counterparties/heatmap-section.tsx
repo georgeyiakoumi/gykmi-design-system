@@ -16,7 +16,7 @@ export function HeatmapSection({ data, columnLabels }: HeatmapSectionProps) {
 			</Text>
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Counterparty vs asset class ($M)
 					</CardTitle>
 				</CardHeader>

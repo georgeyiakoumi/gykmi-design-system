@@ -15,10 +15,10 @@ export interface BadgeProps extends Omit<ComponentPropsWithRef<"span">, "childre
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-	default: "bg-surface-raised text-text border border-border",
-	success: "bg-success-subtle text-success-text",
-	danger: "bg-danger-subtle text-danger-text",
-	warning: "bg-warning-subtle text-warning-text",
+	default: "bg-surface-raised text-text-strong border border-border-weak",
+	success: "bg-fill-success-weak text-text-success",
+	danger: "bg-fill-error-weak text-text-error",
+	warning: "bg-fill-warning-weak text-text-warning",
 };
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(

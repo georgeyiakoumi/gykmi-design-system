@@ -29,9 +29,9 @@ export const ToastViewport = forwardRef<
 ToastViewport.displayName = "ToastViewport";
 
 const toastVariantStyles: Record<ToastVariant, string> = {
-	default: "border-border bg-surface text-text",
-	success: "border-success bg-success-subtle text-success-text",
-	danger: "border-danger bg-danger-subtle text-danger-text",
+	default: "border-border-weak bg-surface-base text-text-strong",
+	success: "border-success bg-fill-success-weak text-text-success",
+	danger: "border-danger bg-fill-error-weak text-text-error",
 };
 
 export interface ToastProps extends ComponentPropsWithRef<typeof ToastPrimitive.Root> {
@@ -103,9 +103,9 @@ export const ToastAction = forwardRef<
 		<ToastPrimitive.Action
 			ref={ref}
 			className={cn(
-				"inline-flex h-8 shrink-0 items-center justify-center rounded-md border border-border bg-transparent px-3 text-sm font-medium",
+				"inline-flex h-8 shrink-0 items-center justify-center rounded-md border border-border-weak bg-transparent px-3 text-sm font-medium",
 				"hover:bg-surface-raised",
-				"focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2",
+				"focus:outline-none focus:ring-2 focus:ring-border-focus focus:ring-offset-2",
 				"disabled:pointer-events-none disabled:opacity-50",
 				className,
 			)}
@@ -128,7 +128,7 @@ export const ToastClose = forwardRef<
 			className={cn(
 				"absolute right-2 top-2 rounded-md p-1 opacity-0 transition-opacity",
 				"hover:text-text",
-				"focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-focus-ring",
+				"focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-border-focus",
 				"group-hover:opacity-100",
 				className,
 			)}

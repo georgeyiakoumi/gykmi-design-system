@@ -32,7 +32,7 @@ export const ErrorState: Story = {
 		<div className="flex flex-col gap-2" style={{ maxWidth: 300 }}>
 			<Label htmlFor="email-error">Email</Label>
 			<Input id="email-error" error placeholder="you@example.com" />
-			<p style={{ color: "var(--danger-default)", fontSize: "0.875rem" }}>
+			<p style={{ color: "var(--fill-error-strong)", fontSize: "0.875rem" }}>
 				Please enter a valid email address.
 			</p>
 		</div>
