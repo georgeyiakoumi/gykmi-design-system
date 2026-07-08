@@ -83,7 +83,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<Bell size={14} />}
+							iconLeft={<Bell />}
 							onClick={() =>
 								toast({
 									title: "Alert configured",
@@ -96,7 +96,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<Eye size={14} />}
+							iconLeft={<Eye />}
 							onClick={() => setShowPositions(true)}
 						>
 							View positions
@@ -104,7 +104,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						<Button
 							variant="default"
 							size="sm"
-							iconLeft={<ArrowUpRight size={14} />}
+							iconLeft={<ArrowUpRight />}
 							onClick={() => setShowEscalate(true)}
 						>
 							Escalate

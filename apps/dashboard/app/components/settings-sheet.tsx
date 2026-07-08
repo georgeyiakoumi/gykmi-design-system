@@ -116,7 +116,7 @@ export function SettingsSheet({ open, onOpenChange, onSave }: SettingsSheetProps
 				<SheetFooter>
 					<Button
 						className="w-full"
-						iconLeft={<Save size={16} />}
+						iconLeft={<Save />}
 						onClick={() => {
 							const enabled = Object.values(notifications).filter(Boolean).length;
 							onSave({

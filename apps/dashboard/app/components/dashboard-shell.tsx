@@ -136,9 +136,7 @@ export function DashboardShell({
 											)}
 											{item.badge != null && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
 											{item.soon && (
-												<SidebarMenuBadge className="text-xs text-text-weak">
-													Soon
-												</SidebarMenuBadge>
+												<SidebarMenuBadge className="text-xs text-text-weak">Soon</SidebarMenuBadge>
 											)}
 										</SidebarMenuItem>
 									))}
@@ -215,7 +213,7 @@ export function DashboardShell({
 							variant="secondary"
 							size="sm"
 							onClick={() => setShowExport(true)}
-							iconLeft={<Download size={16} />}
+							iconLeft={<Download />}
 						>
 							Export report
 						</Button>

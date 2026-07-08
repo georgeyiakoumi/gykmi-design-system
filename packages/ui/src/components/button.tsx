@@ -5,7 +5,7 @@ import { type ComponentPropsWithRef, forwardRef, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 export type ButtonVariant = "default" | "secondary" | "danger" | "ghost";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonSize = "sm" | "md" | "lg" | "icon-sm" | "icon";
 
 export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 	/** Visual style variant */
@@ -25,36 +25,38 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 const variantStyles: Record<ButtonVariant, string> = {
 	default: [
 		"bg-fill-brand-strong text-text-inverse-strong",
-		"hover:opacity-90",
+		"hover:opacity-90 hover:shadow-md",
 		"active:opacity-80",
 	].join(" "),
 	secondary: [
 		"bg-surface-raised text-text-strong border border-border-weak",
-		"hover:bg-surface-overlay hover:border-border-strong",
-		"active:bg-surface-base",
+		"hover:bg-fill-hover hover:border-border-strong",
+		"active:bg-fill-press",
 	].join(" "),
 	danger: [
 		"bg-fill-error-strong text-text-inverse-strong",
-		"hover:opacity-90",
+		"hover:opacity-90 hover:shadow-md",
 		"active:opacity-80",
 	].join(" "),
-	ghost: [
-		"bg-transparent text-text-strong",
-		"hover:bg-fill-hover",
-		"active:bg-surface-overlay",
-	].join(" "),
+	ghost: ["bg-transparent text-text-strong", "hover:bg-fill-hover", "active:bg-fill-press"].join(
+		" ",
+	),
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
 	sm: "h-8 px-3 text-sm rounded-sm gap-1.5",
 	md: "h-10 px-4 text-base rounded-md gap-2",
 	lg: "h-12 px-6 text-lg rounded-lg gap-2.5",
+	"icon-sm": "size-8 rounded-sm [&>svg]:size-4",
+	icon: "size-10 rounded-md [&>svg]:size-5",
 };
 
 const iconSizeStyles: Record<ButtonSize, string> = {
-	sm: "size-3.5",
-	md: "size-4",
-	lg: "size-5",
+	sm: "[&>svg]:size-3.5",
+	md: "[&>svg]:size-4",
+	lg: "[&>svg]:size-5",
+	"icon-sm": "[&>svg]:size-4",
+	icon: "[&>svg]:size-5",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

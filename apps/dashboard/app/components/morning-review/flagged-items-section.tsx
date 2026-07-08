@@ -120,7 +120,7 @@ function FlaggedItemCard({
 							<Button
 								variant="secondary"
 								size="sm"
-								iconLeft={<Check size={14} />}
+								iconLeft={<Check />}
 								onClick={() => onAction("acknowledge", item)}
 							>
 								Acknowledge
@@ -128,7 +128,7 @@ function FlaggedItemCard({
 							<Button
 								variant="secondary"
 								size="sm"
-								iconLeft={<ArrowUpRight size={14} />}
+								iconLeft={<ArrowUpRight />}
 								onClick={() => onAction("escalate", item)}
 							>
 								Escalate
@@ -139,7 +139,7 @@ function FlaggedItemCard({
 						<Button
 							variant="default"
 							size="sm"
-							iconLeft={<PenLine size={14} />}
+							iconLeft={<PenLine />}
 							onClick={() => onAction("sign-off", item)}
 						>
 							Sign off

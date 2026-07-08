@@ -45,18 +45,13 @@ function DataSourceCard({ source }: { source: DataSource }) {
 				<p className="text-sm font-medium text-text-strong">{source.name}</p>
 			</CardContent>
 			<CardFooter className="flex-col gap-2">
-				<Button variant="secondary" size="sm" className="w-full" iconLeft={<Eye size={14} />}>
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<Eye />}>
 					View
 				</Button>
-				<Button variant="secondary" size="sm" className="w-full" iconLeft={<RefreshCw size={14} />}>
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<RefreshCw />}>
 					Refresh
 				</Button>
-				<Button
-					variant="ghost"
-					size="sm"
-					className="w-full text-text-weak"
-					iconLeft={<X size={14} />}
-				>
+				<Button variant="ghost" size="sm" className="w-full text-text-weak" iconLeft={<X />}>
 					Remove
 				</Button>
 			</CardFooter>
@@ -79,7 +74,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 				Activity
 			</Text>
 
-			<div className="grid grid-cols-1 gap-12 lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr]">
+			<div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr]">
 				{/* Audit log — no card on mobile, card on desktop */}
 				<div className="flex flex-col gap-2 lg:col-span-1 lg:row-span-1 min-w-0">
 					{/* Mobile: label + bare timeline */}
@@ -94,7 +89,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<AuditTrail entries={auditEntries} />
 					</div>
 					{/* Desktop: card with label inside */}
-					<Card variant="sunken" className="hidden lg:flex flex-col min-w-0 h-64 overflow-hidden">
+					<Card variant="sunken" className="hidden lg:flex flex-col min-w-0 h-full overflow-hidden">
 						<CardHeader>
 							<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 								Audit log
@@ -139,11 +134,11 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<CardAction>
 							<Button
 								variant="secondary"
-								size="sm"
+								size="icon-sm"
 								aria-label="Add data source"
 								onClick={() => setShowAddSource(true)}
 							>
-								<Plus size={12} />
+								<Plus />
 							</Button>
 						</CardAction>
 					</CardHeader>

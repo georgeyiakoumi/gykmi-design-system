@@ -131,11 +131,7 @@ export function AddSourceDialog({ open, onOpenChange, onAdd }: AddSourceDialogPr
 					<Button variant="secondary" onClick={() => onOpenChange(false)}>
 						Cancel
 					</Button>
-					<Button
-						onClick={handleAdd}
-						disabled={!name.trim() || !url.trim()}
-						iconLeft={<Link2 size={16} />}
-					>
+					<Button onClick={handleAdd} disabled={!name.trim() || !url.trim()} iconLeft={<Link2 />}>
 						Connect
 					</Button>
 				</div>

@@ -21,11 +21,26 @@ export interface BadgeProps extends Omit<ComponentPropsWithRef<"span">, "childre
 
 const variantStyles: Record<BadgeVariant, { badge: string; icon: string }> = {
 	default: { badge: "bg-fill-weak text-text-weak border-border-weak", icon: "text-icon-neutral" },
-	success: { badge: "bg-fill-success-weak text-text-success border-border-success-weak", icon: "text-icon-success" },
-	danger: { badge: "bg-fill-error-weak text-text-error border-border-error-weak", icon: "text-icon-error" },
-	warning: { badge: "bg-fill-warning-weak text-text-warning border-border-warning-weak", icon: "text-icon-warning" },
-	brand: { badge: "bg-fill-brand-weak text-text-brand border-border-brand-weak", icon: "text-icon-brand" },
-	info: { badge: "bg-fill-info-weak text-text-info border-border-info-weak", icon: "text-icon-info" },
+	success: {
+		badge: "bg-fill-success-weak text-text-success border-border-success-weak",
+		icon: "text-icon-success",
+	},
+	danger: {
+		badge: "bg-fill-error-weak text-text-error border-border-error-weak",
+		icon: "text-icon-error",
+	},
+	warning: {
+		badge: "bg-fill-warning-weak text-text-warning border-border-warning-weak",
+		icon: "text-icon-warning",
+	},
+	brand: {
+		badge: "bg-fill-brand-weak text-text-brand border-border-brand-weak",
+		icon: "text-icon-brand",
+	},
+	info: {
+		badge: "bg-fill-info-weak text-text-info border-border-info-weak",
+		icon: "text-icon-info",
+	},
 };
 
 const sizeOverrides: Record<BadgeSize, string> = {
@@ -48,12 +63,12 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 				{...props}
 			>
 				{icon && (
-					<span className={cn("shrink-0 size-3 [&>svg]:size-3", v.icon)} aria-hidden="true">{icon}</span>
+					<span className={cn("shrink-0 size-3 [&>svg]:size-3", v.icon)} aria-hidden="true">
+						{icon}
+					</span>
 				)}
 				{label}
-				{count !== undefined && (
-					<span className="font-semibold tabular-nums">{count}</span>
-				)}
+				{count !== undefined && <span className="font-semibold tabular-nums">{count}</span>}
 			</span>
 		);
 	},

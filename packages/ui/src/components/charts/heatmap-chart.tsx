@@ -53,7 +53,7 @@ function HeatmapInner({
 	onFocus?: (row: string, col: string, count: number, left: number, top: number) => void;
 	onBlur?: () => void;
 }) {
-	const margin = { top: 20, right: 20, bottom: 40, left: 60 };
+	const margin = { top: 20, right: 20, bottom: 40, left: 120 };
 	const innerWidth = Math.max(0, width - margin.left - margin.right);
 	const innerHeight = Math.max(0, height - margin.top - margin.bottom);
 	if (innerWidth <= 0 || innerHeight <= 0 || data.length === 0) return null;
@@ -123,19 +123,25 @@ function HeatmapInner({
 					</Group>
 				))}
 				{/* Row labels */}
-				{data.map((row) => (
-					<text
-						key={row.label}
-						x={-8}
-						y={(yScale(row.label) ?? 0) + yScale.bandwidth() / 2}
-						dy="0.33em"
-						textAnchor="end"
-						fontSize={11}
-						fill={chartColors.textMuted}
-					>
-						{row.label}
-					</text>
-				))}
+				{data.map((row) => {
+					const maxChars = 14;
+					const truncated =
+						row.label.length > maxChars ? `${row.label.slice(0, maxChars)}…` : row.label;
+					return (
+						<text
+							key={row.label}
+							x={-8}
+							y={(yScale(row.label) ?? 0) + yScale.bandwidth() / 2}
+							dy="0.33em"
+							textAnchor="end"
+							fontSize={11}
+							fill={chartColors.textMuted}
+						>
+							{truncated}
+							<title>{row.label}</title>
+						</text>
+					);
+				})}
 				{/* Column labels */}
 				{columnLabels?.map((label, i) => (
 					<text

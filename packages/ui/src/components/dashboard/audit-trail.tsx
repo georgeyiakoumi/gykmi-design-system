@@ -119,7 +119,7 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 				{/* Desktop: horizontal timeline */}
 				<div className="hidden lg:block">
 					<ScrollArea type="always" viewportClassName="scroll-fade-x">
-						<div className="flex">
+						<div className="flex pb-4">
 							{chronological.map((entry, index) => (
 								<div key={entry.id} className="flex flex-col items-start min-w-56 max-w-72">
 									{/* Timeline row: avatar/icon + line */}

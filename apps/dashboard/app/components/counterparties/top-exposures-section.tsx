@@ -72,7 +72,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<Bell size={14} />}
+							iconLeft={<Bell />}
 							onClick={() =>
 								toast({
 									title: "Alerts configured",
@@ -86,7 +86,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<SlidersHorizontal size={14} />}
+							iconLeft={<SlidersHorizontal />}
 							onClick={() => setShowLimits(true)}
 						>
 							Adjust limits

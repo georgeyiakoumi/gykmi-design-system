@@ -20,7 +20,11 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 		return (
 			<div
 				ref={ref}
-				className={cn("rounded-2xl border border-border-weak", cardVariantStyles[variant], className)}
+				className={cn(
+					"rounded-2xl border border-border-weak",
+					cardVariantStyles[variant],
+					className,
+				)}
 				{...props}
 			/>
 		);

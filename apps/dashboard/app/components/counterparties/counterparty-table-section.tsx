@@ -173,7 +173,7 @@ function CounterpartyCard({
 					<Button
 						variant="secondary"
 						size="sm"
-						iconLeft={<Eye size={14} />}
+						iconLeft={<Eye />}
 						onClick={() => onAction("view-positions", item)}
 					>
 						View positions
@@ -181,7 +181,7 @@ function CounterpartyCard({
 					<Button
 						variant="secondary"
 						size="sm"
-						iconLeft={<SlidersHorizontal size={14} />}
+						iconLeft={<SlidersHorizontal />}
 						onClick={() => onAction("adjust-limit", item)}
 					>
 						Adjust limit
@@ -190,7 +190,7 @@ function CounterpartyCard({
 						<Button
 							variant="default"
 							size="sm"
-							iconLeft={<ArrowUpRight size={14} />}
+							iconLeft={<ArrowUpRight />}
 							onClick={() => onAction("escalate", item)}
 						>
 							Escalate

@@ -23,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
+				{/* biome-ignore lint/security/noDangerouslySetInnerHtml: inline script to prevent theme flash */}
 				<script dangerouslySetInnerHTML={{ __html: themeScript }} />
 			</head>
 			<body className="min-h-screen font-sans antialiased">{children}</body>
