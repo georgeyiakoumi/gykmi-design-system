@@ -47,7 +47,7 @@ function DataSourceItem({
 				<span className="font-medium text-text-strong truncate">{source.name}</span>
 				{source.version && <span className="ml-1.5 text-text-weak">v{source.version}</span>}
 				{isStale && (
-					<Badge variant="warning" label="Stale" className="ml-1.5 text-[10px] px-1.5 py-0" />
+					<Badge variant="warning" label="Stale" className="ml-1.5 text-xs px-1.5 py-0" />
 				)}
 			</div>
 			<DropdownMenu>

@@ -214,6 +214,11 @@
 /* ─── TAILWIND MAPPINGS ───────────────────────────────────────────────────── */
 
 @theme inline {
+	/* Fonts */
+	--font-sans: "Source Sans Pro", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Source Serif Pro", ui-serif, Georgia, serif;
+	--font-mono: "Source Code Pro", ui-monospace, monospace;
+
 	/* Surface */
 	--color-surface-base: var(--surface-base);
 	--color-surface-raised: var(--surface-raised);

@@ -136,7 +136,7 @@ export function DashboardShell({
 											)}
 											{item.badge != null && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
 											{item.soon && (
-												<SidebarMenuBadge className="text-[10px] text-text-weak">
+												<SidebarMenuBadge className="text-xs text-text-weak">
 													Soon
 												</SidebarMenuBadge>
 											)}

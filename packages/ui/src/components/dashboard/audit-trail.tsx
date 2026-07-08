@@ -39,7 +39,7 @@ function ActorNode({ entry }: { entry: AuditEntry }) {
 		return (
 			<Avatar className="h-7 w-7 flex-shrink-0">
 				<AvatarImage src={entry.avatarUrl} alt={entry.actor} />
-				<AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
+				<AvatarFallback className="text-xs">{initials}</AvatarFallback>
 			</Avatar>
 		);
 	}
@@ -133,7 +133,7 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 									{/* Time label */}
 									<time
 										dateTime={entry.timestamp}
-										className="mt-2 text-[10px] text-text-weak tabular-nums"
+										className="mt-2 text-xs text-text-weak tabular-nums"
 									>
 										{formatTime(entry.timestamp)}
 									</time>

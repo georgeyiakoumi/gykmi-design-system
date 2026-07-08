@@ -11,8 +11,8 @@ export interface CardProps extends ComponentPropsWithRef<"div"> {
 }
 
 const cardVariantStyles: Record<CardVariant, string> = {
-	default: "bg-surface-raised border border-border-weak",
-	sunken: "bg-surface-sunken border border-border-weak shadow-inner",
+	default: "bg-surface-raised",
+	sunken: "bg-surface-sunken shadow-inner",
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
@@ -20,7 +20,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 		return (
 			<div
 				ref={ref}
-				className={cn("rounded-2xl", cardVariantStyles[variant], className)}
+				className={cn("rounded-2xl border border-border-weak", cardVariantStyles[variant], className)}
 				{...props}
 			/>
 		);

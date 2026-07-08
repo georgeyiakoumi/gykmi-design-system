@@ -19,74 +19,44 @@ export interface BadgeProps extends Omit<ComponentPropsWithRef<"span">, "childre
 	icon?: ReactNode;
 }
 
-const variantStyles: Record<BadgeVariant, string> = {
-	default: "bg-fill-weak text-text-weak border-border-weak",
-	success: "bg-fill-success-weak text-text-success border-border-success-weak",
-	danger: "bg-fill-error-weak text-text-error border-border-error-weak",
-	warning: "bg-fill-warning-weak text-text-warning border-border-warning-weak",
-	brand: "bg-fill-brand-weak text-text-brand border-border-brand-weak",
-	info: "bg-fill-info-weak text-text-info border-border-info-weak",
+const variantStyles: Record<BadgeVariant, { badge: string; icon: string }> = {
+	default: { badge: "bg-fill-weak text-text-weak border-border-weak", icon: "text-icon-neutral" },
+	success: { badge: "bg-fill-success-weak text-text-success border-border-success-weak", icon: "text-icon-success" },
+	danger: { badge: "bg-fill-error-weak text-text-error border-border-error-weak", icon: "text-icon-error" },
+	warning: { badge: "bg-fill-warning-weak text-text-warning border-border-warning-weak", icon: "text-icon-warning" },
+	brand: { badge: "bg-fill-brand-weak text-text-brand border-border-brand-weak", icon: "text-icon-brand" },
+	info: { badge: "bg-fill-info-weak text-text-info border-border-info-weak", icon: "text-icon-info" },
 };
 
-const sizeStyles: Record<BadgeSize, { badge: string; icon: string; count: string }> = {
-	default: {
-		badge: "gap-1.5 px-2.5 py-0.5 text-xs",
-		icon: "size-3 [&>svg]:size-3",
-		count: "text-xs",
-	},
-	sm: {
-		badge: "gap-1 px-2 py-px text-[10px]",
-		icon: "size-2.5 [&>svg]:size-2.5",
-		count: "text-[10px]",
-	},
+const sizeOverrides: Record<BadgeSize, string> = {
+	default: "py-0.5",
+	sm: "py-0",
 };
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 	({ variant = "default", size = "default", label, count, icon, className, ...props }, ref) => {
-		const s = sizeStyles[size];
+		const v = variantStyles[variant];
 		return (
 			<span
 				ref={ref}
 				className={cn(
-					"inline-flex items-center border rounded-full font-medium",
-					s.badge,
-					variantStyles[variant],
+					"inline-flex items-center gap-1.5 border rounded-full px-2.5 text-xs font-medium",
+					sizeOverrides[size],
+					v.badge,
 					className,
 				)}
 				{...props}
 			>
 				{icon && (
-					<span className={cn("shrink-0", s.icon)} aria-hidden="true">
-						{icon}
-					</span>
+					<span className={cn("shrink-0 size-3 [&>svg]:size-3", v.icon)} aria-hidden="true">{icon}</span>
 				)}
 				{label}
-				{count !== undefined && <BadgeCount count={count} className={s.count} />}
+				{count !== undefined && (
+					<span className="font-semibold tabular-nums">{count}</span>
+				)}
 			</span>
 		);
 	},
 );
 
 Badge.displayName = "Badge";
-
-export interface BadgeCountProps extends ComponentPropsWithRef<"span"> {
-	/** The count value */
-	count: number;
-}
-
-export const BadgeCount = forwardRef<HTMLSpanElement, BadgeCountProps>(
-	({ count, className, ...props }, ref) => {
-		return (
-			<span
-				ref={ref}
-				data-slot="badge-count"
-				className={cn("text-xs font-bold tabular-nums", className)}
-				{...props}
-			>
-				{count}
-			</span>
-		);
-	},
-);
-
-BadgeCount.displayName = "BadgeCount";
