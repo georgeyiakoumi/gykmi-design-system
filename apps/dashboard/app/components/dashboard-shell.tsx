@@ -42,8 +42,8 @@ import {
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useState } from "react";
+import { PageHeader } from "./dashboard-breadcrumbs";
 import { ExportDialog } from "./export-dialog";
-import { PageHeader } from "./page-header";
 import { SettingsSheet } from "./settings-sheet";
 
 interface NavItem {
@@ -78,7 +78,7 @@ const ROUTE_LABELS: Record<string, string> = Object.values(NAV_ITEMS)
 		{} as Record<string, string>,
 	);
 
-import { PageTitle, type StatusBadge } from "./page-title";
+import { PageTitle, type StatusBadge } from "./dashboard-page-title";
 
 export function DashboardShell({
 	children,

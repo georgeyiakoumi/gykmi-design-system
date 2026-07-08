@@ -22,25 +22,37 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 	iconRight?: ReactNode;
 }
 
-const variantStyles: Record<ButtonVariant, string> = {
-	default: [
-		"bg-fill-brand-strong text-text-inverse-strong",
-		"hover:opacity-90 hover:shadow-md",
-		"active:opacity-80",
-	].join(" "),
-	secondary: [
-		"bg-surface-raised text-text-strong border border-border-weak",
-		"hover:bg-fill-hover hover:border-border-strong",
-		"active:bg-fill-press",
-	].join(" "),
-	danger: [
-		"bg-fill-error-strong text-text-inverse-strong",
-		"hover:opacity-90 hover:shadow-md",
-		"active:opacity-80",
-	].join(" "),
-	ghost: ["bg-transparent text-text-strong", "hover:bg-fill-hover", "active:bg-fill-press"].join(
-		" ",
-	),
+const variantStyles: Record<ButtonVariant, { button: string; icon: string }> = {
+	default: {
+		button: [
+			"bg-fill-brand-strong text-text-inverse-strong",
+			"hover:opacity-90 hover:shadow-md",
+			"active:opacity-80",
+		].join(" "),
+		icon: "text-icon-inverse",
+	},
+	secondary: {
+		button: [
+			"bg-surface-raised text-text-strong border border-border-weak",
+			"hover:bg-fill-hover hover:border-border-strong",
+			"active:bg-fill-press",
+		].join(" "),
+		icon: "text-icon-neutral",
+	},
+	danger: {
+		button: [
+			"bg-fill-error-strong text-text-inverse-strong",
+			"hover:opacity-90 hover:shadow-md",
+			"active:opacity-80",
+		].join(" "),
+		icon: "text-icon-inverse",
+	},
+	ghost: {
+		button: ["bg-transparent text-text-strong", "hover:bg-fill-hover", "active:bg-fill-press"].join(
+			" ",
+		),
+		icon: "text-icon-neutral",
+	},
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -77,6 +89,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	) => {
 		const Comp = asChild ? Slot : "button";
 		const isDisabled = disabled || loading;
+		const v = variantStyles[variant];
 		const iconClass = iconSizeStyles[size];
 
 		return (
@@ -96,7 +109,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					// Reduced motion
 					"motion-reduce:transition-none",
 					// Variant + size
-					variantStyles[variant],
+					v.button,
 					sizeStyles[size],
 					className,
 				)}
@@ -113,13 +126,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				) : (
 					<>
 						{iconLeft && (
-							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+							<span className={cn("shrink-0", iconClass, v.icon)} aria-hidden="true">
 								{iconLeft}
 							</span>
 						)}
 						{children}
 						{iconRight && (
-							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+							<span className={cn("shrink-0", iconClass, v.icon)} aria-hidden="true">
 								{iconRight}
 							</span>
 						)}
