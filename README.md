@@ -1,6 +1,6 @@
 # @gykmi design system
 
-A distributable, versioned design system built on headless primitives (Radix), with design tokens as the single source of truth. Fintech/AI POV. Documented in Storybook, consumed by a real app.
+A distributable, versioned design system built on headless primitives (Radix), with a semantic colour theme on top of Tailwind's palette. Documented in Storybook, consumed by a real fintech dashboard.
 
 **[Live dashboard](https://gykmi-ds-dashboard.netlify.app/)** · **[Storybook](https://gykmi-ds-storybook.netlify.app/)** · **[Figma library](https://www.figma.com/design/tqcsSSGM38hdEU4Yaqsmdn/GYKMI-Design-System?m=auto&t=QwRLX6wp6lOYkpTM-1)** · **[Figma demo](https://www.figma.com/design/nbXOqeECZDkNB8MgkZURSK/Demo?m=auto&t=QwRLX6wp6lOYkpTM-1)**
 
@@ -34,7 +34,7 @@ pnpm --filter @gykmi/docs storybook
 ### Dashboard (consuming app)
 
 ```bash
-pnpm --filter @gykmi/dashboard dev
+pnpm --filter @gykmi/dashboard dev:fresh
 ```
 
 ### E2E tests
@@ -47,37 +47,39 @@ cd apps/dashboard && npx playwright test
 
 | Package | Description | Version |
 |---|---|---|
-| `@gykmi/tokens` | Design tokens (CSS vars + TS types) | v1.0.0 |
-| `@gykmi/ui` | Component library (50+ components) | v1.3.0 |
+| `@gykmi/tokens` | Semantic colour tokens (CSS vars) | v1.0.0 |
+| `@gykmi/ui` | Component library (40+ components) | v1.4.0 |
 | `@gykmi/docs` | Storybook documentation | — |
-| `@gykmi/dashboard` | Financial dashboard (consuming app) | — |
+| `@gykmi/dashboard` | Fintech risk dashboard (consuming app) | — |
 
 ## Components
 
-**Layout:** Box, Separator, Sidebar, Sheet, Skeleton
+**Layout:** Separator, Sidebar, Sheet, Skeleton
 **Typography:** Text (10-variant type scale)
-**Display:** Accordion, AspectRatio, Avatar, Badge, Breadcrumb, Card, Collapsible, Progress, ScrollArea, VisuallyHidden
-**Form:** Button, Checkbox, Input, Label, RadioGroup, Select, Slider, Switch, Toggle, ToggleGroup
-**Overlay/Menu:** Alert, AlertDialog, ContextMenu, Dialog, DropdownMenu, HoverCard, Menubar, NavigationMenu, Popover, Tabs, Toast, Toolbar, Tooltip
-**POV (Fintech/AI):** AnalysisSection, AuditTrail, ComplianceBanner, ConfidenceIndicator, DataProvenance, DataTable, Disclaimer, MetricCard, ModelError, RegulatoryNotice, StreamingText
+**Display:** Accordion, Avatar, Badge, Breadcrumb, Card, Carousel, Collapsible, Progress, ScrollArea
+**Form:** Button, Checkbox, Input, Label, RadioCards, RadioGroup, Select, Slider, Switch, Toggle, ToggleGroup
+**Overlay/Menu:** Alert, AlertDialog, Dialog, DropdownMenu, Popover, Tabs, Toast, Toaster, Tooltip
+**Dashboard:** AnalysisSection, AuditTrail, ConfidenceIndicator, DataProvenance, DataTable, MetricCard
 **DataViz:** BarChart, BulletChart, CandlestickChart, ConfidenceChart, DonutChart, GaugeChart, HeatmapChart, LineChart, RadarChart, ScatterChart, Sparkline, StackedBarChart, TreemapChart, WaterfallChart
 **Utilities:** ThemeToggle
 
 ## Architecture
 
 ```
-DTCG JSON → Style Dictionary → CSS custom properties → Tailwind @theme → Components
-                                       ↓
-                              Figma variables (synced)
+Tailwind palette → theme.css (semantic vars) → @theme inline → Components
+                                    ↓
+                         Figma variables (synced)
 ```
 
-- **Tokens:** DTCG-format JSON, built by Style Dictionary into CSS vars + TS types. Code is the source of truth.
-- **Styling:** Tailwind v4 with `@theme inline`, tokens as source of truth
+- **Tokens:** Semantic colour CSS vars referencing Tailwind's built-in palette with `color-mix()` for opacity variants. Light/dark mode via `[data-theme]`.
+- **Fonts:** Source Sans Pro (sans), Source Serif Pro (serif), Source Code Pro (mono)
+- **Styling:** Tailwind v4 with `@theme inline`, semantic tokens as the colour layer
 - **Components:** Radix primitives, typed props API, Tailwind classes internal
 - **Distribution:** compiled CSS (`@gykmi/ui/css`) + Tailwind theme (`@gykmi/ui/theme`)
-- **Figma:** tokens synced as variables (Primitives + Semantic with light/dark modes), 25 components mirrored as a published library, 15 text styles with variable bindings
-- **Testing:** 142 unit tests (Vitest + axe) + 8 E2E tests (Playwright)
+- **Figma:** semantic + theme variable collections with light/dark modes, component library
+- **Testing:** 229 unit tests (Vitest + axe)
 - **CI:** lint, typecheck, build, test, changeset enforcement, migration gate
+- **Deploy:** Netlify (dashboard + Storybook), build ignore for unchanged packages
 - **Release:** automated via Changesets — Version Packages PR on merge, publish on approval
 
 ## Format on save
@@ -101,9 +103,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [CHANGE_PROCESS.md](CHANGE_PROCESS.md
 
 ```
 packages/
-  tokens/      @gykmi/tokens — design tokens
+  tokens/      @gykmi/tokens — semantic colour tokens
   ui/          @gykmi/ui — component library
 apps/
   docs/        Storybook documentation
-  dashboard/   Financial dashboard (consuming app)
+  dashboard/   Fintech risk dashboard (consuming app)
 ```
