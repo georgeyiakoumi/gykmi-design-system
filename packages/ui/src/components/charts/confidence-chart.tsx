@@ -283,7 +283,7 @@ export const ConfidenceChart = forwardRef<HTMLDivElement, ConfidenceChartProps>(
 
 				{/* Legend — rendered outside ChartContainer */}
 				{!loading && data.length > 0 && (
-					<div className="mt-2 flex items-center gap-4 text-xs text-text-muted">
+					<div className="mt-2 flex items-center gap-4 text-xs text-text-weak">
 						<span className="flex items-center gap-1">
 							<span
 								className="inline-block h-0.5 w-4"

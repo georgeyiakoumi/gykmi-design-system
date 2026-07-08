@@ -22,7 +22,7 @@ export const ContextMenuContent = forwardRef<
 			<ContextMenuPrimitive.Content
 				ref={ref}
 				className={cn(
-					"z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-surface p-1 shadow-md",
+					"z-50 min-w-[8rem] overflow-hidden rounded-md border border-border-weak bg-surface-base p-1 shadow-md",
 					"animate-in fade-in-0 zoom-in-95",
 					className,
 				)}
@@ -47,8 +47,8 @@ export const ContextMenuItem = forwardRef<
 		<ContextMenuPrimitive.Item
 			ref={ref}
 			className={cn(
-				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text outline-none",
-				"focus:bg-surface-raised focus:text-text",
+				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text-strong outline-none",
+				"focus:bg-fill-hover focus:text-text-strong",
 				"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 				inset && "pl-8",
 				className,
@@ -90,7 +90,11 @@ export const ContextMenuLabel = forwardRef<
 	return (
 		<ContextMenuPrimitive.Label
 			ref={ref}
-			className={cn("px-2 py-1.5 text-sm font-semibold text-text", inset && "pl-8", className)}
+			className={cn(
+				"px-2 py-1.5 text-sm font-semibold text-text-strong",
+				inset && "pl-8",
+				className,
+			)}
 			{...props}
 		/>
 	);

@@ -42,8 +42,8 @@ import {
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useState } from "react";
+import { PageHeader } from "./dashboard-breadcrumbs";
 import { ExportDialog } from "./export-dialog";
-import { PageHeader } from "./page-header";
 import { SettingsSheet } from "./settings-sheet";
 
 interface NavItem {
@@ -78,7 +78,7 @@ const ROUTE_LABELS: Record<string, string> = Object.values(NAV_ITEMS)
 		{} as Record<string, string>,
 	);
 
-import { PageTitle, type StatusBadge } from "./page-title";
+import { PageTitle, type StatusBadge } from "./dashboard-page-title";
 
 export function DashboardShell({
 	children,
@@ -136,9 +136,7 @@ export function DashboardShell({
 											)}
 											{item.badge != null && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
 											{item.soon && (
-												<SidebarMenuBadge className="text-[10px] text-text-muted">
-													Soon
-												</SidebarMenuBadge>
+												<SidebarMenuBadge className="text-xs text-text-weak">Soon</SidebarMenuBadge>
 											)}
 										</SidebarMenuItem>
 									))}
@@ -162,7 +160,7 @@ export function DashboardShell({
 										</Avatar>
 										<div className="grid flex-1 text-left text-sm leading-tight">
 											<span className="truncate font-semibold">Nadia K.</span>
-											<span className="truncate text-xs text-text-muted">nadia@meridian.com</span>
+											<span className="truncate text-xs text-text-weak">nadia@meridian.com</span>
 										</div>
 										<ChevronsUpDown className="ml-auto size-4" />
 									</SidebarMenuButton>
@@ -184,7 +182,7 @@ export function DashboardShell({
 											</Avatar>
 											<div className="grid flex-1 text-left text-sm leading-tight">
 												<span className="truncate font-semibold">Nadia K.</span>
-												<span className="truncate text-xs text-text-muted">nadia@meridian.com</span>
+												<span className="truncate text-xs text-text-weak">nadia@meridian.com</span>
 											</div>
 										</div>
 									</DropdownMenuLabel>
@@ -215,21 +213,21 @@ export function DashboardShell({
 							variant="secondary"
 							size="sm"
 							onClick={() => setShowExport(true)}
-							iconLeft={<Download size={16} />}
+							iconLeft={<Download />}
 						>
 							Export report
 						</Button>
 					}
 				/>
-				<div className="flex flex-col space-y-8 p-6">
+				<div className="flex flex-col space-y-12 p-12">
 					<PageTitle title={pageLabel} badges={badges} />
 					{children}
 				</div>
-				<footer className="border-t border-border px-6 py-3 text-xs text-text-muted">
+				<footer className="border-t border-border-weak px-6 py-3 text-xs text-text-weak">
 					Demo only — fictional data, no real financial instruments or counterparties. Part of the{" "}
 					<a
 						href="https://github.com/georgeyiakoumi/gykmi-design-system"
-						className="underline hover:text-text"
+						className="underline hover:text-text-strong"
 					>
 						GYKMI Design System
 					</a>
@@ -241,7 +239,7 @@ export function DashboardShell({
 			<SettingsSheet
 				open={showSettings}
 				onOpenChange={setShowSettings}
-				onSave={({ title, description }) => toast({ title, description, variant: "success" })}
+				onSave={({ title, description }) => toast({ title, description })}
 			/>
 
 			{/* Export report dialog */}
@@ -252,7 +250,6 @@ export function DashboardShell({
 					toast({
 						title: "Report exported",
 						description: `${sections.length} section${sections.length !== 1 ? "s" : ""} exported as ${format.toUpperCase()}.`,
-						variant: "success",
 					});
 				}}
 			/>

@@ -42,12 +42,12 @@ function DataSourceItem({
 	const isStale = source.verified === false;
 
 	return (
-		<li className="group/item flex items-center gap-2 rounded-sm pl-3 pr-1 py-1 text-xs transition-colors hover:bg-surface">
+		<li className="group/item flex items-center gap-2 rounded-sm pl-3 pr-1 py-1 text-xs transition-colors hover:bg-fill-hover">
 			<div className="flex-1 min-w-0">
-				<span className="font-medium text-text truncate">{source.name}</span>
-				{source.version && <span className="ml-1.5 text-text-muted">v{source.version}</span>}
+				<span className="font-medium text-text-strong truncate">{source.name}</span>
+				{source.version && <span className="ml-1.5 text-text-weak">v{source.version}</span>}
 				{isStale && (
-					<Badge variant="warning" label="Stale" className="ml-1.5 text-[10px] px-1.5 py-0" />
+					<Badge variant="warning" label="Stale" className="ml-1.5 text-xs px-1.5 py-0" />
 				)}
 			</div>
 			<DropdownMenu>
@@ -78,7 +78,7 @@ export const DataProvenance = forwardRef<HTMLUListElement, DataProvenanceProps>(
 		return (
 			<ul ref={ref} aria-label={label} className={cn("space-y-0.5 pr-4", className)} {...props}>
 				{sources.length === 0 && (
-					<li className="py-2 text-center text-xs text-text-muted">No data sources.</li>
+					<li className="py-2 text-center text-xs text-text-weak">No data sources.</li>
 				)}
 				{sources.map((source) => (
 					<DataSourceItem key={source.name} source={source} onAction={onAction} />

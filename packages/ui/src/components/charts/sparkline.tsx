@@ -134,7 +134,7 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
 			return (
 				<div
 					ref={ref}
-					className={cn("text-text-muted text-xs", className)}
+					className={cn("text-text-weak text-xs", className)}
 					style={{ height, width: fixedWidth ?? "100%" }}
 					role="img"
 					aria-label={`${label} — insufficient data`}

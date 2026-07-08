@@ -5,7 +5,7 @@ import { type ComponentPropsWithRef, forwardRef, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 export type ButtonVariant = "default" | "secondary" | "danger" | "ghost";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonSize = "sm" | "md" | "lg" | "icon-sm" | "icon";
 
 export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 	/** Visual style variant */
@@ -22,38 +22,53 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
 	iconRight?: ReactNode;
 }
 
-const variantStyles: Record<ButtonVariant, string> = {
-	default: [
-		"bg-gradient-to-b from-action to-action-hover text-action-text",
-		"shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15)]",
-		"hover:from-action-hover hover:to-action-active",
-		"active:from-action-active active:to-action-active active:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.2)]",
-	].join(" "),
-	secondary: [
-		"text-text border border-border",
-		"hover:from-surface-overlay hover:to-surface-raised-to hover:border-border-strong",
-		"active:from-surface-raised-to active:to-surface-raised-to",
-	].join(" "),
-	danger: [
-		"bg-gradient-to-b from-danger to-danger-hover text-action-text",
-		"hover:from-danger-hover hover:to-danger-active",
-		"active:from-danger-active active:to-danger-active",
-	].join(" "),
-	ghost: ["bg-transparent text-text", "hover:bg-surface-raised", "active:bg-surface-overlay"].join(
-		" ",
-	),
+const variantStyles: Record<ButtonVariant, { button: string; icon: string }> = {
+	default: {
+		button: [
+			"bg-fill-brand-strong text-text-inverse-strong",
+			"hover:opacity-90 hover:shadow-md",
+			"active:opacity-80",
+		].join(" "),
+		icon: "text-icon-inverse",
+	},
+	secondary: {
+		button: [
+			"bg-surface-raised text-text-strong border border-border-weak",
+			"hover:bg-fill-hover hover:border-border-strong",
+			"active:bg-fill-press",
+		].join(" "),
+		icon: "text-icon-neutral",
+	},
+	danger: {
+		button: [
+			"bg-fill-error-strong text-text-inverse-strong",
+			"hover:opacity-90 hover:shadow-md",
+			"active:opacity-80",
+		].join(" "),
+		icon: "text-icon-inverse",
+	},
+	ghost: {
+		button: ["bg-transparent text-text-strong", "hover:bg-fill-hover", "active:bg-fill-press"].join(
+			" ",
+		),
+		icon: "text-icon-neutral",
+	},
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
 	sm: "h-8 px-3 text-sm rounded-sm gap-1.5",
 	md: "h-10 px-4 text-base rounded-md gap-2",
 	lg: "h-12 px-6 text-lg rounded-lg gap-2.5",
+	"icon-sm": "size-8 rounded-sm [&>svg]:size-4",
+	icon: "size-10 rounded-md [&>svg]:size-5",
 };
 
 const iconSizeStyles: Record<ButtonSize, string> = {
-	sm: "size-3.5",
-	md: "size-4",
-	lg: "size-5",
+	sm: "[&>svg]:size-3.5",
+	md: "[&>svg]:size-4",
+	lg: "[&>svg]:size-5",
+	"icon-sm": "[&>svg]:size-4",
+	icon: "[&>svg]:size-5",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -74,6 +89,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	) => {
 		const Comp = asChild ? Slot : "button";
 		const isDisabled = disabled || loading;
+		const v = variantStyles[variant];
 		const iconClass = iconSizeStyles[size];
 
 		return (
@@ -87,13 +103,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 					"inline-flex items-center justify-center font-medium",
 					"transition-colors duration-150",
 					// Focus ring driven by token
-					"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
+					"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
 					// Disabled state
 					"disabled:pointer-events-none disabled:opacity-50",
 					// Reduced motion
 					"motion-reduce:transition-none",
 					// Variant + size
-					variantStyles[variant],
+					v.button,
 					sizeStyles[size],
 					className,
 				)}
@@ -110,13 +126,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				) : (
 					<>
 						{iconLeft && (
-							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+							<span className={cn("shrink-0", iconClass, v.icon)} aria-hidden="true">
 								{iconLeft}
 							</span>
 						)}
 						{children}
 						{iconRight && (
-							<span className={cn("shrink-0", iconClass)} aria-hidden="true">
+							<span className={cn("shrink-0", iconClass, v.icon)} aria-hidden="true">
 								{iconRight}
 							</span>
 						)}

@@ -101,7 +101,7 @@ function FlaggedItemCard({
 	onAction: (action: string, item: FlaggedItem) => void;
 }) {
 	return (
-		<Card>
+		<Card variant="sunken">
 			<CardHeader>
 				<StatusBadge status={item.status} />
 				<CardAction>
@@ -109,10 +109,10 @@ function FlaggedItemCard({
 				</CardAction>
 			</CardHeader>
 			<CardContent className="flex flex-col gap-3 pb-4">
-				<p className="text-sm font-medium text-text">{item.description}</p>
+				<p className="text-sm font-medium text-text-strong">{item.description}</p>
 				<div className="flex items-baseline gap-2 text-xs">
-					<span className="font-medium text-text">{item.value}</span>
-					<span className="text-text-muted">/ {item.threshold}</span>
+					<span className="font-medium text-text-strong">{item.value}</span>
+					<span className="text-text-weak">/ {item.threshold}</span>
 				</div>
 				<div className="flex flex-col gap-2 pt-1">
 					{item.status === "needs-review" && (
@@ -120,7 +120,7 @@ function FlaggedItemCard({
 							<Button
 								variant="secondary"
 								size="sm"
-								iconLeft={<Check size={14} />}
+								iconLeft={<Check />}
 								onClick={() => onAction("acknowledge", item)}
 							>
 								Acknowledge
@@ -128,7 +128,7 @@ function FlaggedItemCard({
 							<Button
 								variant="secondary"
 								size="sm"
-								iconLeft={<ArrowUpRight size={14} />}
+								iconLeft={<ArrowUpRight />}
 								onClick={() => onAction("escalate", item)}
 							>
 								Escalate
@@ -139,7 +139,7 @@ function FlaggedItemCard({
 						<Button
 							variant="default"
 							size="sm"
-							iconLeft={<PenLine size={14} />}
+							iconLeft={<PenLine />}
 							onClick={() => onAction("sign-off", item)}
 						>
 							Sign off
@@ -174,24 +174,18 @@ const confirmContent: Record<string, { title: string; description: string; actio
 	},
 };
 
-const toastContent: Record<
-	string,
-	{ title: string; description: string; variant?: "default" | "success" | "danger" }
-> = {
+const toastContent: Record<string, { title: string; description: string }> = {
 	acknowledge: {
 		title: "Flag acknowledged",
 		description: "Recorded in the audit trail.",
-		variant: "success",
 	},
 	escalate: {
 		title: "Escalation sent",
 		description: "The risk committee has been notified.",
-		variant: "success",
 	},
 	"sign-off": {
 		title: "Valuation signed off",
 		description: "Your approval has been recorded.",
-		variant: "success",
 	},
 };
 
@@ -219,7 +213,6 @@ export function FlaggedItemsSection({ items }: FlaggedItemsSectionProps) {
 			toast({
 				title: content.title,
 				description: `${confirmDialog.item.description} — ${content.description}`,
-				variant: content.variant,
 			});
 		}
 		setConfirmDialog(null);
@@ -239,7 +232,7 @@ export function FlaggedItemsSection({ items }: FlaggedItemsSectionProps) {
 			cell: (row) => (
 				<span>
 					<span className="font-medium">{row.value}</span>
-					<span className="text-text-muted"> / {row.threshold}</span>
+					<span className="text-text-weak"> / {row.threshold}</span>
 				</span>
 			),
 		},

@@ -39,13 +39,13 @@ function ActorNode({ entry }: { entry: AuditEntry }) {
 		return (
 			<Avatar className="h-7 w-7 flex-shrink-0">
 				<AvatarImage src={entry.avatarUrl} alt={entry.actor} />
-				<AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
+				<AvatarFallback className="text-xs">{initials}</AvatarFallback>
 			</Avatar>
 		);
 	}
 	return (
-		<span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-surface-raised border border-border">
-			<Terminal className="h-3.5 w-3.5 text-text-muted" />
+		<span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-surface-raised border border-border-weak">
+			<Terminal className="h-3.5 w-3.5 text-text-weak" />
 		</span>
 	);
 }
@@ -82,7 +82,7 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 		return (
 			<div ref={ref} role="log" aria-label={label} className={cn(className)} {...props}>
 				{entries.length === 0 && (
-					<p className="py-4 text-center text-sm text-text-muted">No audit entries recorded.</p>
+					<p className="py-4 text-center text-sm text-text-weak">No audit entries recorded.</p>
 				)}
 
 				{/* Mobile: horizontal scrollable timeline */}
@@ -96,19 +96,19 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 								<div className="flex items-center w-full">
 									<ActorNode entry={entry} />
 									{index < chronological.length - 1 && (
-										<span className="h-px flex-1 bg-border" aria-hidden="true" />
+										<span className="h-px flex-1 bg-border-weak" aria-hidden="true" />
 									)}
 								</div>
 								<time
 									dateTime={entry.timestamp}
-									className="mt-2 text-xs text-text-muted tabular-nums"
+									className="mt-2 text-xs text-text-weak tabular-nums"
 								>
 									{formatTime(entry.timestamp)}
 								</time>
 								<div className="mt-1.5 pr-4 flex flex-col gap-1">
-									<p className="text-sm font-medium text-text">{entry.action}</p>
+									<p className="text-sm font-medium text-text-strong">{entry.action}</p>
 									{entry.detail && (
-										<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
+										<p className="text-xs text-text-weak/70 leading-relaxed">{entry.detail}</p>
 									)}
 								</div>
 							</div>
@@ -119,30 +119,30 @@ export const AuditTrail = forwardRef<HTMLDivElement, AuditTrailProps>(
 				{/* Desktop: horizontal timeline */}
 				<div className="hidden lg:block">
 					<ScrollArea type="always" viewportClassName="scroll-fade-x">
-						<div className="flex">
+						<div className="flex pb-4">
 							{chronological.map((entry, index) => (
 								<div key={entry.id} className="flex flex-col items-start min-w-56 max-w-72">
 									{/* Timeline row: avatar/icon + line */}
 									<div className="flex items-center w-full">
 										<ActorWithTooltip entry={entry} />
 										{index < chronological.length - 1 && (
-											<span className="h-px flex-1 bg-border" aria-hidden="true" />
+											<span className="h-px flex-1 bg-border-weak" aria-hidden="true" />
 										)}
 									</div>
 
 									{/* Time label */}
 									<time
 										dateTime={entry.timestamp}
-										className="mt-2 text-[10px] text-text-muted tabular-nums"
+										className="mt-2 text-xs text-text-weak tabular-nums"
 									>
 										{formatTime(entry.timestamp)}
 									</time>
 
 									{/* Content */}
 									<div className="mt-1.5 pr-6 flex flex-col gap-1">
-										<p className="text-xs font-medium text-text">{entry.action}</p>
+										<p className="text-xs font-medium text-text-strong">{entry.action}</p>
 										{entry.detail && (
-											<p className="text-xs text-text-muted/70 leading-relaxed">{entry.detail}</p>
+											<p className="text-xs text-text-weak/70 leading-relaxed">{entry.detail}</p>
 										)}
 									</div>
 								</div>

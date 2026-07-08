@@ -52,9 +52,9 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 			<Text as="h2" variant="heading-xl">
 				Top exposures
 			</Text>
-			<Card>
+			<Card variant="sunken">
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Exposure by counterparty ($M)
 					</CardTitle>
 				</CardHeader>
@@ -72,13 +72,12 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<Bell size={14} />}
+							iconLeft={<Bell />}
 							onClick={() =>
 								toast({
 									title: "Alerts configured",
 									description:
 										"You will be notified when any top-5 counterparty exceeds 90% utilisation.",
-									variant: "success",
 								})
 							}
 						>
@@ -87,7 +86,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<SlidersHorizontal size={14} />}
+							iconLeft={<SlidersHorizontal />}
 							onClick={() => setShowLimits(true)}
 						>
 							Adjust limits
@@ -113,7 +112,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 									<AccordionTrigger>
 										<div className="flex items-center justify-between w-full pr-2">
 											<span className="text-sm">{name}</span>
-											<span className="text-xs text-text-muted tabular-nums">
+											<span className="text-xs text-text-weak tabular-nums">
 												${info.current.toFixed(1)}M / ${(limits[name] ?? info.limit).toFixed(1)}M
 											</span>
 										</div>
@@ -121,7 +120,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 									<AccordionContent>
 										<div className="space-y-3 pt-2">
 											<div className="flex items-center justify-between">
-												<Label className="text-xs text-text-muted">New limit</Label>
+												<Label className="text-xs text-text-weak">New limit</Label>
 												<span className="text-sm font-semibold tabular-nums">
 													${(limits[name] ?? info.limit).toFixed(1)}M
 												</span>
@@ -133,7 +132,7 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 												max={20}
 												step={0.5}
 											/>
-											<div className="flex justify-between text-xs text-text-muted">
+											<div className="flex justify-between text-xs text-text-weak">
 												<span>$1.0M</span>
 												<span>$20.0M</span>
 											</div>
@@ -158,7 +157,6 @@ export function TopExposuresSection({ data }: TopExposuresSectionProps) {
 										changed.length > 0
 											? `${changed.length} counterparty limit${changed.length !== 1 ? "s" : ""} adjusted. Pending risk committee approval.`
 											: "No limits were changed.",
-									variant: changed.length > 0 ? "success" : "default",
 								});
 								setShowLimits(false);
 							}}

@@ -5,20 +5,20 @@
  * Used by all chart components for consistent theming.
  */
 export const chartColors = {
-	primary: "var(--action-default, #2563eb)",
+	primary: "var(--fill-brand-strong, #2563eb)",
 	secondary: "var(--color-blue-400, #60a5fa)",
 	tertiary: "var(--color-green-500, #22c55e)",
 	quaternary: "var(--color-amber-500, #f59e0b)",
-	danger: "var(--danger-default, #dc2626)",
-	success: "var(--success-default, #22c55e)",
-	warning: "var(--warning-default, #f59e0b)",
-	muted: "var(--text-muted, #737373)",
-	grid: "var(--border-default, #e5e5e5)",
-	background: "var(--surface-default, #ffffff)",
-	text: "var(--text-default, #171717)",
-	textMuted: "var(--text-muted, #737373)",
+	danger: "var(--fill-error-strong, #dc2626)",
+	success: "var(--fill-success-strong, #22c55e)",
+	warning: "var(--fill-warning-strong, #f59e0b)",
+	muted: "var(--text-weak, #737373)",
+	grid: "var(--border-weak, #e5e5e5)",
+	background: "var(--surface-base, #ffffff)",
+	text: "var(--text-strong, #171717)",
+	textMuted: "var(--text-weak, #737373)",
 	confidence: {
-		band: "var(--action-default, #2563eb)",
+		band: "var(--fill-brand-strong, #2563eb)",
 		bandOpacity: 0.15,
 	},
 } as const;

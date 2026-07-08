@@ -1,55 +1,301 @@
 /*
- * @gykmi/ui theme — import this alongside tailwindcss in your CSS
- * to get token-backed utilities (bg-surface, text-action, etc.)
+ * @gykmi/ui theme — semantic colour tokens
  *
  * Usage:
  *   @import "tailwindcss";
- *   @import "@gykmi/tokens/css";
  *   @import "@gykmi/ui/theme";
  *
- * ⚠ KEEP IN SYNC WITH styles.css — both files define the same mappings
- * for different consumers (theme.css for consumers, styles.css for internal).
+ * Theme vars reference Tailwind's built-in palette.
+ * Semantic vars reference theme vars.
+ * Light/dark mode switches via [data-theme="dark"].
+ *
+ * Naming: surface-*, text-*, border-*, fill-*, icon-*
+ * Classes: bg-surface-base, text-text-strong, border-border-weak, bg-fill-hover, text-icon-neutral
+ *
+ * ⚠ KEEP IN SYNC WITH styles.css
  */
+
+/* ─── THEME LAYER ─────────────────────────────────────────────────────────── */
+/* Intermediate palette referencing Tailwind's colours + opacity.             */
+
+:root {
+	/* Brand */
+	--theme-brand-1000: var(--color-blue-500);
+	--theme-brand-800: color-mix(in srgb, var(--color-blue-500) 80%, transparent);
+	--theme-brand-200: color-mix(in srgb, var(--color-blue-500) 20%, transparent);
+	--theme-brand-50: color-mix(in srgb, var(--color-blue-500) 5%, transparent);
+
+	/* Grey solid */
+	--theme-grey-solid-0: var(--color-white);
+	--theme-grey-solid-50: var(--color-neutral-50);
+	--theme-grey-solid-800: var(--color-neutral-800);
+	--theme-grey-solid-850: var(--color-neutral-900);
+	--theme-grey-solid-900: var(--color-neutral-950);
+	--theme-grey-solid-1000: var(--color-black);
+
+	/* Grey (opacity-based) */
+	--theme-grey-1000: color-mix(in srgb, var(--color-slate-950) 90%, transparent);
+	--theme-grey-700: color-mix(in srgb, var(--color-slate-950) 65%, transparent);
+	--theme-grey-500: color-mix(in srgb, var(--color-slate-950) 45%, transparent);
+	--theme-grey-100: color-mix(in srgb, var(--color-slate-950) 10%, transparent);
+	--theme-grey-50: color-mix(in srgb, var(--color-slate-950) 4%, transparent);
+	--theme-grey-25: color-mix(in srgb, var(--color-slate-950) 2%, transparent);
+
+	/* Red */
+	--theme-red-1000: var(--color-red-700);
+	--theme-red-800: color-mix(in srgb, var(--color-red-700) 80%, transparent);
+	--theme-red-200: color-mix(in srgb, var(--color-red-700) 14%, transparent);
+	--theme-red-50: color-mix(in srgb, var(--color-red-700) 5%, transparent);
+
+	/* Amber */
+	--theme-amber-1000: var(--color-amber-600);
+	--theme-amber-800: color-mix(in srgb, var(--color-amber-600) 80%, transparent);
+	--theme-amber-200: color-mix(in srgb, var(--color-amber-600) 20%, transparent);
+	--theme-amber-50: color-mix(in srgb, var(--color-amber-600) 5%, transparent);
+
+	/* Green */
+	--theme-green-1000: var(--color-lime-700);
+	--theme-green-800: color-mix(in srgb, var(--color-lime-700) 80%, transparent);
+	--theme-green-200: color-mix(in srgb, var(--color-lime-700) 20%, transparent);
+	--theme-green-50: color-mix(in srgb, var(--color-lime-700) 5%, transparent);
+
+	/* Sky */
+	--theme-sky-1000: var(--color-sky-600);
+	--theme-sky-800: color-mix(in srgb, var(--color-sky-600) 80%, transparent);
+	--theme-sky-200: color-mix(in srgb, var(--color-sky-600) 20%, transparent);
+	--theme-sky-50: color-mix(in srgb, var(--color-sky-600) 5%, transparent);
+}
+
+[data-theme="dark"] {
+	--theme-brand-1000: var(--color-blue-300);
+	--theme-brand-800: color-mix(in srgb, var(--color-blue-300) 80%, transparent);
+	--theme-brand-200: color-mix(in srgb, var(--color-blue-300) 20%, transparent);
+	--theme-brand-50: color-mix(in srgb, var(--color-blue-300) 5%, transparent);
+
+	--theme-grey-1000: var(--color-white);
+	--theme-grey-700: color-mix(in srgb, var(--color-white) 78%, transparent);
+	--theme-grey-500: color-mix(in srgb, var(--color-white) 60%, transparent);
+	--theme-grey-100: color-mix(in srgb, var(--color-white) 12%, transparent);
+	--theme-grey-50: color-mix(in srgb, var(--color-white) 6%, transparent);
+	--theme-grey-25: color-mix(in srgb, var(--color-white) 3%, transparent);
+
+	--theme-red-1000: var(--color-red-300);
+	--theme-red-800: color-mix(in srgb, var(--color-red-300) 80%, transparent);
+	--theme-red-200: color-mix(in srgb, var(--color-red-300) 20%, transparent);
+	--theme-red-50: color-mix(in srgb, var(--color-red-300) 8%, transparent);
+
+	--theme-amber-1000: var(--color-amber-400);
+	--theme-amber-800: color-mix(in srgb, var(--color-amber-400) 80%, transparent);
+	--theme-amber-200: color-mix(in srgb, var(--color-amber-400) 20%, transparent);
+	--theme-amber-50: color-mix(in srgb, var(--color-amber-400) 5%, transparent);
+
+	--theme-green-1000: var(--color-green-300);
+	--theme-green-800: color-mix(in srgb, var(--color-green-300) 80%, transparent);
+	--theme-green-200: color-mix(in srgb, var(--color-green-300) 20%, transparent);
+	--theme-green-50: color-mix(in srgb, var(--color-green-300) 5%, transparent);
+
+	--theme-sky-1000: var(--color-sky-300);
+	--theme-sky-800: color-mix(in srgb, var(--color-sky-300) 80%, transparent);
+	--theme-sky-200: color-mix(in srgb, var(--color-sky-300) 20%, transparent);
+	--theme-sky-50: color-mix(in srgb, var(--color-sky-300) 5%, transparent);
+}
+
+/* ─── SEMANTIC LAYER ──────────────────────────────────────────────────────── */
+
+:root {
+	/* Surface (bg-surface-*) */
+	--surface-base: var(--theme-grey-solid-0);
+	--surface-raised: var(--theme-grey-solid-0);
+	--surface-overlay: var(--theme-grey-solid-0);
+	--surface-sunken: var(--theme-grey-solid-50);
+	--surface-alternate: var(--theme-grey-solid-50);
+	--surface-brand: var(--theme-brand-1000);
+	--surface-inverse: var(--theme-grey-solid-900);
+
+	/* Text (text-text-*) */
+	--text-strong: var(--theme-grey-1000);
+	--text-weak: var(--theme-grey-700);
+	--text-brand: var(--theme-brand-1000);
+	--text-disabled: var(--theme-grey-100);
+	--text-error: var(--theme-red-1000);
+	--text-warning: var(--theme-amber-1000);
+	--text-success: var(--theme-green-1000);
+	--text-info: var(--theme-sky-1000);
+	--text-inverse-strong: var(--color-white);
+	--text-inverse-weak: var(--color-neutral-50);
+	--text-inverse-disabled: var(--color-neutral-300);
+
+	/* Border (border-border-*) */
+	--border-strong: var(--theme-grey-500);
+	--border-weak: var(--theme-grey-100);
+	--border-selected: var(--theme-brand-1000);
+	--border-focus: var(--theme-brand-1000);
+	--border-disabled: var(--theme-grey-100);
+	--border-brand-strong: var(--theme-brand-800);
+	--border-brand-weak: var(--theme-brand-200);
+	--border-error-strong: var(--theme-red-800);
+	--border-error-weak: var(--theme-red-200);
+	--border-warning-strong: var(--theme-amber-800);
+	--border-warning-weak: var(--theme-amber-200);
+	--border-success-strong: var(--theme-green-800);
+	--border-success-weak: var(--theme-green-200);
+	--border-info-strong: var(--theme-sky-800);
+	--border-info-weak: var(--theme-sky-200);
+	--border-inverse-strong: color-mix(in srgb, var(--color-white) 60%, transparent);
+	--border-inverse-weak: color-mix(in srgb, var(--color-white) 12%, transparent);
+	--border-inverse-disabled: color-mix(in srgb, var(--color-white) 12%, transparent);
+
+	/* Fill (bg-fill-*) */
+	--fill-strong: var(--theme-grey-1000);
+	--fill-weak: var(--theme-grey-50);
+	--fill-weaker: var(--theme-grey-25);
+	--fill-hover: var(--theme-grey-50);
+	--fill-press: var(--theme-grey-100);
+	--fill-selected: var(--theme-brand-1000);
+	--fill-disabled: var(--theme-grey-100);
+	--fill-overlay: var(--theme-grey-500);
+	--fill-brand-strong: var(--theme-brand-1000);
+	--fill-brand-weak: var(--theme-brand-50);
+	--fill-error-strong: var(--theme-red-1000);
+	--fill-error-weak: var(--theme-red-50);
+	--fill-warning-strong: var(--theme-amber-1000);
+	--fill-warning-weak: var(--theme-amber-50);
+	--fill-success-strong: var(--theme-green-1000);
+	--fill-success-weak: var(--theme-green-50);
+	--fill-info-strong: var(--theme-sky-1000);
+	--fill-info-weak: var(--theme-sky-50);
+	--fill-inverse-strong: var(--theme-grey-solid-0);
+	--fill-inverse-weak: color-mix(in srgb, var(--color-white) 6%, transparent);
+	--fill-inverse-hover: color-mix(in srgb, var(--color-white) 6%, transparent);
+	--fill-inverse-press: color-mix(in srgb, var(--color-white) 12%, transparent);
+	--fill-inverse-disabled: color-mix(in srgb, var(--color-white) 12%, transparent);
+	--fill-white: var(--color-white);
+
+	/* Icon (text-icon-*) */
+	--icon-neutral: var(--theme-grey-500);
+	--icon-brand: var(--theme-brand-800);
+	--icon-disabled: var(--theme-grey-100);
+	--icon-error: var(--theme-red-800);
+	--icon-warning: var(--theme-amber-800);
+	--icon-success: var(--theme-green-800);
+	--icon-info: var(--theme-sky-800);
+	--icon-inverse: color-mix(in srgb, var(--color-white) 60%, transparent);
+	--icon-inverse-strong: var(--color-white);
+	--icon-inverse-disabled: color-mix(in srgb, var(--color-white) 12%, transparent);
+}
+
+[data-theme="dark"] {
+	--surface-base: var(--theme-grey-solid-900);
+	--surface-raised: var(--theme-grey-solid-850);
+	--surface-overlay: var(--theme-grey-solid-800);
+	--surface-sunken: var(--theme-grey-solid-1000);
+	--surface-alternate: var(--theme-grey-solid-850);
+	--surface-inverse: var(--theme-grey-solid-0);
+
+	--text-inverse-strong: var(--color-neutral-950);
+	--text-inverse-weak: var(--color-neutral-800);
+	--text-inverse-disabled: var(--color-neutral-600);
+
+	--border-inverse-strong: color-mix(in srgb, var(--color-slate-950) 45%, transparent);
+	--border-inverse-weak: color-mix(in srgb, var(--color-slate-950) 10%, transparent);
+	--border-inverse-disabled: color-mix(in srgb, var(--color-slate-950) 10%, transparent);
+
+	--fill-inverse-strong: var(--theme-grey-solid-900);
+	--fill-inverse-weak: color-mix(in srgb, var(--color-slate-950) 4%, transparent);
+	--fill-inverse-hover: color-mix(in srgb, var(--color-slate-950) 4%, transparent);
+	--fill-inverse-press: color-mix(in srgb, var(--color-slate-950) 10%, transparent);
+	--fill-inverse-disabled: color-mix(in srgb, var(--color-slate-950) 10%, transparent);
+
+	--icon-inverse: color-mix(in srgb, var(--color-slate-950) 45%, transparent);
+	--icon-inverse-strong: var(--theme-grey-1000);
+	--icon-inverse-disabled: color-mix(in srgb, var(--color-slate-950) 10%, transparent);
+}
+
+/* ─── TAILWIND MAPPINGS ───────────────────────────────────────────────────── */
+
 @theme inline {
-	/* Surface colours */
-	--color-surface: var(--surface-default);
+	/* Fonts */
+	--font-sans: "Source Sans Pro", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Source Serif Pro", ui-serif, Georgia, serif;
+	--font-mono: "Source Code Pro", ui-monospace, monospace;
+
+	/* Surface */
+	--color-surface-base: var(--surface-base);
 	--color-surface-raised: var(--surface-raised);
-	--color-surface-raised-from: var(--surface-raised-from);
-	--color-surface-raised-to: var(--surface-raised-to);
 	--color-surface-overlay: var(--surface-overlay);
+	--color-surface-sunken: var(--surface-sunken);
+	--color-surface-alternate: var(--surface-alternate);
+	--color-surface-brand: var(--surface-brand);
+	--color-surface-inverse: var(--surface-inverse);
 
-	/* Text colours */
-	--color-text: var(--text-default);
-	--color-text-muted: var(--text-muted);
-	--color-text-inverse: var(--text-inverse);
+	/* Text */
+	--color-text-strong: var(--text-strong);
+	--color-text-weak: var(--text-weak);
+	--color-text-brand: var(--text-brand);
+	--color-text-disabled: var(--text-disabled);
+	--color-text-error: var(--text-error);
+	--color-text-warning: var(--text-warning);
+	--color-text-success: var(--text-success);
+	--color-text-info: var(--text-info);
+	--color-text-inverse-strong: var(--text-inverse-strong);
+	--color-text-inverse-weak: var(--text-inverse-weak);
+	--color-text-inverse-disabled: var(--text-inverse-disabled);
 
-	/* Border colours */
-	--color-border: var(--border-default);
+	/* Border */
 	--color-border-strong: var(--border-strong);
-	--color-border-raised-from: var(--border-raised-from);
-	--color-border-raised-to: var(--border-raised-to);
+	--color-border-weak: var(--border-weak);
+	--color-border-selected: var(--border-selected);
+	--color-border-focus: var(--border-focus);
+	--color-border-disabled: var(--border-disabled);
+	--color-border-brand-strong: var(--border-brand-strong);
+	--color-border-brand-weak: var(--border-brand-weak);
+	--color-border-error-strong: var(--border-error-strong);
+	--color-border-error-weak: var(--border-error-weak);
+	--color-border-warning-strong: var(--border-warning-strong);
+	--color-border-warning-weak: var(--border-warning-weak);
+	--color-border-success-strong: var(--border-success-strong);
+	--color-border-success-weak: var(--border-success-weak);
+	--color-border-info-strong: var(--border-info-strong);
+	--color-border-info-weak: var(--border-info-weak);
+	--color-border-inverse-strong: var(--border-inverse-strong);
+	--color-border-inverse-weak: var(--border-inverse-weak);
+	--color-border-inverse-disabled: var(--border-inverse-disabled);
 
-	/* Action colours */
-	--color-action: var(--action-default);
-	--color-action-hover: var(--action-hover);
-	--color-action-active: var(--action-active);
-	--color-action-text: var(--action-text);
+	/* Fill */
+	--color-fill-strong: var(--fill-strong);
+	--color-fill-weak: var(--fill-weak);
+	--color-fill-weaker: var(--fill-weaker);
+	--color-fill-hover: var(--fill-hover);
+	--color-fill-press: var(--fill-press);
+	--color-fill-selected: var(--fill-selected);
+	--color-fill-disabled: var(--fill-disabled);
+	--color-fill-overlay: var(--fill-overlay);
+	--color-fill-brand-strong: var(--fill-brand-strong);
+	--color-fill-brand-weak: var(--fill-brand-weak);
+	--color-fill-error-strong: var(--fill-error-strong);
+	--color-fill-error-weak: var(--fill-error-weak);
+	--color-fill-warning-strong: var(--fill-warning-strong);
+	--color-fill-warning-weak: var(--fill-warning-weak);
+	--color-fill-success-strong: var(--fill-success-strong);
+	--color-fill-success-weak: var(--fill-success-weak);
+	--color-fill-info-strong: var(--fill-info-strong);
+	--color-fill-info-weak: var(--fill-info-weak);
+	--color-fill-inverse-strong: var(--fill-inverse-strong);
+	--color-fill-inverse-weak: var(--fill-inverse-weak);
+	--color-fill-inverse-hover: var(--fill-inverse-hover);
+	--color-fill-inverse-press: var(--fill-inverse-press);
+	--color-fill-inverse-disabled: var(--fill-inverse-disabled);
+	--color-fill-white: var(--fill-white);
 
-	/* Danger colours */
-	--color-danger: var(--danger-default);
-	--color-danger-subtle: var(--danger-subtle);
-	--color-danger-hover: var(--danger-hover);
-	--color-danger-active: var(--danger-active);
-	--color-danger-text: var(--danger-text);
-
-	/* Success / Warning */
-	--color-success: var(--success-default);
-	--color-success-subtle: var(--success-subtle);
-	--color-success-text: var(--success-text);
-	--color-warning: var(--warning-default);
-	--color-warning-subtle: var(--warning-subtle);
-	--color-warning-text: var(--warning-text);
-
-	/* Focus */
-	--color-focus-ring: var(--focus-ring);
+	/* Icon */
+	--color-icon-neutral: var(--icon-neutral);
+	--color-icon-brand: var(--icon-brand);
+	--color-icon-disabled: var(--icon-disabled);
+	--color-icon-error: var(--icon-error);
+	--color-icon-warning: var(--icon-warning);
+	--color-icon-success: var(--icon-success);
+	--color-icon-info: var(--icon-info);
+	--color-icon-inverse: var(--icon-inverse);
+	--color-icon-inverse-strong: var(--icon-inverse-strong);
+	--color-icon-inverse-disabled: var(--icon-inverse-disabled);
 }

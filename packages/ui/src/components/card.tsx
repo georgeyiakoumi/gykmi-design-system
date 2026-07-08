@@ -3,21 +3,33 @@
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { cn } from "../lib/cn";
 
-export interface CardProps extends ComponentPropsWithRef<"div"> {}
+export type CardVariant = "default" | "sunken";
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => {
-	return (
-		<div
-			ref={ref}
-			className={cn(
-				"rounded-lg bg-gradient-to-b from-surface-raised-from to-surface-raised-to border border-t-border-raised-from border-b-border-raised-to border-x-border-raised-from/50",
-				className,
-			)}
-			{...props}
-		/>
-	);
-});
+export interface CardProps extends ComponentPropsWithRef<"div"> {
+	/** Visual variant */
+	variant?: CardVariant;
+}
 
+const cardVariantStyles: Record<CardVariant, string> = {
+	default: "bg-surface-raised",
+	sunken: "bg-surface-sunken shadow-inner",
+};
+
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+	({ variant = "default", className, ...props }, ref) => {
+		return (
+			<div
+				ref={ref}
+				className={cn(
+					"rounded-2xl border border-border-weak",
+					cardVariantStyles[variant],
+					className,
+				)}
+				{...props}
+			/>
+		);
+	},
+);
 Card.displayName = "Card";
 
 export interface CardHeaderProps extends ComponentPropsWithRef<"div"> {}
@@ -27,13 +39,12 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
 		return (
 			<div
 				ref={ref}
-				className={cn("flex items-start justify-between gap-4 p-6", className)}
+				className={cn("grid grid-cols-[1fr_auto] items-center gap-4 p-6", className)}
 				{...props}
 			/>
 		);
 	},
 );
-
 CardHeader.displayName = "CardHeader";
 
 export interface CardTitleProps extends ComponentPropsWithRef<"h3"> {}
@@ -43,23 +54,21 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
 		return (
 			<h3
 				ref={ref}
-				className={cn("text-lg font-semibold leading-none tracking-tight text-text", className)}
+				className={cn("font-semibold text-xs text-text-weak uppercase tracking-wider", className)}
 				{...props}
 			/>
 		);
 	},
 );
-
 CardTitle.displayName = "CardTitle";
 
 export interface CardDescriptionProps extends ComponentPropsWithRef<"p"> {}
 
 export const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionProps>(
 	({ className, ...props }, ref) => {
-		return <p ref={ref} className={cn("text-sm text-text-muted", className)} {...props} />;
+		return <p ref={ref} className={cn("text-sm text-text-weak", className)} {...props} />;
 	},
 );
-
 CardDescription.displayName = "CardDescription";
 
 export interface CardActionProps extends ComponentPropsWithRef<"div"> {}
@@ -71,7 +80,6 @@ export const CardAction = forwardRef<HTMLDivElement, CardActionProps>(
 		);
 	},
 );
-
 CardAction.displayName = "CardAction";
 
 export interface CardContentProps extends ComponentPropsWithRef<"div"> {}
@@ -81,7 +89,6 @@ export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
 		return <div ref={ref} className={cn("px-6 pt-0 last:pb-6", className)} {...props} />;
 	},
 );
-
 CardContent.displayName = "CardContent";
 
 export interface CardFooterProps extends ComponentPropsWithRef<"div"> {}
@@ -91,5 +98,4 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
 		return <div ref={ref} className={cn("flex items-center  p-6", className)} {...props} />;
 	},
 );
-
 CardFooter.displayName = "CardFooter";

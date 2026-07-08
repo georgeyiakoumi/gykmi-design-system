@@ -66,10 +66,10 @@ describe("Button", () => {
 	it("applies variant classes", () => {
 		const { rerender } = render(<Button variant="default">Default</Button>);
 		const btn = screen.getByRole("button");
-		expect(btn.className).toContain("from-action");
+		expect(btn.className).toContain("bg-fill-brand-strong");
 
 		rerender(<Button variant="danger">Danger</Button>);
-		expect(screen.getByRole("button").className).toContain("from-danger");
+		expect(screen.getByRole("button").className).toContain("bg-fill-error-strong");
 	});
 
 	it("applies size classes", () => {

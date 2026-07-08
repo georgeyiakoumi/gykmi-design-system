@@ -35,8 +35,8 @@ const preview: Preview = {
 			return (
 				<div
 					style={{
-						backgroundColor: "var(--surface-default)",
-						color: "var(--text-default)",
+						backgroundColor: "var(--surface-base)",
+						color: "var(--text-strong)",
 						padding: "1rem",
 						minHeight: "100%",
 					}}

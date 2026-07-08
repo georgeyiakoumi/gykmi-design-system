@@ -12,7 +12,7 @@ export const Toolbar = forwardRef<React.ComponentRef<typeof ToolbarPrimitive.Roo
 			<ToolbarPrimitive.Root
 				ref={ref}
 				className={cn(
-					"flex w-full min-w-max items-center gap-1 rounded-md border border-border bg-surface p-1",
+					"flex w-full min-w-max items-center gap-1 rounded-md border border-border-weak bg-surface-base p-1",
 					className,
 				)}
 				{...props}
@@ -31,9 +31,9 @@ export const ToolbarButton = forwardRef<
 		<ToolbarPrimitive.Button
 			ref={ref}
 			className={cn(
-				"inline-flex items-center justify-center rounded-sm px-2 py-1.5 text-sm font-medium text-text",
-				"hover:bg-surface-raised",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring",
+				"inline-flex items-center justify-center rounded-sm px-2 py-1.5 text-sm font-medium text-text-strong",
+				"hover:bg-fill-hover",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus",
 				"disabled:pointer-events-none disabled:opacity-50",
 				className,
 			)}
@@ -68,10 +68,10 @@ export const ToolbarToggleItem = forwardRef<
 		<ToolbarPrimitive.ToggleItem
 			ref={ref}
 			className={cn(
-				"inline-flex items-center justify-center rounded-sm px-2 py-1.5 text-sm font-medium text-text-muted",
-				"hover:bg-surface-raised hover:text-text",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring",
-				"data-[state=on]:bg-surface-raised data-[state=on]:text-text",
+				"inline-flex items-center justify-center rounded-sm px-2 py-1.5 text-sm font-medium text-text-weak",
+				"hover:bg-fill-hover hover:text-text-strong",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus",
+				"data-[state=on]:bg-fill-press data-[state=on]:text-text-strong",
 				"disabled:pointer-events-none disabled:opacity-50",
 				className,
 			)}
@@ -90,8 +90,8 @@ export const ToolbarLink = forwardRef<
 		<ToolbarPrimitive.Link
 			ref={ref}
 			className={cn(
-				"inline-flex items-center justify-center px-2 py-1.5 text-sm text-text-muted underline-offset-4",
-				"hover:text-text hover:underline",
+				"inline-flex items-center justify-center px-2 py-1.5 text-sm text-text-weak underline-offset-4",
+				"hover:text-text-strong hover:underline",
 				className,
 			)}
 			{...props}

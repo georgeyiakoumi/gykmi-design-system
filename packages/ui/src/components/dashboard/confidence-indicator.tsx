@@ -15,10 +15,10 @@ export interface ConfidenceIndicatorProps extends ComponentPropsWithRef<"div"> {
 }
 
 const levelStyles: Record<ConfidenceLevel, { bg: string; text: string; label: string }> = {
-	high: { bg: "bg-success", text: "text-success-text", label: "High confidence" },
-	medium: { bg: "bg-warning", text: "text-warning-text", label: "Medium confidence" },
-	low: { bg: "bg-danger", text: "text-danger-text", label: "Low confidence" },
-	uncertain: { bg: "bg-border", text: "text-text-muted", label: "Uncertain" },
+	high: { bg: "bg-success", text: "text-text-success", label: "High confidence" },
+	medium: { bg: "bg-warning", text: "text-text-warning", label: "Medium confidence" },
+	low: { bg: "bg-danger", text: "text-text-error", label: "Low confidence" },
+	uncertain: { bg: "bg-border", text: "text-text-weak", label: "Uncertain" },
 };
 
 export const ConfidenceIndicator = forwardRef<HTMLDivElement, ConfidenceIndicatorProps>(

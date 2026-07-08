@@ -15,12 +15,12 @@ describe("Badge", () => {
 
 	it("renders with default variant", () => {
 		render(<Badge label="Default" />);
-		expect(screen.getByText("Default").className).toContain("bg-surface-raised");
+		expect(screen.getByText("Default").className).toContain("bg-fill-weak");
 	});
 
 	it("renders with danger variant", () => {
 		render(<Badge variant="danger" label="Error" />);
-		expect(screen.getByText("Error").className).toContain("bg-danger");
+		expect(screen.getByText("Error").className).toContain("bg-fill-error-weak");
 	});
 });
 

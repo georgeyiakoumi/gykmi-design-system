@@ -20,7 +20,7 @@ export const Default: Story = {
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-2">
 						<h4 className="font-medium leading-none">Dimensions</h4>
-						<p className="text-sm text-text-muted">Set the dimensions for the layer.</p>
+						<p className="text-sm text-text-strong-weak">Set the dimensions for the layer.</p>
 					</div>
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="width">Width</Label>

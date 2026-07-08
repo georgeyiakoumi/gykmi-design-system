@@ -23,7 +23,7 @@ export const DropdownMenuContent = forwardRef<
 				ref={ref}
 				sideOffset={sideOffset}
 				className={cn(
-					"z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-surface p-1 shadow-md",
+					"z-50 min-w-[8rem] overflow-hidden rounded-md border border-border-weak bg-surface-base p-1 shadow-md",
 					"data-[state=open]:animate-in data-[state=closed]:animate-out",
 					"data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
 					"data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
@@ -51,8 +51,8 @@ export const DropdownMenuItem = forwardRef<
 		<DropdownMenuPrimitive.Item
 			ref={ref}
 			className={cn(
-				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text outline-none",
-				"focus:bg-surface-raised focus:text-text",
+				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text-strong outline-none",
+				"focus:bg-fill-hover focus:text-text-strong",
 				"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 				inset && "pl-8",
 				className,
@@ -94,7 +94,11 @@ export const DropdownMenuLabel = forwardRef<
 	return (
 		<DropdownMenuPrimitive.Label
 			ref={ref}
-			className={cn("px-2 py-1.5 text-sm font-semibold text-text", inset && "pl-8", className)}
+			className={cn(
+				"px-2 py-1.5 text-sm font-semibold text-text-strong",
+				inset && "pl-8",
+				className,
+			)}
 			{...props}
 		/>
 	);
@@ -115,9 +119,9 @@ export const DropdownMenuSubTrigger = forwardRef<
 		<DropdownMenuPrimitive.SubTrigger
 			ref={ref}
 			className={cn(
-				"flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text outline-none",
-				"focus:bg-surface-raised",
-				"data-[state=open]:bg-surface-raised",
+				"flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-text-strong outline-none",
+				"focus:bg-fill-hover",
+				"data-[state=open]:bg-fill-press",
 				inset && "pl-8",
 				className,
 			)}
@@ -158,7 +162,7 @@ export const DropdownMenuSubContent = forwardRef<
 		<DropdownMenuPrimitive.SubContent
 			ref={ref}
 			className={cn(
-				"z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-surface p-1 shadow-lg",
+				"z-50 min-w-[8rem] overflow-hidden rounded-md border border-border-weak bg-surface-base p-1 shadow-lg",
 				"data-[state=open]:animate-in data-[state=closed]:animate-out",
 				"data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
 				className,

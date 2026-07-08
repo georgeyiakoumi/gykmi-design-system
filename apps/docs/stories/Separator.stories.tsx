@@ -14,11 +14,11 @@ export const Horizontal: Story = {
 	render: () => (
 		<div className="flex flex-col gap-4" style={{ maxWidth: 400 }}>
 			<div>
-				<h4 className="text-sm font-medium text-text">GYKMI Design System</h4>
-				<p className="text-sm text-text-muted">A distributable, versioned design system.</p>
+				<h4 className="text-sm font-medium text-text-strong">GYKMI Design System</h4>
+				<p className="text-sm text-text-strong-weak">A distributable, versioned design system.</p>
 			</div>
 			<Separator />
-			<p className="text-sm text-text-muted">Content below the separator.</p>
+			<p className="text-sm text-text-strong-weak">Content below the separator.</p>
 		</div>
 	),
 };

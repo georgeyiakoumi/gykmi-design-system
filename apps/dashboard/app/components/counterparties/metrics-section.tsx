@@ -43,14 +43,14 @@ export function MetricsSection({
 		counterparties.reduce((s, c) => s + c.utilisation, 0) / counterparties.length;
 
 	return (
-		<div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-			<Card>
+		<div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
+			<Card variant="sunken">
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Key metrics
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="flex flex-col gap-1 pb-4 divide-y divide-border">
+				<CardContent className="flex flex-col gap-1 pb-4 divide-y divide-border-weak">
 					<MetricCard
 						label="Total exposure"
 						value={`$${totalExposure.toFixed(1)}M`}
@@ -70,9 +70,9 @@ export function MetricsSection({
 				</CardContent>
 			</Card>
 
-			<Card>
+			<Card variant="sunken">
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Concentration breakdown
 					</CardTitle>
 				</CardHeader>
@@ -85,7 +85,7 @@ export function MetricsSection({
 					/>
 				</CardContent>
 				<CardFooter>
-					<div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted">
+					<div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-weak">
 						{concentration.map((item, i) => (
 							<span key={item.label} className="flex items-center gap-1.5">
 								<span
@@ -99,9 +99,9 @@ export function MetricsSection({
 				</CardFooter>
 			</Card>
 
-			<Card>
+			<Card variant="sunken">
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Total exposure — 7 day
 					</CardTitle>
 				</CardHeader>

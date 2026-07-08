@@ -45,9 +45,9 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 			<Text as="h2" variant="heading-xl">
 				Exposure trend
 			</Text>
-			<Card>
+			<Card variant="sunken">
 				<CardHeader>
-					<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+					<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 						Hawkstone Partners — 7 day
 					</CardTitle>
 					<CardAction>
@@ -65,17 +65,17 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 					/>
 				</CardContent>
 				<CardFooter className="flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-					<div className="flex gap-4 text-xs text-text-muted">
+					<div className="flex gap-4 text-xs text-text-weak">
 						<span className="flex items-center gap-1">
-							<span className="inline-block h-0.5 w-4 bg-action" />
+							<span className="inline-block h-0.5 w-4 bg-fill-brand-strong" />
 							Actual
 						</span>
 						<span className="flex items-center gap-1">
-							<span className="inline-block h-0.5 w-4 border-t border-dashed border-action" />
+							<span className="inline-block h-0.5 w-4 border-t border-dashed border-border-selected" />
 							Estimated
 						</span>
 						<span className="flex items-center gap-1">
-							<span className="inline-block h-3 w-4 rounded-sm bg-action/15" />
+							<span className="inline-block h-3 w-4 rounded-sm bg-fill-brand-weak" />
 							95% confidence
 						</span>
 					</div>
@@ -83,12 +83,11 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<Bell size={14} />}
+							iconLeft={<Bell />}
 							onClick={() =>
 								toast({
 									title: "Alert configured",
 									description: "You will be notified if Hawkstone exposure exceeds 18%.",
-									variant: "success",
 								})
 							}
 						>
@@ -97,7 +96,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						<Button
 							variant="secondary"
 							size="sm"
-							iconLeft={<Eye size={14} />}
+							iconLeft={<Eye />}
 							onClick={() => setShowPositions(true)}
 						>
 							View positions
@@ -105,7 +104,7 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 						<Button
 							variant="default"
 							size="sm"
-							iconLeft={<ArrowUpRight size={14} />}
+							iconLeft={<ArrowUpRight />}
 							onClick={() => setShowEscalate(true)}
 						>
 							Escalate
@@ -132,20 +131,20 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 							{ instrument: "Interest Rate Swap", notional: "$0.7M", pct: "1.8%" },
 						].map((pos) => (
 							<div key={pos.instrument} className="flex items-center justify-between text-sm">
-								<span className="text-text">{pos.instrument}</span>
+								<span className="text-text-strong">{pos.instrument}</span>
 								<div className="flex items-center gap-4">
-									<span className="text-text-muted">{pos.notional}</span>
-									<span className="font-medium text-text tabular-nums w-12 text-right">
+									<span className="text-text-weak">{pos.notional}</span>
+									<span className="font-medium text-text-strong tabular-nums w-12 text-right">
 										{pos.pct}
 									</span>
 								</div>
 							</div>
 						))}
-						<div className="flex items-center justify-between text-sm font-semibold border-t border-border pt-3">
-							<span className="text-text">Total exposure</span>
+						<div className="flex items-center justify-between text-sm font-semibold border-t border-border-weak pt-3">
+							<span className="text-text-strong">Total exposure</span>
 							<div className="flex items-center gap-4">
-								<span className="text-text-muted">$7.0M</span>
-								<span className="text-danger-text tabular-nums w-12 text-right">17.4%</span>
+								<span className="text-text-weak">$7.0M</span>
+								<span className="text-text-error tabular-nums w-12 text-right">17.4%</span>
 							</div>
 						</div>
 					</div>
@@ -170,7 +169,6 @@ export function ExposureTrendSection({ data }: ExposureTrendSectionProps) {
 									title: "Escalation sent",
 									description:
 										"Hawkstone Partners concentration breach escalated to the risk committee.",
-									variant: "success",
 								})
 							}
 						>

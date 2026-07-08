@@ -101,7 +101,7 @@ export function SettingsSheet({ open, onOpenChange, onSave }: SettingsSheetProps
 							<div key={item.key} className="flex items-center justify-between gap-4">
 								<div className="space-y-0.5">
 									<Label className="text-sm">{item.label}</Label>
-									<p className="text-xs text-text-muted">{item.desc}</p>
+									<p className="text-xs text-text-weak">{item.desc}</p>
 								</div>
 								<Switch
 									checked={notifications[item.key]}
@@ -116,7 +116,7 @@ export function SettingsSheet({ open, onOpenChange, onSave }: SettingsSheetProps
 				<SheetFooter>
 					<Button
 						className="w-full"
-						iconLeft={<Save size={16} />}
+						iconLeft={<Save />}
 						onClick={() => {
 							const enabled = Object.values(notifications).filter(Boolean).length;
 							onSave({

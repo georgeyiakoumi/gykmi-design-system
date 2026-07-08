@@ -19,7 +19,7 @@ export const Default: Story = {
 						<Card>
 							<CardContent className="p-6">
 								<p className="text-sm font-medium">{name}</p>
-								<p className="text-xs text-text-muted">Swipe to see more</p>
+								<p className="text-xs text-text-strong-weak">Swipe to see more</p>
 							</CardContent>
 						</Card>
 					</CarouselItem>

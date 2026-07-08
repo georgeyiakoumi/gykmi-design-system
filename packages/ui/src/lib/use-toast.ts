@@ -1,13 +1,11 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import type { ToastVariant } from "../components/toast";
 
 export interface ToastMessage {
 	id: string;
 	title: string;
 	description?: string;
-	variant?: ToastVariant;
 }
 
 export function useToast() {

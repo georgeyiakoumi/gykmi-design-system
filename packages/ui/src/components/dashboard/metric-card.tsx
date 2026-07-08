@@ -18,23 +18,23 @@ export interface MetricCardProps extends ComponentPropsWithRef<"div"> {
 }
 
 const variantStyles: Record<NonNullable<MetricCardProps["variant"]>, string> = {
-	default: "text-text",
+	default: "text-text-strong",
 	danger: "text-danger",
 	warning: "text-warning",
 	success: "text-success",
 };
 
 const variantColors: Record<NonNullable<MetricCardProps["variant"]>, string> = {
-	default: "var(--action-default, #2563eb)",
-	danger: "var(--danger-default, #dc2626)",
-	warning: "var(--warning-default, #f59e0b)",
-	success: "var(--success-default, #22c55e)",
+	default: "var(--fill-brand-strong)",
+	danger: "var(--fill-error-strong)",
+	warning: "var(--fill-warning-strong)",
+	success: "var(--fill-success-strong)",
 };
 
 export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
 	({ label, value, context, variant = "default", trend, className, ...props }, ref) => {
 		return (
-			<div ref={ref} className={cn("flex items-center gap-3 px-4 py-3", className)} {...props}>
+			<div ref={ref} className={cn("flex items-center gap-3 px-0 py-3", className)} {...props}>
 				<span className={cn("text-xl font-bold tabular-nums", variantStyles[variant])}>
 					{value}
 				</span>
@@ -47,8 +47,8 @@ export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
 						color={variantColors[variant]}
 					/>
 				)}
-				<span className="text-sm font-medium text-text">{label}</span>
-				{context && <span className="ml-auto text-xs text-text-muted">{context}</span>}
+				<span className="text-sm font-medium text-text-strong">{label}</span>
+				{context && <span className="ml-auto text-xs text-text-weak">{context}</span>}
 			</div>
 		);
 	},

@@ -10,7 +10,7 @@ export interface AlertProps extends ComponentPropsWithRef<"div"> {
 }
 
 const variantStyles: Record<AlertVariant, string> = {
-	default: "bg-surface-raised text-text",
+	default: "bg-surface-raised text-text-strong",
 	destructive: "bg-surface-raised text-danger",
 };
 
@@ -20,7 +20,7 @@ function Alert({ className, variant = "default", ...props }: AlertProps) {
 			data-slot="alert"
 			role="alert"
 			className={cn(
-				"group/alert relative grid w-full gap-0.5 rounded-lg border border-border px-2.5 py-2 text-left text-sm",
+				"group/alert relative grid w-full gap-0.5 rounded-lg border border-border-weak px-2.5 py-2 text-left text-sm",
 				"has-data-[slot=alert-action]:pr-18",
 				"has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2",
 				"*:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4",
@@ -46,7 +46,7 @@ function AlertDescription({ className, ...props }: ComponentPropsWithRef<"div">)
 	return (
 		<div
 			data-slot="alert-description"
-			className={cn("text-sm text-balance text-text-muted", className)}
+			className={cn("text-sm text-balance text-text-weak", className)}
 			{...props}
 		/>
 	);

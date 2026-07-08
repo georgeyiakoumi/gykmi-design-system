@@ -2,7 +2,7 @@
 
 A distributable, versioned design system built on headless primitives (Radix), with design tokens as the single source of truth. Fintech/AI POV. Documented in Storybook, consumed by a real app.
 
-**[Live dashboard](https://gykmi-ds-dashboard.netlify.app/)** · **[Storybook](https://gykmi-ds-storybook.netlify.app/)** · **[Figma library](https://www.figma.com/design/tqcsSSGM38hdEU4Yaqsmdn/GYKMI-Design-System)**
+**[Live dashboard](https://gykmi-ds-dashboard.netlify.app/)** · **[Storybook](https://gykmi-ds-storybook.netlify.app/)** · **[Figma library](https://www.figma.com/design/tqcsSSGM38hdEU4Yaqsmdn/GYKMI-Design-System?m=auto&t=QwRLX6wp6lOYkpTM-1)** · **[Figma demo](https://www.figma.com/design/nbXOqeECZDkNB8MgkZURSK/Demo?m=auto&t=QwRLX6wp6lOYkpTM-1)**
 
 ## Getting started
 

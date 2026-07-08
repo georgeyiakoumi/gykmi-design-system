@@ -26,7 +26,7 @@ import { AddSourceDialog } from "./add-source-dialog";
 function DataSourceCard({ source }: { source: DataSource }) {
 	const isStale = source.verified === false;
 	return (
-		<Card className="flex flex-col h-full">
+		<Card variant="sunken" className="flex flex-col h-full">
 			<CardHeader>
 				<div className="flex items-center gap-1.5">
 					{isStale ? (
@@ -36,27 +36,22 @@ function DataSourceCard({ source }: { source: DataSource }) {
 					)}
 				</div>
 				<CardAction>
-					<span className="text-xs text-text-muted">
+					<span className="text-xs text-text-weak">
 						{source.version ? `v${source.version}` : ""}
 					</span>
 				</CardAction>
 			</CardHeader>
 			<CardContent className="flex-1 flex flex-col gap-1">
-				<p className="text-sm font-medium text-text">{source.name}</p>
+				<p className="text-sm font-medium text-text-strong">{source.name}</p>
 			</CardContent>
 			<CardFooter className="flex-col gap-2">
-				<Button variant="secondary" size="sm" className="w-full" iconLeft={<Eye size={14} />}>
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<Eye />}>
 					View
 				</Button>
-				<Button variant="secondary" size="sm" className="w-full" iconLeft={<RefreshCw size={14} />}>
+				<Button variant="secondary" size="sm" className="w-full" iconLeft={<RefreshCw />}>
 					Refresh
 				</Button>
-				<Button
-					variant="ghost"
-					size="sm"
-					className="w-full text-text-muted"
-					iconLeft={<X size={14} />}
-				>
+				<Button variant="ghost" size="sm" className="w-full text-text-weak" iconLeft={<X />}>
 					Remove
 				</Button>
 			</CardFooter>
@@ -79,7 +74,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 				Activity
 			</Text>
 
-			<div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr]">
+			<div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_1fr] lg:grid-rows-[auto_1fr]">
 				{/* Audit log — no card on mobile, card on desktop */}
 				<div className="flex flex-col gap-2 lg:col-span-1 lg:row-span-1 min-w-0">
 					{/* Mobile: label + bare timeline */}
@@ -87,16 +82,16 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 						<Text
 							as="h3"
 							variant="label-xs"
-							className="text-text-muted uppercase tracking-wider mb-4"
+							className="text-text-weak uppercase tracking-wider mb-4"
 						>
 							Audit log
 						</Text>
 						<AuditTrail entries={auditEntries} />
 					</div>
 					{/* Desktop: card with label inside */}
-					<Card className="hidden lg:flex flex-col min-w-0 h-64 overflow-hidden">
+					<Card variant="sunken" className="hidden lg:flex flex-col min-w-0 h-full overflow-hidden">
 						<CardHeader>
-							<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+							<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 								Audit log
 							</CardTitle>
 						</CardHeader>
@@ -108,7 +103,7 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 				{/* Mobile: data source carousel */}
 				<div className="lg:hidden flex flex-col gap-2">
 					<div className="flex items-center justify-between">
-						<Text as="h3" variant="label-xs" className="text-text-muted uppercase tracking-wider">
+						<Text as="h3" variant="label-xs" className="text-text-weak uppercase tracking-wider">
 							Data sources
 						</Text>
 						<Button
@@ -131,19 +126,19 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 				</div>
 
 				{/* Desktop: data sources card */}
-				<Card className="hidden lg:flex flex-col overflow-hidden lg:h-64">
+				<Card variant="sunken" className="hidden lg:flex flex-col overflow-hidden lg:h-64">
 					<CardHeader>
-						<CardTitle className="text-xs text-text-muted uppercase tracking-wider">
+						<CardTitle className="text-xs text-text-weak uppercase tracking-wider">
 							Data sources
 						</CardTitle>
 						<CardAction>
 							<Button
 								variant="secondary"
-								size="sm"
+								size="icon-sm"
 								aria-label="Add data source"
 								onClick={() => setShowAddSource(true)}
 							>
-								<Plus size={12} />
+								<Plus />
 							</Button>
 						</CardAction>
 					</CardHeader>
@@ -162,7 +157,6 @@ export function ActivitySection({ auditEntries, dataSources }: ActivitySectionPr
 					toast({
 						title: "Source connected",
 						description: `${source.name} (${source.type.toUpperCase()}) added with ${source.refresh} refresh.`,
-						variant: "success",
 					})
 				}
 			/>
